@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="GoStationDetailView">
+            <rect key="frame" x="0.0" y="0.0" width="210" height="200"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="地址: 台北市內湖區瑞光路358巷38弄34號 (近內湖科學園區)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="200" translatesAutoresizingMaskIntoConstraints="NO" id="fCt-lr-JPc">
+                    <rect key="frame" x="3" y="0.0" width="204" height="34"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rIz-TG-Q2U">
+                    <rect key="frame" x="3" y="42" width="35" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="35" id="CBI-cw-GKm"/>
+                    </constraints>
+                    <state key="normal" image="icon_navigation_btn"/>
+                    <connections>
+                        <action selector="navigateToGoStation:" destination="iN0-l3-epB" eventType="touchUpInside" id="3Ma-6Z-Hzv"/>
+                    </connections>
+                </button>
+                <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="9HT-WM-3se">
+                    <rect key="frame" x="3" y="80" width="194" height="21"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:00 PM - 12:00 PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="og8-O8-70A">
+                            <rect key="frame" x="0.0" y="0.0" width="136" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_status_open" translatesAutoresizingMaskIntoConstraints="NO" id="kmY-u4-MIf">
+                            <rect key="frame" x="144" y="0.0" width="50" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="VsP-af-ZTU"/>
+                                <constraint firstAttribute="height" constant="21" id="WCa-ZW-u6H"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                </stackView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="收集時間: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vde-ZQ-nTA">
+                    <rect key="frame" x="3" y="106" width="204" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="d3h-Iv-2ZG"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="收集次數: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RCk-m1-yPh">
+                    <rect key="frame" x="3" y="132" width="204" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="vaq-wc-bRk"/>
+                        <constraint firstAttribute="height" constant="21" id="yvo-1h-LzY"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="vaq-wc-bRk"/>
+                        </mask>
+                    </variation>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="約:10分鐘" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ktr-tm-Gbd">
+                    <rect key="frame" x="46" y="42" width="161" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="4bM-Ih-dea">
+                    <rect key="frame" x="3" y="160" width="204" height="32"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="13R-FQ-3i0">
+                            <rect key="frame" x="0.0" y="0.0" width="98" height="32"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                            <state key="normal" title="CHECK-IN" backgroundImage="icon_checkin_btn"/>
+                            <connections>
+                                <action selector="checkInBtnPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="Jsb-OE-24i"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ore-l8-gFX">
+                            <rect key="frame" x="106" y="0.0" width="98" height="32"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                            <state key="normal" title="REMOVE" backgroundImage="icon_remove_btn"/>
+                            <connections>
+                                <action selector="removeBtnPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="9EH-PW-tbT"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="32" id="lju-N3-aft"/>
+                    </constraints>
+                </stackView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="4bM-Ih-dea" secondAttribute="bottom" constant="8" id="1ac-f0-9G8"/>
+                <constraint firstItem="Ktr-tm-Gbd" firstAttribute="trailing" secondItem="fCt-lr-JPc" secondAttribute="trailing" id="4jT-kU-fAd"/>
+                <constraint firstItem="Vde-ZQ-nTA" firstAttribute="leading" secondItem="fCt-lr-JPc" secondAttribute="leading" id="69e-hH-lJ5"/>
+                <constraint firstItem="9HT-WM-3se" firstAttribute="leading" secondItem="fCt-lr-JPc" secondAttribute="leading" id="6Bj-x7-jaZ"/>
+                <constraint firstItem="Ktr-tm-Gbd" firstAttribute="height" secondItem="rIz-TG-Q2U" secondAttribute="height" id="6hf-2O-hgY"/>
+                <constraint firstAttribute="trailing" secondItem="fCt-lr-JPc" secondAttribute="trailing" constant="3" id="84T-U9-acb"/>
+                <constraint firstItem="Ktr-tm-Gbd" firstAttribute="top" secondItem="rIz-TG-Q2U" secondAttribute="top" id="BhK-oZ-0Uy"/>
+                <constraint firstItem="RCk-m1-yPh" firstAttribute="leading" secondItem="fCt-lr-JPc" secondAttribute="leading" id="Jno-nf-mhH"/>
+                <constraint firstAttribute="trailing" secondItem="4bM-Ih-dea" secondAttribute="trailing" constant="3" id="MgB-Rr-0ZE"/>
+                <constraint firstItem="rIz-TG-Q2U" firstAttribute="leading" secondItem="fCt-lr-JPc" secondAttribute="leading" id="OA6-la-naY"/>
+                <constraint firstItem="rIz-TG-Q2U" firstAttribute="top" secondItem="fCt-lr-JPc" secondAttribute="bottom" constant="8" id="XAf-ll-og1"/>
+                <constraint firstItem="Vde-ZQ-nTA" firstAttribute="top" secondItem="9HT-WM-3se" secondAttribute="bottom" constant="5" id="Xyn-ld-ZGq"/>
+                <constraint firstItem="fCt-lr-JPc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="cfr-vx-zab"/>
+                <constraint firstItem="Ktr-tm-Gbd" firstAttribute="leading" secondItem="rIz-TG-Q2U" secondAttribute="trailing" constant="8" id="hTb-dF-L3Q"/>
+                <constraint firstItem="RCk-m1-yPh" firstAttribute="top" secondItem="Vde-ZQ-nTA" secondAttribute="bottom" constant="5" id="prX-pa-wOE"/>
+                <constraint firstItem="RCk-m1-yPh" firstAttribute="trailing" secondItem="fCt-lr-JPc" secondAttribute="trailing" id="qIe-Mr-JJC"/>
+                <constraint firstItem="Vde-ZQ-nTA" firstAttribute="trailing" secondItem="fCt-lr-JPc" secondAttribute="trailing" id="qYh-0c-04m"/>
+                <constraint firstItem="fCt-lr-JPc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="3" id="uu3-Zo-hES"/>
+                <constraint firstItem="4bM-Ih-dea" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="3" id="wlB-8h-aE7"/>
+                <constraint firstItem="9HT-WM-3se" firstAttribute="top" secondItem="rIz-TG-Q2U" secondAttribute="bottom" constant="8" id="zS0-aY-urK"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="addressLabel" destination="fCt-lr-JPc" id="rTJ-IN-Q7e"/>
+                <outlet property="availableStatusImageView" destination="kmY-u4-MIf" id="Yne-FU-eRk"/>
+                <outlet property="availableTimeLabel" destination="og8-O8-70A" id="Uxb-pC-Sh8"/>
+                <outlet property="checkInBtn" destination="13R-FQ-3i0" id="aG6-Bh-19K"/>
+                <outlet property="checkInTimesLabel" destination="RCk-m1-yPh" id="FLE-We-NsS"/>
+                <outlet property="etaLabel" destination="Ktr-tm-Gbd" id="UhT-kH-qxa"/>
+                <outlet property="lastCheckInDateLabel" destination="Vde-ZQ-nTA" id="Mwh-G1-VoN"/>
+                <outlet property="navigationBtn" destination="rIz-TG-Q2U" id="Xi0-8J-JOi"/>
+                <outlet property="removeBtn" destination="Ore-l8-gFX" id="cpQ-Yh-N9K"/>
+            </connections>
+            <point key="canvasLocation" x="-112" y="-167"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="icon_checkin_btn" width="93" height="32"/>
+        <image name="icon_navigation_btn" width="35" height="30"/>
+        <image name="icon_remove_btn" width="93" height="32"/>
+        <image name="icon_status_open" width="38" height="16"/>
+    </resources>
+</document>
