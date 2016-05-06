@@ -237,6 +237,7 @@
         annotationView.canShowCallout = YES;
     }
     
+    annotationView.centerOffset = CGPointMake(0, -25.0f);
     return annotationView;
 }
 
