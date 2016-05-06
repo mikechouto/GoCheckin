@@ -235,9 +235,9 @@
         GoStationDetailView *detailView = [[GoStationDetailView alloc] init];
         annotationView.detailCalloutAccessoryView = detailView;
         annotationView.canShowCallout = YES;
+        annotationView.centerOffset = CGPointMake(0, -25.0f);
     }
     
-    annotationView.centerOffset = CGPointMake(0, -25.0f);
     return annotationView;
 }
 
