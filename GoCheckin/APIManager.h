@@ -20,4 +20,9 @@
 - (GoStationAnnotation *)removeCheckInDataWithStationUUID:(NSString *)uuid;
 - (NSArray *)getGoStations;
 
+- (void)initUserDefaultsIfNeeded;
+- (void)changeDefaultMapToGoogle;
+- (void)changeDefaultMapToApple;
+- (NSUInteger)currentDefaultMapApplication;
+
 @end

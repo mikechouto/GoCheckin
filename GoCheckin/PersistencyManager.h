@@ -19,4 +19,8 @@
 - (void)removeCheckInDataWithUUID:(NSString *)uuid;
 - (RLMResults<GoStation *> *)queryGoStationWithWithPredicate:(NSPredicate *)predicate;
 
+- (void)initUserDefaultsWithDefaultMapType:(NSUInteger)type;
+- (void)changeDefaultMapInUserDefaultsWithMapType:(NSUInteger)type;
+- (NSUInteger)getCurrentDefaultMap;
+
 @end

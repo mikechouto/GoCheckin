@@ -64,14 +64,14 @@
         
         [self.availableTimeLabel setText:[NSString stringWithFormat:@"營業時間: %@", annotation.availableTime]];
         
-        switch (annotation.state) {
-            case GoStationStateNormal:
+        switch (annotation.status) {
+            case GoStationStatusNormal:
                 [self.availableStatusImageView setImage:[UIImage imageNamed:@"icon_status_open"]];
                 break;
-            case GoStationStateClosed:
+            case GoStationStatusClosed:
                 [self.availableStatusImageView setImage:[UIImage imageNamed:@"icon_status_closed"]];
                 break;
-            case GoStationStateConstructing:
+            case GoStationStatusConstructing:
                 [self.availableStatusImageView setImage:[UIImage imageNamed:@"icon_status_unavailable"]];
                 break;
             default:
@@ -189,7 +189,7 @@
     
     if (annotation) {
         
-        if (annotation.state == GoStationStateNormal) {
+        if (annotation.status == GoStationStatusNormal) {
             [self.checkInBtn setEnabled:YES];
         }
         

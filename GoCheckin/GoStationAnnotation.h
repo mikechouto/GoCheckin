@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
-typedef NS_ENUM(NSUInteger, GoStationState) {
-    GoStationStateNormal = 1,
-    GoStationStateClosed = 996,
-    GoStationStateConstructing = 99,
-    GoStationStateUnknown = -1,
+typedef NS_ENUM(NSUInteger, GoStationStatus) {
+    GoStationStatusNormal = 1,
+    GoStationStatusClosed = 996,
+    GoStationStatusConstructing = 99,
+    GoStationStatusUnknown = -1,
 };
 
 @interface GoStationAnnotation : NSObject<MKAnnotation>
@@ -22,7 +22,7 @@ typedef NS_ENUM(NSUInteger, GoStationState) {
 @property (strong, nonatomic, readonly) NSDictionary *name;
 @property (assign, nonatomic, readonly) double latitude;
 @property (assign, nonatomic, readonly) double longitude;
-@property (assign, nonatomic, readonly) GoStationState state;
+@property (assign, nonatomic, readonly) GoStationStatus status;
 @property (assign, nonatomic, readonly) NSUInteger zipCode;
 @property (strong, nonatomic, readonly) NSDictionary *address;
 @property (strong, nonatomic, readonly) NSDictionary *city;
@@ -46,7 +46,7 @@ typedef NS_ENUM(NSUInteger, GoStationState) {
                AvailableTime:(NSString *)availbaleTime
                     Latitude:(double)latitude
                    Longitude:(double)longitude
-                       State:(GoStationState) state
+                       Status:(GoStationStatus) status
                    isCheckIn:(BOOL)isCheckIn
                 checkInTimes:(NSUInteger)checkInTimes
              lastCheckInDate:(NSDate *)lastCheckInDate;

@@ -10,6 +10,7 @@
 #import "HTTPClient.h"
 #import "PersistencyManager.h"
 #import "GoStationAnnotation.h"
+#import "MapOption.h"
 
 @interface APIManager()
 
@@ -90,7 +91,7 @@
                                                  AvailableTime:s.available_time
                                                       Latitude:s.latitude
                                                      Longitude:s.longitude
-                                                         State:s.state
+                                                         Status:s.state
                                                      isCheckIn:s.is_checkin
                                                   checkInTimes:[s.checkin_times integerValue]
                                                lastCheckInDate:s.last_checkin_date];
@@ -121,7 +122,7 @@
                                                 AvailableTime:s.available_time
                                                      Latitude:s.latitude
                                                     Longitude:s.longitude
-                                                        State:s.state
+                                                        Status:s.state
                                                     isCheckIn:s.is_checkin
                                                  checkInTimes:[s.checkin_times integerValue]
                                               lastCheckInDate:s.last_checkin_date];
@@ -151,7 +152,7 @@
                                                      AvailableTime:s.available_time
                                                           Latitude:s.latitude
                                                          Longitude:s.longitude
-                                                             State:s.state
+                                                             Status:s.state
                                                          isCheckIn:s.is_checkin
                                                       checkInTimes:[s.checkin_times integerValue]
                                                    lastCheckInDate:s.last_checkin_date];
@@ -160,6 +161,22 @@
     }
     
     return goStations;
+}
+
+- (void)initUserDefaultsIfNeeded {
+    [self.persistencyManager initUserDefaultsWithDefaultMapType:MapTypeApple];
+}
+
+- (void)changeDefaultMapToApple {
+    [self.persistencyManager changeDefaultMapInUserDefaultsWithMapType:MapTypeApple];
+}
+
+- (void)changeDefaultMapToGoogle {
+    [self.persistencyManager changeDefaultMapInUserDefaultsWithMapType:MapTypeGoogle];
+}
+
+- (NSUInteger)currentDefaultMapApplication {
+    return [self.persistencyManager getCurrentDefaultMap];
 }
 
 #pragma mark internal functions

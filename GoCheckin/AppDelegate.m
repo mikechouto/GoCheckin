@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <Realm/Realm.h>
+#import "APIManager.h"
 
 @interface AppDelegate ()
 
@@ -27,6 +28,9 @@
     
     // Set this as the configuration used for the default Realm
     [RLMRealmConfiguration setDefaultConfiguration:config];
+    
+    // Set up NSUserDefaults it it's the first launch.
+    [[APIManager sharedInstance] initUserDefaultsIfNeeded];
     
     return YES;
 }
