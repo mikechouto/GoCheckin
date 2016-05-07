@@ -101,14 +101,14 @@
     
     NSUInteger openCount = 0, closedCount = 0, constructingCount = 0;
     for (GoStationAnnotation *station in self.GoStations) {
-        switch (station.state) {
-            case GoStationStateNormal:
+        switch (station.status) {
+            case GoStationStatusNormal:
                 openCount++;
                 break;
-            case GoStationStateClosed:
+            case GoStationStatusClosed:
                 closedCount++;
                 break;
-            case GoStationStateConstructing:
+            case GoStationStatusConstructing:
                 constructingCount++;
                 break;
             default:
@@ -151,23 +151,23 @@
     
     if ([annotation isKindOfClass:[GoStationAnnotation class]]) {
         GoStationAnnotation *station = annotation;
-        switch (station.state) {
-            case GoStationStateNormal:
+        switch (station.status) {
+            case GoStationStatusNormal:
                 if (station.isCheckIn) {
                     pinImage = [UIImage imageNamed:@"pin_station_checkin_normal"];
                 } else {
                     pinImage = [UIImage imageNamed:@"pin_station_normal"];
                 }
                 break;
-            case GoStationStateClosed:
+            case GoStationStatusClosed:
                 if (station.isCheckIn) {
                     pinImage = [UIImage imageNamed:@"pin_station_checkin_closed"];
                 } else {
                     pinImage = [UIImage imageNamed:@"pin_station_closed"];
                 }
                 break;
-            case GoStationStateConstructing:
-            case GoStationStateUnknown:
+            case GoStationStatusConstructing:
+            case GoStationStatusUnknown:
                 pinImage = [UIImage imageNamed:@"pin_station_constructing"];
                 break;
             default:

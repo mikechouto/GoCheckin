@@ -16,7 +16,7 @@
 
 @implementation GoStationAnnotation
 
-- (instancetype)initWithUUID:(NSString *)uuid StationName:(NSDictionary *)stationName Address:(NSDictionary *)address City:(NSDictionary *)city District:(NSDictionary *)district ZipCode:(NSUInteger)zipCode AvailableTime:(NSString *)availableTime Latitude:(double)latitude Longitude:(double)longitude State:(GoStationState)state isCheckIn:(BOOL)isCheckIn checkInTimes:(NSUInteger)checkInTimes lastCheckInDate:(NSDate *)lastCheckInDate {
+- (instancetype)initWithUUID:(NSString *)uuid StationName:(NSDictionary *)stationName Address:(NSDictionary *)address City:(NSDictionary *)city District:(NSDictionary *)district ZipCode:(NSUInteger)zipCode AvailableTime:(NSString *)availableTime Latitude:(double)latitude Longitude:(double)longitude Status:(GoStationStatus)status isCheckIn:(BOOL)isCheckIn checkInTimes:(NSUInteger)checkInTimes lastCheckInDate:(NSDate *)lastCheckInDate {
     
     self = [super init];
     
@@ -34,21 +34,21 @@
         _checkInTimes = checkInTimes;
         _lastCheckInDate = [self formateDateToString:lastCheckInDate];
         
-        switch (state) {
+        switch (status) {
             case 1:
-                _state = GoStationStateNormal;
+                _status = GoStationStatusNormal;
                 break;
             case 99:
-                _state = GoStationStateConstructing;
+                _status = GoStationStatusConstructing;
                 break;
             default:
-                _state = GoStationStateUnknown;
+                _status = GoStationStatusUnknown;
                 break;
         }
         
-        if (_state == GoStationStateNormal) {
+        if (_status == GoStationStatusNormal) {
             if (![self isBusinessHour:availableTime]) {
-                _state = GoStationStateClosed;
+                _status = GoStationStatusClosed;
             }
         }
         

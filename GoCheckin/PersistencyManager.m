@@ -9,9 +9,10 @@
 #import "PersistencyManager.h"
 #import "NSJSONSerialization+ParseString.h"
 
+
+// Gogoro API Keys
 static NSString *const kResponseKeyStatus = @"result";
 static NSString *const kResponseKeyContent = @"data";
-
 
 static NSString *const kResponseKeyList = @"List";
 static NSString *const kResponseKeyValue = @"Value";
@@ -30,6 +31,10 @@ static NSString *const kResponseKeyLatitude = @"Latitude";
 static NSString *const kResponseKeyLongitude = @"Longitude";
 static NSString *const kResponseKeyZip = @"ZipCode";
 static NSString *const kResponseKeyState = @"State";
+
+// NSUserDefaults Keys
+static NSString *const kFirstRunDate = @"initTimestamp";
+static NSString *const kDefaultMapApplication = @"defaultMap";
 
 @implementation PersistencyManager
 
@@ -233,6 +238,29 @@ static NSString *const kResponseKeyState = @"State";
     }
     
     return stations;
+}
+
+- (void)initUserDefaultsWithDefaultMapType:(NSUInteger)type {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if (![userDefaults objectForKey:kFirstRunDate]) {
+        [userDefaults setInteger:[[NSDate date] timeIntervalSince1970] forKey:kFirstRunDate];
+        [userDefaults setInteger:type forKey:kDefaultMapApplication];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+- (void)changeDefaultMapInUserDefaultsWithMapType:(NSUInteger)type {
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setInteger:type forKey:kDefaultMapApplication];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSUInteger)getCurrentDefaultMap {
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [userDefaults integerForKey:kDefaultMapApplication];
 }
 
 @end

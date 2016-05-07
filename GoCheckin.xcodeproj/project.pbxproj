@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A07226B1CDB4BFE001F0570 /* MapOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A07226A1CDB4BFE001F0570 /* MapOption.m */; };
 		2A0F6FB11CD124810095D171 /* UIColor+GoCheckin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0F6FB01CD124810095D171 /* UIColor+GoCheckin.m */; };
 		2A0F6FB41CD1A4570095D171 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0F6FB31CD1A4570095D171 /* SettingsViewController.m */; };
 		2A21D29F1CB63BE000F569D5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D29E1CB63BE000F569D5 /* main.m */; };
@@ -30,6 +31,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2A0722691CDB4BFE001F0570 /* MapOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapOption.h; sourceTree = "<group>"; };
+		2A07226A1CDB4BFE001F0570 /* MapOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapOption.m; sourceTree = "<group>"; };
 		2A0F6FAF1CD124810095D171 /* UIColor+GoCheckin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+GoCheckin.h"; sourceTree = "<group>"; };
 		2A0F6FB01CD124810095D171 /* UIColor+GoCheckin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+GoCheckin.m"; sourceTree = "<group>"; };
 		2A0F6FB21CD1A4570095D171 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
@@ -150,6 +153,8 @@
 			children = (
 				2A21D2B41CB63BF700F569D5 /* GoStationAnnotation.h */,
 				2A21D2B51CB63BF700F569D5 /* GoStationAnnotation.m */,
+				2A0722691CDB4BFE001F0570 /* MapOption.h */,
+				2A07226A1CDB4BFE001F0570 /* MapOption.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -347,6 +352,7 @@
 				2A21D3161CCA18E800F569D5 /* GoStationDetailView.m in Sources */,
 				2A21D2C31CBB5D8A00F569D5 /* PersistencyManager.m in Sources */,
 				2A0F6FB41CD1A4570095D171 /* SettingsViewController.m in Sources */,
+				2A07226B1CDB4BFE001F0570 /* MapOption.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
