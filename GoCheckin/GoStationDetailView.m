@@ -107,22 +107,7 @@
 }
 
 - (IBAction)navigateToGoStation:(id)sender {
-    
-    // google map
-    NSString* url = [NSString stringWithFormat:@"http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f",self.userLocation.coordinate.latitude, self.userLocation.coordinate.longitude, self.annotation.latitude, self.annotation.longitude];
-    [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
-    /*
-    // apple map
-    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.annotation.latitude, self.annotation.longitude);
-    MKPlacemark* placeMark = [[MKPlacemark alloc] initWithCoordinate:coordinate addressDictionary:nil];
-    MKMapItem* destination =  [[MKMapItem alloc] initWithPlacemark:placeMark];
-    [destination setName:self.annotation.title];
-    if([destination respondsToSelector:@selector(openInMapsWithLaunchOptions:)])
-    {
-        [destination openInMapsWithLaunchOptions:@{MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeDriving}];
-        
-    }
-     */
+    [self.delegate didPressNavigateButtonWithAnnotation:self.annotation];
 }
 
 - (void)didMoveToSuperview {

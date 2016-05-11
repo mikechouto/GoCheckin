@@ -15,6 +15,7 @@ IB_DESIGNABLE
 @required
 - (void)didPressCheckInButttonWithAnnotation:(GoStationAnnotation *)annotation;
 - (void)didPressRemoveButttonWithAnnotation:(GoStationAnnotation *)annotation;
+- (void)didPressNavigateButtonWithAnnotation:(GoStationAnnotation *)annotation;
 
 @end
 

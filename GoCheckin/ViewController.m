@@ -12,6 +12,7 @@
 #import "SVPulsingAnnotationView.h"
 #import "GoStationDetailView.h"
 #import "UIColor+GoCheckin.h"
+#import "MapOption.h" // Uses MapType so must import
 
 
 @interface ViewController () <MKMapViewDelegate, CLLocationManagerDelegate, GoStationDetailViewDelegate>
@@ -199,6 +200,27 @@
     }
 }
 
+- (void)didPressNavigateButtonWithAnnotation:(GoStationAnnotation *)annotation {
+    MapType defaultType = [[APIManager sharedInstance] currentDefaultMapApplication];
+    
+    if (defaultType == MapTypeGoogle) {
+        // google map
+        NSString* url = [NSString stringWithFormat:@"http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f",self.userLocation.coordinate.latitude, self.userLocation.coordinate.longitude, annotation.latitude, annotation.longitude];
+        [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+    } else {
+        // apple map
+        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(annotation.latitude, annotation.longitude);
+        MKPlacemark* placeMark = [[MKPlacemark alloc] initWithCoordinate:coordinate addressDictionary:nil];
+        MKMapItem* destination =  [[MKMapItem alloc] initWithPlacemark:placeMark];
+        [destination setName:annotation.title];
+        if([destination respondsToSelector:@selector(openInMapsWithLaunchOptions:)])
+        {
+            [destination openInMapsWithLaunchOptions:@{MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeDriving}];
+            
+        }
+    }
+}
+
 #pragma mark MKMapViewDelegate
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     
@@ -264,10 +286,18 @@
     bounceAnimation.duration = 0.5;
     [view.layer addAnimation:bounceAnimation forKey:@"bounce"];
     
+    // Center the annotation so that the detailView will not be covered by the title text.
+    CGPoint annotationCenter=CGPointMake(view.frame.origin.x + (view.frame.size.width/2),
+                                         view.frame.origin.y - (view.frame.size.height/2) - 40);
+    
+    CLLocationCoordinate2D newCenter=[mapView convertPoint:annotationCenter toCoordinateFromView:view.superview];
+    [mapView setCenterCoordinate:newCenter animated:YES];
+    
     if ([view.detailCalloutAccessoryView isKindOfClass:[GoStationDetailView class]]) {
         GoStationDetailView *detailView = (GoStationDetailView *)view.detailCalloutAccessoryView;
         detailView.delegate = self;
         [detailView setAnnotation:view.annotation UserLocation:self.userLocation];
+        
     }
 }
 
