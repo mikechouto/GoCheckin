@@ -23,5 +23,6 @@ typedef NS_ENUM(NSUInteger, MapType) {
 @property (assign, nonatomic, readonly) BOOL isInstalled;
 
 - (instancetype)initWithName:(NSString *)name MapType:(MapType)type;
+- (void)setToDefault;
 
 @end

@@ -6,11 +6,14 @@
 //
 //
 
+#import <MessageUI/MessageUI.h>
+#import <sys/utsname.h>
 #import "SettingsViewController.h"
-#import "UIColor+GoCheckin.m"
+#import "UIColor+GoCheckin.h"
 #import "MapOption.h"
+#import "MapApplicationCell.h"
 
-@interface SettingsViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface SettingsViewController () <UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray<MapOption *> *supportedMapApplication;
@@ -47,6 +50,41 @@
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Arial-BoldMT" size:20], NSForegroundColorAttributeName:[UIColor whiteColor]}];
 }
 
+- (void)sendFeedbackMail {
+    // Email Subject
+    NSString *emailTitle = @"GoCheckin Feedback";
+    // Email Body
+    NSString *iOSVersion = [[UIDevice currentDevice] systemVersion];
+    NSString *messageBody = [NSString stringWithFormat:@"%@-%@:\n%@", [self deviceModel], iOSVersion, [self deviceUniqueIdentifier]];
+    // To address
+    NSArray *toRecipents = [NSArray arrayWithObject:@"mikechouto@gmail.com"];
+    
+    MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
+    mailComposeViewController.mailComposeDelegate = self;
+    [mailComposeViewController setSubject:emailTitle];
+    [mailComposeViewController setMessageBody:messageBody isHTML:NO];
+    [mailComposeViewController setToRecipients:toRecipents];
+    
+    // Present mail view controller on screen
+    [self presentViewController:mailComposeViewController animated:YES completion:NULL];
+}
+
+- (void)deselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [_tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (NSString *)deviceModel {
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    return [NSString stringWithCString:systemInfo.machine
+                              encoding:NSUTF8StringEncoding];
+}
+
+- (NSString *)deviceUniqueIdentifier {
+    NSString *uniqueIdentifier = [[[[UIDevice currentDevice] identifierForVendor] UUIDString] lowercaseString];
+    return [uniqueIdentifier stringByReplacingOccurrencesOfString:@"-" withString:@""];
+}
+
 #pragma mark UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
@@ -77,9 +115,13 @@
         case 0:
             cell = [tableView dequeueReusableCellWithIdentifier:selectionIdentifier];
             if (cell == nil) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:selectionIdentifier];
+                cell = [[MapApplicationCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:selectionIdentifier];
             }
-            [cell.textLabel setText:[self.supportedMapApplication objectAtIndex:indexPath.row].name];
+            
+            if ([cell isKindOfClass:[MapApplicationCell class]]) {
+                
+                [(MapApplicationCell *)cell setMapOption:[self.supportedMapApplication objectAtIndex:indexPath.row]];
+            }
             break;
         case 1:
             cell = [tableView dequeueReusableCellWithIdentifier:clickableIdentifier];
@@ -93,6 +135,10 @@
             break;
     }
     
+    [cell setPreservesSuperviewLayoutMargins:NO];
+    [cell setSeparatorInset:UIEdgeInsetsZero];
+    [cell setLayoutMargins:UIEdgeInsetsZero];
+    
     return cell;
 }
 
@@ -102,7 +148,21 @@
 
 #pragma mark UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    switch (indexPath.section) {
+        case 0:
+            [[self.supportedMapApplication objectAtIndex:indexPath.row] setToDefault];
+            [tableView reloadData];
+            [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+            break;
+        case 1:
+            // TODO: Callout to email.
+            [self sendFeedbackMail];
+            break;
+        default:
+            break;
+    }
+
+    [self performSelector:@selector(deselectRowAtIndexPath:) withObject:indexPath afterDelay:0.05];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -124,6 +184,25 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 44;
+}
+
+#pragma mark MFMailComposeViewControllerDelegate
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    
+    switch (result) {
+        case MFMailComposeResultSent:
+            break;
+        case MFMailComposeResultSaved:
+            break;
+        case MFMailComposeResultCancelled:
+            break;
+        case MFMailComposeResultFailed:
+            break;
+        default:
+            break;
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

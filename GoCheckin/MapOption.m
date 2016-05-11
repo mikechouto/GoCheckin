@@ -17,7 +17,6 @@
     if (self) {
         _name = name;
         _type = type;
-        _isDefault = [self checkIsDefault:type];
         _isInstalled = [self isGoogleMapInstalled:type];
     }
     
@@ -33,13 +32,29 @@
     return isInstalled;
 }
 
-- (BOOL)checkIsDefault:(MapType)type {
+- (BOOL)isDefault {
+    
     BOOL isDefault = NO;
     MapType current = [[APIManager sharedInstance] currentDefaultMapApplication];
-    if (current == type) {
+    if (current == _type) {
         isDefault = YES;
     }
     return isDefault;
+}
+
+- (void)setToDefault {
+    
+    if (!self.isDefault) {
+        switch (_type) {
+            case MapTypeApple:
+                [[APIManager sharedInstance] changeDefaultMapToApple];
+                break;
+            case MapTypeGoogle:
+                [[APIManager sharedInstance] changeDefaultMapToGoogle];
+            default:
+                break;
+        }
+    }
 }
 
 @end
