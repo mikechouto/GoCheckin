@@ -1,0 +1,23 @@
+/* 
+  Localizable.strings
+  GoCheckin
+
+  Created by Mike Chou on 5/12/16.
+
+*/
+"Cancel" = "取消";
+"Connection Error" = "連線錯誤";
+"Connection Error." = "連線錯誤, 請確認目前網路狀況.";
+
+"More" = "詳細資料";
+
+"Address: %@" = "地址: %@";
+"About: %lli min" = "約: %lli 分鐘";
+"Opens: %@" = "營業時間: %@";
+"Collected at: %@" = "收集時間: %@";
+"Times collected: %lu" = "收集次數: %lu";
+
+"Map Selection" = "預設導航App";
+"Get Help" = "支援與服務";
+"Contact us" = "回報問題";
+"Version: %@" = "版本: %@";

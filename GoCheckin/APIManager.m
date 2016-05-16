@@ -60,8 +60,8 @@
             
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Connection Error" message:@"Connection Error." preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Connection Error" , nil) message:NSLocalizedString(@"Connection Error.", nil) preferredStyle:UIAlertControllerStyleAlert];
                 [alertController addAction:cancelAction];
                 [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alertController animated:NO completion:nil];
             });
@@ -161,6 +161,30 @@
     }
     
     return goStations;
+}
+
+- (NSUInteger)getTotalCheckedInCount {
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"is_checkin==true"];
+    RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
+    return stations.count;
+}
+
+- (NSUInteger)getWorkingGoStationCount {
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"state==%d", GoStationStatusNormal];
+    RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
+    return stations.count;
+}
+
+- (NSUInteger)getClosedGoStationCount {
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"state==%d", GoStationStatusClosed];
+    RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
+    return stations.count;
+}
+
+- (NSUInteger)getConstructingGoStationCount {
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"state==%d", GoStationStatusConstructing];
+    RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
+    return stations.count;
 }
 
 - (void)initUserDefaultsIfNeeded {

@@ -19,10 +19,8 @@
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
-@property (weak, nonatomic) IBOutlet UILabel *openedStationsLabel;
-@property (weak, nonatomic) IBOutlet UILabel *closedStationsLabel;
-@property (weak, nonatomic) IBOutlet UILabel *constructingStationLabel;
 @property (weak, nonatomic) IBOutlet UIView * bottomView;
+@property (weak, nonatomic) IBOutlet UIButton *detailInfoButton;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLLocation *userLocation;
 @property (strong, nonatomic) NSArray *GoStations;
@@ -33,13 +31,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    //    NSLog(@"%@", [[NSLocale currentLocale] localeIdentifier]);
-    //    NSLog(@"%@", [[NSLocale preferredLanguages] objectAtIndex:0]);
     [self.bottomView setBackgroundColor:[UIColor blueGoCheckinColor]];
     
     [self.mapView setShowsScale:NO];
     [self.mapView setShowsCompass:NO];
+    
+    [self.detailInfoButton setTitle:NSLocalizedString(@"More", nil) forState:UIControlStateNormal];
+    [self.detailInfoButton setTitle:NSLocalizedString(@"More", nil) forState:UIControlStateHighlighted];
+    [self.detailInfoButton setTitleColor:[UIColor blueGoCheckinColor] forState:UIControlStateHighlighted];
     
     self.locationManager = [[CLLocationManager alloc] init];
     [self.locationManager setDelegate:self];
@@ -52,8 +51,7 @@
     
     // Create the observe before calling update station.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pinStationLocation:) name:@"GoStationUpdateFinishNotification" object:nil];
-    
-    [[APIManager sharedInstance] updateGoStationIfNeeded ];
+    [[APIManager sharedInstance] updateGoStationIfNeeded];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -87,6 +85,50 @@
     }
 }
 
+- (IBAction)showDetailInfoView:(id)sender {
+    
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(updateDetailInfoButtonTitle) userInfo:nil repeats:YES];
+    
+    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    
+}
+
+- (void)updateDetailInfoButtonTitle {
+
+    NSUInteger workingCount = [[APIManager sharedInstance] getWorkingGoStationCount];
+    NSUInteger closedCount = [[APIManager sharedInstance] getClosedGoStationCount];
+    NSUInteger constructingCount = [[APIManager sharedInstance] getConstructingGoStationCount];
+    NSUInteger checkedinCount = [[APIManager sharedInstance] getTotalCheckedInCount];
+    
+    NSString *newTitle;
+    NSInteger newTag;
+    
+    switch (self.detailInfoButton.tag) {
+        case 100:
+            newTitle = [NSString stringWithFormat:NSLocalizedString(@"Collected: %d", nil), checkedinCount];
+            newTag = 101;
+            break;
+        case 101:
+            newTitle = [NSString stringWithFormat:NSLocalizedString(@"Working: %d", nil), workingCount+closedCount];
+            newTag = 102;
+            break;
+        case 102:
+            newTitle = [NSString stringWithFormat:NSLocalizedString(@"Constructing: %d", nil), constructingCount];
+            newTag = 103;
+            break;
+        case 103:
+        default:
+            newTitle = NSLocalizedString(@"More", nil);
+            newTag = 100;
+            break;
+    }
+    
+    [self.detailInfoButton setTag:newTag];
+    [UIView transitionWithView:self.detailInfoButton.titleLabel duration:1 options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
+        [self.detailInfoButton setTitle:newTitle forState:UIControlStateNormal];
+    } completion:nil];
+}
+
 - (void)prepareCustomNavigationBar {
     
     [self.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
@@ -99,28 +141,6 @@
 - (void)pinStationLocation:(id)sender {
 
     self.GoStations = [[APIManager sharedInstance] getGoStations];
-    
-    NSUInteger openCount = 0, closedCount = 0, constructingCount = 0;
-    for (GoStationAnnotation *station in self.GoStations) {
-        switch (station.status) {
-            case GoStationStatusNormal:
-                openCount++;
-                break;
-            case GoStationStatusClosed:
-                closedCount++;
-                break;
-            case GoStationStatusConstructing:
-                constructingCount++;
-                break;
-            default:
-                constructingCount++;
-                break;
-        }
-    }
-    
-    [self.openedStationsLabel setText:[NSString stringWithFormat:@"%ld", (unsigned long)openCount]];
-    [self.closedStationsLabel setText:[NSString stringWithFormat:@"%ld", (unsigned long)closedCount]];
-    [self.constructingStationLabel setText:[NSString stringWithFormat:@"%ld", (unsigned long)constructingCount]];
     
     if (self.mapView.annotations) {
         [self.mapView removeAnnotations:self.mapView.annotations];

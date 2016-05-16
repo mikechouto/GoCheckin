@@ -19,6 +19,10 @@
 - (GoStationAnnotation *)updateCheckInDataWithStationUUID:(NSString *)uuid;
 - (GoStationAnnotation *)removeCheckInDataWithStationUUID:(NSString *)uuid;
 - (NSArray *)getGoStations;
+- (NSUInteger)getTotalCheckedInCount;
+- (NSUInteger)getWorkingGoStationCount;
+- (NSUInteger)getClosedGoStationCount;
+- (NSUInteger)getConstructingGoStationCount;
 
 - (void)initUserDefaultsIfNeeded;
 - (void)changeDefaultMapToGoogle;

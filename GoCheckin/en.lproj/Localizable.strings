@@ -1,0 +1,23 @@
+/* 
+  Localizable.strings
+  GoCheckin
+
+  Created by Mike Chou on 5/12/16.
+
+*/
+"Cancel" = "Cancel";
+"Connection Error" = "Connection Error";
+"Connection Error." = "Connection Error.";
+
+"More" = "More";
+
+"Address: %@" = "Address: %@";
+"About: %lli min" = "About: %lli min";
+"Opens: %@" = "Opens: %@";
+"Collected at: %@" = "Collected at: %@";
+"Times collected: %lu" = "Times collected: %lu";
+
+"Map Selection" = "Map Selection";
+"Get Help" = "Get Help";
+"Contact us" = "Contact us";
+"Version: %@" = "Version: %@";

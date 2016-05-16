@@ -16,6 +16,7 @@
 @interface SettingsViewController () <UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (strong, nonatomic) NSArray<MapOption *> *supportedMapApplication;
 
 @end
@@ -26,7 +27,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self prepareNavigationBar];
-    
+    [self.versionLabel setText:[NSString stringWithFormat:NSLocalizedString(@"Version: %@", nil), [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]];
     self.supportedMapApplication = @[[[MapOption alloc] initWithName:@"Apple Map" MapType:MapTypeApple],
                            [[MapOption alloc] initWithName:@"Google Map" MapType:MapTypeGoogle]];
     
@@ -129,7 +130,7 @@
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:clickableIdentifier];
             }
             
-            [cell.textLabel setText:@"Contact Us"];
+            [cell.textLabel setText:NSLocalizedString(@"Contact us", nil)];
             break;
         default:
             break;
@@ -169,10 +170,10 @@
     NSString *sectionTitle;
     switch (section) {
         case 0:
-            sectionTitle = @"Map Selection";
+            sectionTitle = NSLocalizedString(@"Map Selection", nil);
             break;
         case 1:
-            sectionTitle = @"Get Help";
+            sectionTitle = NSLocalizedString(@"Get Help", nil);
             break;
         default:
             sectionTitle = @"";
