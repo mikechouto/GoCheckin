@@ -10,6 +10,9 @@
 "Connection Error." = "Connection Error.";
 
 "More" = "More";
+"Building: %d" = "Building: %d";
+"Working: %d" = "Working: %d";
+"Collected: %d" = "Collected: %d";
 
 "Address: %@" = "Address: %@";
 "About: %lli min" = "About: %lli min";

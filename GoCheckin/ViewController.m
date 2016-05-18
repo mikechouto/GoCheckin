@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIView * bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *detailInfoButton;
+@property (strong, nonnull) NSTimer *detailInfoUpdateTimer;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLLocation *userLocation;
 @property (strong, nonatomic) NSArray *GoStations;
@@ -36,9 +37,7 @@
     [self.mapView setShowsScale:NO];
     [self.mapView setShowsCompass:NO];
     
-    [self.detailInfoButton setTitle:NSLocalizedString(@"More", nil) forState:UIControlStateNormal];
-    [self.detailInfoButton setTitle:NSLocalizedString(@"More", nil) forState:UIControlStateHighlighted];
-    [self.detailInfoButton setTitleColor:[UIColor blueGoCheckinColor] forState:UIControlStateHighlighted];
+    [self stopAndResetDetailInfoButtonTitle];
     
     self.locationManager = [[CLLocationManager alloc] init];
     [self.locationManager setDelegate:self];
@@ -67,6 +66,7 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self stopAndResetDetailInfoButtonTitle];
 }
 
 - (void)centerMapOnLocation:(CLLocation *)location Distance:(CLLocationDistance) regionRadius{
@@ -86,11 +86,7 @@
 }
 
 - (IBAction)showDetailInfoView:(id)sender {
-    
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(updateDetailInfoButtonTitle) userInfo:nil repeats:YES];
-    
-    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-    
+    [self stopAndResetDetailInfoButtonTitle];
 }
 
 - (void)updateDetailInfoButtonTitle {
@@ -113,7 +109,7 @@
             newTag = 102;
             break;
         case 102:
-            newTitle = [NSString stringWithFormat:NSLocalizedString(@"Constructing: %d", nil), constructingCount];
+            newTitle = [NSString stringWithFormat:NSLocalizedString(@"Building: %d", nil), constructingCount];
             newTag = 103;
             break;
         case 103:
@@ -129,6 +125,18 @@
     } completion:nil];
 }
 
+- (void)stopAndResetDetailInfoButtonTitle {
+    
+    if (self.detailInfoUpdateTimer) {
+        [self.detailInfoUpdateTimer invalidate];
+    }
+    
+    [self.detailInfoButton setTitle:NSLocalizedString(@"More", nil) forState:UIControlStateNormal];
+    [self.detailInfoButton setTitle:NSLocalizedString(@"More", nil) forState:UIControlStateHighlighted];
+    [self.detailInfoButton setTag:100];
+    [self.detailInfoButton setTitleColor:[UIColor blueGoCheckinColor] forState:UIControlStateHighlighted];
+}
+
 - (void)prepareCustomNavigationBar {
     
     [self.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
@@ -140,13 +148,17 @@
 
 - (void)pinStationLocation:(id)sender {
 
+    // 1. Pin GoStations
     self.GoStations = [[APIManager sharedInstance] getGoStations];
-    
     if (self.mapView.annotations) {
         [self.mapView removeAnnotations:self.mapView.annotations];
     }
     [self.mapView addAnnotations:self.GoStations];
-
+    
+    // 2. Begin to rotate detail
+    [self stopAndResetDetailInfoButtonTitle];
+    self.detailInfoUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:2.5 target:self selector:@selector(updateDetailInfoButtonTitle) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:self.detailInfoUpdateTimer forMode:NSRunLoopCommonModes];
 }
 
 #pragma mark CLLocationManagerDelegate

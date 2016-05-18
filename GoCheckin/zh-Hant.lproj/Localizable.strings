@@ -10,6 +10,9 @@
 "Connection Error." = "連線錯誤, 請確認目前網路狀況.";
 
 "More" = "詳細資料";
+"Building: %d" = "建置中: %d 座";
+"Working: %d" = "運作中: %d 座";
+"Collected: %d" = "已收集: %d 座";
 
 "Address: %@" = "地址: %@";
 "About: %lli min" = "約: %lli 分鐘";
