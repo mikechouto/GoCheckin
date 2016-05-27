@@ -13,6 +13,7 @@ typedef NS_ENUM(NSUInteger, GoStationStatus) {
     GoStationStatusNormal = 1,
     GoStationStatusClosed = 996,
     GoStationStatusConstructing = 99,
+    GoStationStatusComingSoon = 100,
     GoStationStatusUnknown = -1,
 };
 

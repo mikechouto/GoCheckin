@@ -41,6 +41,9 @@
             case 99:
                 _status = GoStationStatusConstructing;
                 break;
+            case 100:
+                _status = GoStationStatusComingSoon;
+                break;
             default:
                 _status = GoStationStatusUnknown;
                 break;
