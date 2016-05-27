@@ -21,10 +21,11 @@
     // Override point for customization after application launch.
     
     RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
-    // Use the default directory, but replace the filename with the username
-    config.path = [[[config.path stringByDeletingLastPathComponent]
-                    stringByAppendingPathComponent:@"gocheckin"]
-                   stringByAppendingPathExtension:@"realm"];
+    // Use the default directory, but replace the filename with the username.
+    NSString *newFileURL = [[[[config.fileURL absoluteString] stringByDeletingLastPathComponent]
+                            stringByAppendingPathComponent:@"gocheckin"]
+                            stringByAppendingPathExtension:@"realm"];
+    config.fileURL = [NSURL URLWithString:newFileURL];
     
     // Set this as the configuration used for the default Realm
     [RLMRealmConfiguration setDefaultConfiguration:config];
