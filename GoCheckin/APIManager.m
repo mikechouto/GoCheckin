@@ -182,7 +182,7 @@
 }
 
 - (NSUInteger)getConstructingGoStationCount {
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"state==%d", GoStationStatusConstructing];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"state==%d OR state==%d", GoStationStatusConstructing, GoStationStatusComingSoon];
     RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
     return stations.count;
 }
