@@ -6,12 +6,13 @@
 //
 //
 
-#import "ViewController.h"
 #import <MapKit/MapKit.h>
+#import "ViewController.h"
+#import "UIColor+GoCheckin.h"
 #import "APIManager.h"
 #import "SVPulsingAnnotationView.h"
 #import "GoStationDetailView.h"
-#import "UIColor+GoCheckin.h"
+#import "UserInfoDetailView.h"
 #import "MapOption.h" // Uses MapType so must import
 
 
@@ -22,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIView * bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *detailInfoButton;
 @property (strong, nonnull) NSTimer *detailInfoUpdateTimer;
+@property (strong, nonatomic) UserInfoDetailView *detailInfoView;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLLocation *userLocation;
 @property (strong, nonatomic) NSArray *GoStations;
@@ -85,8 +87,32 @@
     }
 }
 
-- (IBAction)showDetailInfoView:(id)sender {
-    [self stopAndResetDetailInfoButtonTitle];
+- (IBAction)showHideDetailInfoView:(id)sender {
+    
+    if (self.detailInfoUpdateTimer.isValid) {
+        
+        [self stopAndResetDetailInfoButtonTitle];
+        
+        self.detailInfoView = [[UserInfoDetailView alloc] init];
+        [self.detailInfoView setCenter:CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2)];
+        [self.view addSubview:self.detailInfoView];
+        [UIView animateWithDuration:0.1 animations:^{self.detailInfoView.alpha = 1.0;}];
+        
+        CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+        bounceAnimation.values = @[@0.01f, @1.1f, @0.8f, @1.0f];
+        bounceAnimation.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
+        bounceAnimation.duration = 0.5;
+        [self.detailInfoView.layer addAnimation:bounceAnimation forKey:@"bounce"];
+        
+    } else {
+        
+        if (self.detailInfoView) {
+            [self.detailInfoView removeFromSuperview];
+            self.detailInfoView = nil;
+        }
+        
+        [self startDetailInfoButtonTimmer];
+    }
 }
 
 - (void)updateDetailInfoButtonTitle {
@@ -101,7 +127,7 @@
     
     switch (self.detailInfoButton.tag) {
         case 100:
-            newTitle = [NSString stringWithFormat:NSLocalizedString(@"Collected: %d", nil), checkedinCount];
+            newTitle = [NSString stringWithFormat:NSLocalizedString(@"Collected: %02.1f", nil), 100.0f * checkedinCount / (workingCount + closedCount)];
             newTag = 101;
             break;
         case 101:
@@ -123,6 +149,12 @@
     [UIView transitionWithView:self.detailInfoButton.titleLabel duration:1 options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
         [self.detailInfoButton setTitle:newTitle forState:UIControlStateNormal];
     } completion:nil];
+}
+
+- (void)startDetailInfoButtonTimmer {
+    [self stopAndResetDetailInfoButtonTitle];
+    self.detailInfoUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:2.5 target:self selector:@selector(updateDetailInfoButtonTitle) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:self.detailInfoUpdateTimer forMode:NSRunLoopCommonModes];
 }
 
 - (void)stopAndResetDetailInfoButtonTitle {
@@ -156,9 +188,7 @@
     [self.mapView addAnnotations:self.GoStations];
     
     // 2. Begin to rotate detail
-    [self stopAndResetDetailInfoButtonTitle];
-    self.detailInfoUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:2.5 target:self selector:@selector(updateDetailInfoButtonTitle) userInfo:nil repeats:YES];
-    [[NSRunLoop mainRunLoop] addTimer:self.detailInfoUpdateTimer forMode:NSRunLoopCommonModes];
+    [self startDetailInfoButtonTimmer];
 }
 
 #pragma mark CLLocationManagerDelegate

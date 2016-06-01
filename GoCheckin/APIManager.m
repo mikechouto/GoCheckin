@@ -187,6 +187,22 @@
     return stations.count;
 }
 
+- (NSDate * _Nullable ) getFirstCheckinDate {
+    
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"is_checkin==true"];
+    RLMResults<GoStation *> *stations = [[self.persistencyManager queryGoStationWithWithPredicate:pred] sortedResultsUsingProperty:@"checkin_date" ascending:YES];
+    
+    return stations.count > 0 ? [stations firstObject].checkin_date : nil;
+}
+
+- (NSDate * _Nullable ) getLatestCheckinDate {
+    
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"is_checkin==true"];
+    RLMResults<GoStation *> *stations = [[self.persistencyManager queryGoStationWithWithPredicate:pred] sortedResultsUsingProperty:@"last_checkin_date" ascending:NO];
+    
+    return stations.count > 0 ? [stations firstObject].last_checkin_date : nil;
+}
+
 - (void)initUserDefaultsIfNeeded {
     [self.persistencyManager initUserDefaultsWithDefaultMapType:MapTypeApple];
 }

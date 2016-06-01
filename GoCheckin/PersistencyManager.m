@@ -44,8 +44,6 @@ static NSString *const kDefaultMapApplication = @"defaultMap";
         
         NSArray *stationDicts = [stationDict objectForKey:kResponseKeyContent];
         if (stationDicts.count > 0) {
-            
-            NSLog(@"Realm Path: %@", [RLMRealm defaultRealm].path);
             // Create realm pointing to default file which was set in AppDelegate.
             RLMRealm *realm = [RLMRealm defaultRealm];
             

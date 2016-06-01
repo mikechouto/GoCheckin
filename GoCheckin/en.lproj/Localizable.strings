@@ -12,7 +12,7 @@
 "More" = "More";
 "Building: %d" = "Building: %d";
 "Working: %d" = "Working: %d";
-"Collected: %d" = "Collected: %d";
+"Collected: %02.1f" = "Collected: %02.1f%%";
 
 "Address: %@" = "Address: %@";
 "About: %lli min" = "About: %lli min";
