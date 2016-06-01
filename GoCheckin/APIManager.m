@@ -60,9 +60,9 @@
             
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil];
                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Connection Error" , nil) message:NSLocalizedString(@"Connection Error.", nil) preferredStyle:UIAlertControllerStyleAlert];
-                [alertController addAction:cancelAction];
+                [alertController addAction:okAction];
                 [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alertController animated:NO completion:nil];
             });
         }

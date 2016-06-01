@@ -370,4 +370,11 @@
     }
 }
 
+#pragma mark - Touches handeling
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    if (self.detailInfoView) {
+        [self showHideDetailInfoView:nil];
+    }
+}
+
 @end

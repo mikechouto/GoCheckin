@@ -5,7 +5,7 @@
   Created by Mike Chou on 5/12/16.
 
 */
-"Cancel" = "取消";
+"OK" = "確認";
 "Connection Error" = "連線錯誤";
 "Connection Error." = "連線錯誤, 請確認目前網路狀況.";
 
