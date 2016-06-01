@@ -179,7 +179,7 @@
     
     if (annotation) {
         
-        if (annotation.status == GoStationStatusNormal) {
+        if (annotation.status == GoStationStatusNormal || annotation.status == GoStationStatusClosed) {
             [self.checkInBtn setEnabled:YES];
         }
         

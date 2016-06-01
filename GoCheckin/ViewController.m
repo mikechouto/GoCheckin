@@ -96,7 +96,6 @@
         self.detailInfoView = [[UserInfoDetailView alloc] init];
         [self.detailInfoView setCenter:CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2)];
         [self.view addSubview:self.detailInfoView];
-        [UIView animateWithDuration:0.1 animations:^{self.detailInfoView.alpha = 1.0;}];
         
         CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
         bounceAnimation.values = @[@0.01f, @1.1f, @0.8f, @1.0f];
