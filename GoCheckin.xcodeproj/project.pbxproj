@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A07226B1CDB4BFE001F0570 /* MapOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A07226A1CDB4BFE001F0570 /* MapOption.m */; };
+		2A0722BC1CE2D54D001F0570 /* MapApplicationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0722BB1CE2D54D001F0570 /* MapApplicationCell.m */; };
+		2A0722BE1CE30DCD001F0570 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A0722BD1CE30DCD001F0570 /* MessageUI.framework */; };
+		2A0722C31CE42BF9001F0570 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A0722C51CE42BF9001F0570 /* Localizable.strings */; };
+		2A0722C71CE45EB2001F0570 /* GoStationDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A0722C91CE45EB2001F0570 /* GoStationDetailView.xib */; };
 		2A0F6FB11CD124810095D171 /* UIColor+GoCheckin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0F6FB01CD124810095D171 /* UIColor+GoCheckin.m */; };
 		2A0F6FB41CD1A4570095D171 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0F6FB31CD1A4570095D171 /* SettingsViewController.m */; };
 		2A21D29F1CB63BE000F569D5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D29E1CB63BE000F569D5 /* main.m */; };
@@ -25,11 +30,21 @@
 		2A21D3101CCA05EB00F569D5 /* SVPulsingAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D30F1CCA05EB00F569D5 /* SVPulsingAnnotationView.m */; };
 		2A21D3121CCA05F900F569D5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A21D3111CCA05F900F569D5 /* QuartzCore.framework */; };
 		2A21D3161CCA18E800F569D5 /* GoStationDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D3151CCA18E800F569D5 /* GoStationDetailView.m */; };
-		2A21D3181CCA18F600F569D5 /* GoStationDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A21D3171CCA18F600F569D5 /* GoStationDetailView.xib */; };
+		2A9A24E01CFEBC35002D8D86 /* UserInfoDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A9A24DE1CFEBC35002D8D86 /* UserInfoDetailView.xib */; };
+		2AA303411CF833DB009B530D /* UserInfoDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA303401CF833DB009B530D /* UserInfoDetailView.m */; };
 		DC10D95B9494066D1607BB3A /* libPods-GoCheckin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BDD437BBB8FF11F48238722 /* libPods-GoCheckin.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2A0722691CDB4BFE001F0570 /* MapOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapOption.h; sourceTree = "<group>"; };
+		2A07226A1CDB4BFE001F0570 /* MapOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapOption.m; sourceTree = "<group>"; };
+		2A0722BA1CE2D54D001F0570 /* MapApplicationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapApplicationCell.h; sourceTree = "<group>"; };
+		2A0722BB1CE2D54D001F0570 /* MapApplicationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapApplicationCell.m; sourceTree = "<group>"; };
+		2A0722BD1CE30DCD001F0570 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		2A0722C11CE42BD2001F0570 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
+		2A0722C41CE42BF9001F0570 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2A0722CE1CE46238001F0570 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/GoStationDetailView.xib; sourceTree = "<group>"; };
+		2A0722D01CE463B1001F0570 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		2A0F6FAF1CD124810095D171 /* UIColor+GoCheckin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+GoCheckin.h"; sourceTree = "<group>"; };
 		2A0F6FB01CD124810095D171 /* UIColor+GoCheckin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+GoCheckin.m"; sourceTree = "<group>"; };
 		2A0F6FB21CD1A4570095D171 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
@@ -62,7 +77,10 @@
 		2A21D3111CCA05F900F569D5 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		2A21D3141CCA18E800F569D5 /* GoStationDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoStationDetailView.h; sourceTree = "<group>"; };
 		2A21D3151CCA18E800F569D5 /* GoStationDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoStationDetailView.m; sourceTree = "<group>"; };
-		2A21D3171CCA18F600F569D5 /* GoStationDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoStationDetailView.xib; sourceTree = "<group>"; };
+		2A9A24DF1CFEBC35002D8D86 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/UserInfoDetailView.xib; sourceTree = "<group>"; };
+		2A9A24E61CFEC8E8002D8D86 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hant"; path = "zh-Hant.lproj/UserInfoDetailView.xib"; sourceTree = "<group>"; };
+		2AA3033F1CF833DB009B530D /* UserInfoDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoDetailView.h; sourceTree = "<group>"; };
+		2AA303401CF833DB009B530D /* UserInfoDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoDetailView.m; sourceTree = "<group>"; };
 		4E087006A0931C4A1B04D3E7 /* Pods-GoCheckin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoCheckin.release.xcconfig"; path = "Pods/Target Support Files/Pods-GoCheckin/Pods-GoCheckin.release.xcconfig"; sourceTree = "<group>"; };
 		9BDD437BBB8FF11F48238722 /* libPods-GoCheckin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GoCheckin.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA31575ED7762E61134EB07F /* Pods-GoCheckin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoCheckin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GoCheckin/Pods-GoCheckin.debug.xcconfig"; sourceTree = "<group>"; };
@@ -73,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A0722BE1CE30DCD001F0570 /* MessageUI.framework in Frameworks */,
 				2A21D3121CCA05F900F569D5 /* QuartzCore.framework in Frameworks */,
 				2A21D3081CC75B5E00F569D5 /* MapKit.framework in Frameworks */,
 				DC10D95B9494066D1607BB3A /* libPods-GoCheckin.a in Frameworks */,
@@ -120,6 +139,7 @@
 				2A21D2AB1CB63BE000F569D5 /* LaunchScreen.storyboard */,
 				2A21D2AE1CB63BE000F569D5 /* Info.plist */,
 				2A21D29D1CB63BE000F569D5 /* Supporting Files */,
+				2A0722C51CE42BF9001F0570 /* Localizable.strings */,
 			);
 			path = GoCheckin;
 			sourceTree = "<group>";
@@ -150,6 +170,8 @@
 			children = (
 				2A21D2B41CB63BF700F569D5 /* GoStationAnnotation.h */,
 				2A21D2B51CB63BF700F569D5 /* GoStationAnnotation.m */,
+				2A0722691CDB4BFE001F0570 /* MapOption.h */,
+				2A07226A1CDB4BFE001F0570 /* MapOption.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -188,7 +210,12 @@
 			children = (
 				2A21D3141CCA18E800F569D5 /* GoStationDetailView.h */,
 				2A21D3151CCA18E800F569D5 /* GoStationDetailView.m */,
-				2A21D3171CCA18F600F569D5 /* GoStationDetailView.xib */,
+				2A0722C91CE45EB2001F0570 /* GoStationDetailView.xib */,
+				2AA3033F1CF833DB009B530D /* UserInfoDetailView.h */,
+				2AA303401CF833DB009B530D /* UserInfoDetailView.m */,
+				2A9A24DE1CFEBC35002D8D86 /* UserInfoDetailView.xib */,
+				2A0722BA1CE2D54D001F0570 /* MapApplicationCell.h */,
+				2A0722BB1CE2D54D001F0570 /* MapApplicationCell.m */,
 			);
 			name = CustomView;
 			sourceTree = "<group>";
@@ -205,6 +232,7 @@
 		AF124DABF15F05C6278ECA60 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2A0722BD1CE30DCD001F0570 /* MessageUI.framework */,
 				2A21D3111CCA05F900F569D5 /* QuartzCore.framework */,
 				2A21D3071CC75B5E00F569D5 /* MapKit.framework */,
 				9BDD437BBB8FF11F48238722 /* libPods-GoCheckin.a */,
@@ -256,6 +284,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hant",
 			);
 			mainGroup = 2A21D2911CB63BE000F569D5;
 			productRefGroup = 2A21D29B1CB63BE000F569D5 /* Products */;
@@ -272,9 +301,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A9A24E01CFEBC35002D8D86 /* UserInfoDetailView.xib in Resources */,
+				2A0722C31CE42BF9001F0570 /* Localizable.strings in Resources */,
 				2A21D2AD1CB63BE000F569D5 /* LaunchScreen.storyboard in Resources */,
 				2A21D2AA1CB63BE000F569D5 /* Assets.xcassets in Resources */,
-				2A21D3181CCA18F600F569D5 /* GoStationDetailView.xib in Resources */,
+				2A0722C71CE45EB2001F0570 /* GoStationDetailView.xib in Resources */,
 				2A21D2A81CB63BE000F569D5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -340,23 +371,44 @@
 				2A21D2C01CBB59AF00F569D5 /* APIManager.m in Sources */,
 				2A21D2B61CB63BF700F569D5 /* GoStationAnnotation.m in Sources */,
 				2A0F6FB11CD124810095D171 /* UIColor+GoCheckin.m in Sources */,
+				2A0722BC1CE2D54D001F0570 /* MapApplicationCell.m in Sources */,
 				2A21D3101CCA05EB00F569D5 /* SVPulsingAnnotationView.m in Sources */,
+				2AA303411CF833DB009B530D /* UserInfoDetailView.m in Sources */,
 				2A21D2BD1CBB4B0300F569D5 /* HTTPClient.m in Sources */,
 				2A21D29F1CB63BE000F569D5 /* main.m in Sources */,
 				2A21D2EE1CBF891900F569D5 /* GoStation.m in Sources */,
 				2A21D3161CCA18E800F569D5 /* GoStationDetailView.m in Sources */,
 				2A21D2C31CBB5D8A00F569D5 /* PersistencyManager.m in Sources */,
 				2A0F6FB41CD1A4570095D171 /* SettingsViewController.m in Sources */,
+				2A07226B1CDB4BFE001F0570 /* MapOption.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		2A0722C51CE42BF9001F0570 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2A0722C41CE42BF9001F0570 /* en */,
+				2A0722D01CE463B1001F0570 /* zh-Hant */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		2A0722C91CE45EB2001F0570 /* GoStationDetailView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2A0722CE1CE46238001F0570 /* en */,
+			);
+			name = GoStationDetailView.xib;
+			sourceTree = "<group>";
+		};
 		2A21D2A61CB63BE000F569D5 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				2A21D2A71CB63BE000F569D5 /* Base */,
+				2A0722C11CE42BD2001F0570 /* zh-Hant */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -367,6 +419,15 @@
 				2A21D2AC1CB63BE000F569D5 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		2A9A24DE1CFEBC35002D8D86 /* UserInfoDetailView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2A9A24DF1CFEBC35002D8D86 /* en */,
+				2A9A24E61CFEC8E8002D8D86 /* zh-Hant */,
+			);
+			name = UserInfoDetailView.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

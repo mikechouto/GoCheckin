@@ -54,24 +54,25 @@
     
     if (annotation) {
         
-        [self.addressLabel setText:[NSString stringWithFormat:@"地址: %@", annotation.subtitle]];
+        [self.addressLabel setText:[NSString stringWithFormat:NSLocalizedString(@"Address: %@", nil), annotation.subtitle]];
         
         if (self.eta != -1) {
-            [self.etaLabel setText:[NSString stringWithFormat:@"約: %lli 分鐘 ", self.eta/60]];
+            [self.etaLabel setText:[NSString stringWithFormat:NSLocalizedString(@"About: %lli min", nil), self.eta/60]];
         } else {
             [self.etaLabel setText:@""];
         }
         
-        [self.availableTimeLabel setText:[NSString stringWithFormat:@"營業時間: %@", annotation.availableTime]];
+        [self.availableTimeLabel setText:[NSString stringWithFormat:NSLocalizedString(@"Opens: %@", nil), annotation.availableTime]];
         
-        switch (annotation.state) {
-            case GoStationStateNormal:
+        switch (annotation.status) {
+            case GoStationStatusNormal:
                 [self.availableStatusImageView setImage:[UIImage imageNamed:@"icon_status_open"]];
                 break;
-            case GoStationStateClosed:
+            case GoStationStatusClosed:
                 [self.availableStatusImageView setImage:[UIImage imageNamed:@"icon_status_closed"]];
                 break;
-            case GoStationStateConstructing:
+            case GoStationStatusConstructing:
+            case GoStationStatusComingSoon:
                 [self.availableStatusImageView setImage:[UIImage imageNamed:@"icon_status_unavailable"]];
                 break;
             default:
@@ -79,11 +80,15 @@
                 break;
         }
         
+        NSString *checkInDate = [NSString stringWithFormat:NSLocalizedString(@"Collected at: %@", nil), @""];
+        NSString *checkInTimes= [NSString stringWithFormat:NSLocalizedString(@"Times collected: %lu", nil), 0];
         if (annotation.isCheckIn) {
-            
-            [self.lastCheckInDateLabel setText:[NSString stringWithFormat:@"收集時間: %@", annotation.lastCheckInDate]];
-            [self.checkInTimesLabel setText:[NSString stringWithFormat:@"收集次數: %lu", (unsigned long)annotation.checkInTimes]];
+            checkInDate = [NSString stringWithFormat:NSLocalizedString(@"Collected at: %@", nil), annotation.lastCheckInDate];
+            checkInTimes = [NSString stringWithFormat:NSLocalizedString(@"Times collected: %lu", nil), (unsigned long)annotation.checkInTimes];
         }
+        
+        [self.lastCheckInDateLabel setText:checkInDate];
+        [self.checkInTimesLabel setText:checkInTimes];
         
         [self prepareCheckInButtonWithAnnotation:self.annotation];
     }
@@ -92,7 +97,7 @@
 
 - (void)updateEtaLabelWithEta:(long long)eta {
     if (eta != -1) {
-        [self.etaLabel setText:[NSString stringWithFormat:@"約: %lli 分鐘 ", eta/60]];
+        [self.etaLabel setText:[NSString stringWithFormat:NSLocalizedString(@"About: %lli min", nil), eta/60]];
     } else {
         [self.etaLabel setText:@""];
     }
@@ -107,22 +112,7 @@
 }
 
 - (IBAction)navigateToGoStation:(id)sender {
-    
-    // google map
-    NSString* url = [NSString stringWithFormat:@"http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f",self.userLocation.coordinate.latitude, self.userLocation.coordinate.longitude, self.annotation.latitude, self.annotation.longitude];
-    [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
-    /*
-    // apple map
-    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.annotation.latitude, self.annotation.longitude);
-    MKPlacemark* placeMark = [[MKPlacemark alloc] initWithCoordinate:coordinate addressDictionary:nil];
-    MKMapItem* destination =  [[MKMapItem alloc] initWithPlacemark:placeMark];
-    [destination setName:self.annotation.title];
-    if([destination respondsToSelector:@selector(openInMapsWithLaunchOptions:)])
-    {
-        [destination openInMapsWithLaunchOptions:@{MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeDriving}];
-        
-    }
-     */
+    [self.delegate didPressNavigateButtonWithAnnotation:self.annotation];
 }
 
 - (void)didMoveToSuperview {
@@ -173,15 +163,15 @@
 
 - (void)prepareCheckInButtonWithAnnotation:(GoStationAnnotation *)annotation {
     
-    [self.checkInBtn setBackgroundImage:[[UIImage imageNamed:@"icon_unavailable_btn"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 16, 0, 16)] forState:UIControlStateDisabled];
-    [self.checkInBtn setBackgroundImage:[[UIImage imageNamed:@"icon_checkin_btn"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 16, 0, 16)] forState:UIControlStateNormal];
-    [self.checkInBtn setBackgroundImage:[[UIImage imageNamed:@"icon_checkin_highlight_btn"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 16, 0, 16)] forState:UIControlStateHighlighted];
+    [self.checkInBtn setBackgroundImage:[[UIImage imageNamed:@"icon_btn_unavailable"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 16, 0, 16)] forState:UIControlStateDisabled];
+    [self.checkInBtn setBackgroundImage:[[UIImage imageNamed:@"icon_btn_checkin"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 16, 0, 16)] forState:UIControlStateNormal];
+    [self.checkInBtn setBackgroundImage:[[UIImage imageNamed:@"icon_btn_checkin_highlight"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 16, 0, 16)] forState:UIControlStateHighlighted];
     [self.checkInBtn setTitleColor:[UIColor greenGoCheckinColor] forState:UIControlStateHighlighted];
     [self.checkInBtn setTitle:@"UNAVAILABLE" forState:UIControlStateDisabled];
     
-    [self.removeBtn setBackgroundImage:[[UIImage imageNamed:@"icon_unavailable_btn"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 16, 0, 16)] forState:UIControlStateDisabled];
-    [self.removeBtn setBackgroundImage:[[UIImage imageNamed:@"icon_remove_btn"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 16, 0, 16)] forState:UIControlStateNormal];
-    [self.removeBtn setBackgroundImage:[[UIImage imageNamed:@"icon_remove_highlight_btn"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 16, 0, 16)] forState:UIControlStateHighlighted];
+    [self.removeBtn setBackgroundImage:[[UIImage imageNamed:@"icon_btn_unavailable"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 16, 0, 16)] forState:UIControlStateDisabled];
+    [self.removeBtn setBackgroundImage:[[UIImage imageNamed:@"icon_btn_remove"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 16, 0, 16)] forState:UIControlStateNormal];
+    [self.removeBtn setBackgroundImage:[[UIImage imageNamed:@"icon_btn_remove_highlight"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 16, 0, 16)] forState:UIControlStateHighlighted];
     [self.removeBtn setTitleColor:[UIColor redGoCheckinColor] forState:UIControlStateHighlighted];
     
     [self.checkInBtn setEnabled:NO];
@@ -189,7 +179,7 @@
     
     if (annotation) {
         
-        if (annotation.state == GoStationStateNormal) {
+        if (annotation.status == GoStationStatusNormal || annotation.status == GoStationStatusClosed) {
             [self.checkInBtn setEnabled:YES];
         }
         

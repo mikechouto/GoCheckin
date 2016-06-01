@@ -10,6 +10,7 @@
 #import "HTTPClient.h"
 #import "PersistencyManager.h"
 #import "GoStationAnnotation.h"
+#import "MapOption.h"
 
 @interface APIManager()
 
@@ -59,9 +60,9 @@
             
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Connection Error" message:@"Connection Error." preferredStyle:UIAlertControllerStyleAlert];
-                [alertController addAction:cancelAction];
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil];
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Connection Error" , nil) message:NSLocalizedString(@"Connection Error.", nil) preferredStyle:UIAlertControllerStyleAlert];
+                [alertController addAction:okAction];
                 [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alertController animated:NO completion:nil];
             });
         }
@@ -90,7 +91,7 @@
                                                  AvailableTime:s.available_time
                                                       Latitude:s.latitude
                                                      Longitude:s.longitude
-                                                         State:s.state
+                                                         Status:s.state
                                                      isCheckIn:s.is_checkin
                                                   checkInTimes:[s.checkin_times integerValue]
                                                lastCheckInDate:s.last_checkin_date];
@@ -121,7 +122,7 @@
                                                 AvailableTime:s.available_time
                                                      Latitude:s.latitude
                                                     Longitude:s.longitude
-                                                        State:s.state
+                                                        Status:s.state
                                                     isCheckIn:s.is_checkin
                                                  checkInTimes:[s.checkin_times integerValue]
                                               lastCheckInDate:s.last_checkin_date];
@@ -151,7 +152,7 @@
                                                      AvailableTime:s.available_time
                                                           Latitude:s.latitude
                                                          Longitude:s.longitude
-                                                             State:s.state
+                                                             Status:s.state
                                                          isCheckIn:s.is_checkin
                                                       checkInTimes:[s.checkin_times integerValue]
                                                    lastCheckInDate:s.last_checkin_date];
@@ -160,6 +161,62 @@
     }
     
     return goStations;
+}
+
+- (NSUInteger)getTotalCheckedInCount {
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"is_checkin==true"];
+    RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
+    return stations.count;
+}
+
+- (NSUInteger)getWorkingGoStationCount {
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"state==%d", GoStationStatusNormal];
+    RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
+    return stations.count;
+}
+
+- (NSUInteger)getClosedGoStationCount {
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"state==%d", GoStationStatusClosed];
+    RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
+    return stations.count;
+}
+
+- (NSUInteger)getConstructingGoStationCount {
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"state==%d OR state==%d", GoStationStatusConstructing, GoStationStatusComingSoon];
+    RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
+    return stations.count;
+}
+
+- (NSDate * _Nullable ) getFirstCheckinDate {
+    
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"is_checkin==true"];
+    RLMResults<GoStation *> *stations = [[self.persistencyManager queryGoStationWithWithPredicate:pred] sortedResultsUsingProperty:@"checkin_date" ascending:YES];
+    
+    return stations.count > 0 ? [stations firstObject].checkin_date : nil;
+}
+
+- (NSDate * _Nullable ) getLatestCheckinDate {
+    
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"is_checkin==true"];
+    RLMResults<GoStation *> *stations = [[self.persistencyManager queryGoStationWithWithPredicate:pred] sortedResultsUsingProperty:@"last_checkin_date" ascending:NO];
+    
+    return stations.count > 0 ? [stations firstObject].last_checkin_date : nil;
+}
+
+- (void)initUserDefaultsIfNeeded {
+    [self.persistencyManager initUserDefaultsWithDefaultMapType:MapTypeApple];
+}
+
+- (void)changeDefaultMapToApple {
+    [self.persistencyManager changeDefaultMapInUserDefaultsWithMapType:MapTypeApple];
+}
+
+- (void)changeDefaultMapToGoogle {
+    [self.persistencyManager changeDefaultMapInUserDefaultsWithMapType:MapTypeGoogle];
+}
+
+- (NSUInteger)currentDefaultMapApplication {
+    return [self.persistencyManager getCurrentDefaultMap];
 }
 
 #pragma mark internal functions

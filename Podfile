@@ -4,6 +4,6 @@
 # use_frameworks!
 
 target 'GoCheckin' do
-    pod 'Realm'
+    pod 'Realm', '~> 1.0'
 end
 
