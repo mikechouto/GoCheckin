@@ -36,8 +36,11 @@
     [super viewDidLoad];
     [self.bottomView setBackgroundColor:[UIColor blueGoCheckinColor]];
     
-    [self.mapView setShowsScale:NO];
-    [self.mapView setShowsCompass:NO];
+    // Added to check if device is below iOS9
+    if ([self.mapView respondsToSelector:@selector(setShowsScale:)]) {
+        [self.mapView setShowsScale:NO];
+        [self.mapView setShowsCompass:NO];
+    }
     
     [self stopAnimatingDetailInfoButton];
     
