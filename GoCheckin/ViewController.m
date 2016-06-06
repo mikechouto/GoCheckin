@@ -222,7 +222,7 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
     if (locations.count > 0) {
         
-        CLLocationDistance distanceThreshold = 3;
+        CLLocationDistance distanceThreshold = 500; //Meter
         if (!self.userLocation || [self.userLocation distanceFromLocation:[locations firstObject]] > distanceThreshold) {
             
             self.userLocation = [locations firstObject];
