@@ -39,7 +39,7 @@
     [self.mapView setShowsScale:NO];
     [self.mapView setShowsCompass:NO];
     
-    [self stopAndResetDetailInfoButtonTitle];
+    [self stopAnimatingDetailInfoButton];
     
     [self startRequestingUserLocation];
     
@@ -59,12 +59,17 @@
     [super viewWillAppear:animated];
 }
 
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self stopAnimatingDetailInfoButton];
+}
+
+#pragma mark - Private Functions
 - (void)appWillResignActive:(id)sender {
     [self stopRequestingUserLocation];
 }
@@ -73,34 +78,12 @@
     [self startRequestingUserLocation];
 }
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self stopAndResetDetailInfoButtonTitle];
-}
-
-- (void)startRequestingUserLocation {
-    if (!self.locationManager) {
-        self.locationManager = [[CLLocationManager alloc] init];
-        [self.locationManager setDelegate:self];
-        [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
-        [self.locationManager requestWhenInUseAuthorization];
-    }
-    [self.locationManager startUpdatingLocation];
-}
-
-- (void)stopRequestingUserLocation {
-    if (self.locationManager) {
-        [self.locationManager stopUpdatingLocation];
-        [self.locationManager setDelegate:nil];
-        self.locationManager = nil;
-    }
-
-}
-
-- (void)centerMapOnLocation:(CLLocation *)location Distance:(CLLocationDistance) regionRadius{
+- (void)prepareCustomNavigationBar {
     
-    MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius, regionRadius);
-    [_mapView setRegion:coordinateRegion animated:YES];
+    [self.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    self.navigationBar.shadowImage = [UIImage new];
+    self.navigationBar.translucent = YES;
+    [self.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blueGoCheckinColor], NSFontAttributeName:[UIFont fontWithName:@"Arial-BoldMT" size:21]}];
 }
 
 - (IBAction)refreshGoStationData:(id)sender {
@@ -118,7 +101,7 @@
     
     if (self.detailInfoUpdateTimer.isValid) {
         
-        [self stopAndResetDetailInfoButtonTitle];
+        [self stopAnimatingDetailInfoButton];
         
         self.detailInfoView = [[UserInfoDetailView alloc] init];
         [self.detailInfoView setCenter:CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2)];
@@ -137,8 +120,15 @@
             self.detailInfoView = nil;
         }
         
-        [self startDetailInfoButtonTimmer];
+        [self animateDetailInfoButton];
     }
+}
+
+#pragma mark - Deatil Info Button
+- (void)animateDetailInfoButton {
+    [self stopAnimatingDetailInfoButton];
+    self.detailInfoUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:2.5 target:self selector:@selector(updateDetailInfoButtonTitle) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:self.detailInfoUpdateTimer forMode:NSRunLoopCommonModes];
 }
 
 - (void)updateDetailInfoButtonTitle {
@@ -177,13 +167,7 @@
     } completion:nil];
 }
 
-- (void)startDetailInfoButtonTimmer {
-    [self stopAndResetDetailInfoButtonTitle];
-    self.detailInfoUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:2.5 target:self selector:@selector(updateDetailInfoButtonTitle) userInfo:nil repeats:YES];
-    [[NSRunLoop mainRunLoop] addTimer:self.detailInfoUpdateTimer forMode:NSRunLoopCommonModes];
-}
-
-- (void)stopAndResetDetailInfoButtonTitle {
+- (void)stopAnimatingDetailInfoButton {
     
     if (self.detailInfoUpdateTimer) {
         [self.detailInfoUpdateTimer invalidate];
@@ -195,13 +179,29 @@
     [self.detailInfoButton setTitleColor:[UIColor blueGoCheckinColor] forState:UIControlStateHighlighted];
 }
 
-- (void)prepareCustomNavigationBar {
-    
-    [self.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    self.navigationBar.shadowImage = [UIImage new];
-    self.navigationBar.translucent = YES;
-    [self.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blueGoCheckinColor], NSFontAttributeName:[UIFont fontWithName:@"Arial-BoldMT" size:21]}];
+#pragma mark - Map & Location Functions
+- (void)startRequestingUserLocation {
+    if (!self.locationManager) {
+        self.locationManager = [[CLLocationManager alloc] init];
+        [self.locationManager setDelegate:self];
+        [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+        [self.locationManager requestWhenInUseAuthorization];
+    }
+    [self.locationManager startUpdatingLocation];
+}
 
+- (void)stopRequestingUserLocation {
+    if (self.locationManager) {
+        [self.locationManager stopUpdatingLocation];
+        [self.locationManager setDelegate:nil];
+        self.locationManager = nil;
+    }
+}
+
+- (void)centerMapOnLocation:(CLLocation *)location Distance:(CLLocationDistance) regionRadius{
+    
+    MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius, regionRadius);
+    [_mapView setRegion:coordinateRegion animated:YES];
 }
 
 - (void)pinStationLocation:(id)sender {
@@ -214,7 +214,7 @@
     [self.mapView addAnnotations:self.GoStations];
     
     // 2. Begin to rotate detail
-    [self startDetailInfoButtonTimmer];
+    [self animateDetailInfoButton];
 }
 
 #pragma mark CLLocationManagerDelegate
