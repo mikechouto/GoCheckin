@@ -27,7 +27,13 @@
 @implementation UserInfoDetailView
 
 - (instancetype)init {
-    self = [[[NSBundle bundleForClass:[self class]] loadNibNamed:@"UserInfoDetailView" owner:self options:nil] lastObject];
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 9.0) {
+        self = [[[NSBundle bundleForClass:[self class]] loadNibNamed:@"UserInfoDetailView_iOS8" owner:self options:nil] lastObject];
+    } else {
+        self = [[[NSBundle bundleForClass:[self class]] loadNibNamed:@"UserInfoDetailView" owner:self options:nil] lastObject];
+    }
+    
     if (self) {
         [_topBar setTintColor:[UIColor whiteColor]];
         [_topBar setBarTintColor:[UIColor blueGoCheckinColor]];
