@@ -41,15 +41,13 @@
     
     [self stopAndResetDetailInfoButtonTitle];
     
-    self.locationManager = [[CLLocationManager alloc] init];
-    [self.locationManager setDelegate:self];
-    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
-    [self.locationManager requestWhenInUseAuthorization];
-    [self.locationManager requestLocation];
+    [self startRequestingUserLocation];
     
     CLLocation *initialLocation = [[CLLocation alloc] initWithLatitude:23.7 longitude:120.9];
     [self centerMapOnLocation:initialLocation Distance:550000];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     // Create the observe before calling update station.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pinStationLocation:) name:@"GoStationUpdateFinishNotification" object:nil];
     [[APIManager sharedInstance] updateGoStationIfNeeded];
@@ -61,14 +59,42 @@
     [super viewWillAppear:animated];
 }
 
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+- (void)appWillResignActive:(id)sender {
+    [self stopRequestingUserLocation];
+}
+
+- (void)appWillEnterForeground:(id)sender {
+    [self startRequestingUserLocation];
+}
+
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self stopAndResetDetailInfoButtonTitle];
+}
+
+- (void)startRequestingUserLocation {
+    if (!self.locationManager) {
+        self.locationManager = [[CLLocationManager alloc] init];
+        [self.locationManager setDelegate:self];
+        [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+        [self.locationManager requestWhenInUseAuthorization];
+    }
+    [self.locationManager startUpdatingLocation];
+}
+
+- (void)stopRequestingUserLocation {
+    if (self.locationManager) {
+        [self.locationManager stopUpdatingLocation];
+        [self.locationManager setDelegate:nil];
+        self.locationManager = nil;
+    }
+
 }
 
 - (void)centerMapOnLocation:(CLLocation *)location Distance:(CLLocationDistance) regionRadius{
@@ -82,6 +108,7 @@
 }
 
 - (IBAction)centerMapToUserLocation:(id)sender {
+    
     if (self.userLocation) {
         [self centerMapOnLocation:self.userLocation Distance:5000];
     }
@@ -194,9 +221,14 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
     if (locations.count > 0) {
-        self.userLocation = [locations firstObject];
-        [self centerMapOnLocation:self.userLocation Distance:5000];
         
+        CLLocationDistance distanceThreshold = 3;
+        if (!self.userLocation || [self.userLocation distanceFromLocation:[locations firstObject]] > distanceThreshold) {
+            
+            self.userLocation = [locations firstObject];
+            [self centerMapOnLocation:self.userLocation Distance:5000];
+        }
+
         if (!self.mapView.showsUserLocation) {
             [self.mapView setShowsUserLocation:YES];
         }
