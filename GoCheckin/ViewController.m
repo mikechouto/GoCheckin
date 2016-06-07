@@ -36,20 +36,21 @@
     [super viewDidLoad];
     [self.bottomView setBackgroundColor:[UIColor blueGoCheckinColor]];
     
-    [self.mapView setShowsScale:NO];
-    [self.mapView setShowsCompass:NO];
+    // Added to check if device is below iOS9
+    if ([self.mapView respondsToSelector:@selector(setShowsScale:)]) {
+        [self.mapView setShowsScale:NO];
+        [self.mapView setShowsCompass:NO];
+    }
     
-    [self stopAndResetDetailInfoButtonTitle];
+    [self stopAnimatingDetailInfoButton];
     
-    self.locationManager = [[CLLocationManager alloc] init];
-    [self.locationManager setDelegate:self];
-    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
-    [self.locationManager requestWhenInUseAuthorization];
-    [self.locationManager requestLocation];
+    [self startRequestingUserLocation];
     
     CLLocation *initialLocation = [[CLLocation alloc] initWithLatitude:23.7 longitude:120.9];
     [self centerMapOnLocation:initialLocation Distance:550000];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     // Create the observe before calling update station.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pinStationLocation:) name:@"GoStationUpdateFinishNotification" object:nil];
     [[APIManager sharedInstance] updateGoStationIfNeeded];
@@ -68,13 +69,24 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self stopAndResetDetailInfoButtonTitle];
+    [self stopAnimatingDetailInfoButton];
 }
 
-- (void)centerMapOnLocation:(CLLocation *)location Distance:(CLLocationDistance) regionRadius{
+#pragma mark - Private Functions
+- (void)appWillResignActive:(id)sender {
+    [self stopRequestingUserLocation];
+}
+
+- (void)appWillEnterForeground:(id)sender {
+    [self startRequestingUserLocation];
+}
+
+- (void)prepareCustomNavigationBar {
     
-    MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius, regionRadius);
-    [_mapView setRegion:coordinateRegion animated:YES];
+    [self.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    self.navigationBar.shadowImage = [UIImage new];
+    self.navigationBar.translucent = YES;
+    [self.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blueGoCheckinColor], NSFontAttributeName:[UIFont fontWithName:@"Arial-BoldMT" size:21]}];
 }
 
 - (IBAction)refreshGoStationData:(id)sender {
@@ -82,6 +94,7 @@
 }
 
 - (IBAction)centerMapToUserLocation:(id)sender {
+    
     if (self.userLocation) {
         [self centerMapOnLocation:self.userLocation Distance:5000];
     }
@@ -91,7 +104,7 @@
     
     if (self.detailInfoUpdateTimer.isValid) {
         
-        [self stopAndResetDetailInfoButtonTitle];
+        [self stopAnimatingDetailInfoButton];
         
         self.detailInfoView = [[UserInfoDetailView alloc] init];
         [self.detailInfoView setCenter:CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2)];
@@ -110,8 +123,15 @@
             self.detailInfoView = nil;
         }
         
-        [self startDetailInfoButtonTimmer];
+        [self animateDetailInfoButton];
     }
+}
+
+#pragma mark - Deatil Info Button
+- (void)animateDetailInfoButton {
+    [self stopAnimatingDetailInfoButton];
+    self.detailInfoUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:2.5 target:self selector:@selector(updateDetailInfoButtonTitle) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:self.detailInfoUpdateTimer forMode:NSRunLoopCommonModes];
 }
 
 - (void)updateDetailInfoButtonTitle {
@@ -150,13 +170,7 @@
     } completion:nil];
 }
 
-- (void)startDetailInfoButtonTimmer {
-    [self stopAndResetDetailInfoButtonTitle];
-    self.detailInfoUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:2.5 target:self selector:@selector(updateDetailInfoButtonTitle) userInfo:nil repeats:YES];
-    [[NSRunLoop mainRunLoop] addTimer:self.detailInfoUpdateTimer forMode:NSRunLoopCommonModes];
-}
-
-- (void)stopAndResetDetailInfoButtonTitle {
+- (void)stopAnimatingDetailInfoButton {
     
     if (self.detailInfoUpdateTimer) {
         [self.detailInfoUpdateTimer invalidate];
@@ -168,13 +182,29 @@
     [self.detailInfoButton setTitleColor:[UIColor blueGoCheckinColor] forState:UIControlStateHighlighted];
 }
 
-- (void)prepareCustomNavigationBar {
-    
-    [self.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    self.navigationBar.shadowImage = [UIImage new];
-    self.navigationBar.translucent = YES;
-    [self.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blueGoCheckinColor], NSFontAttributeName:[UIFont fontWithName:@"Arial-BoldMT" size:21]}];
+#pragma mark - Map & Location Functions
+- (void)startRequestingUserLocation {
+    if (!self.locationManager) {
+        self.locationManager = [[CLLocationManager alloc] init];
+        [self.locationManager setDelegate:self];
+        [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+        [self.locationManager requestWhenInUseAuthorization];
+    }
+    [self.locationManager startUpdatingLocation];
+}
 
+- (void)stopRequestingUserLocation {
+    if (self.locationManager) {
+        [self.locationManager stopUpdatingLocation];
+        [self.locationManager setDelegate:nil];
+        self.locationManager = nil;
+    }
+}
+
+- (void)centerMapOnLocation:(CLLocation *)location Distance:(CLLocationDistance) regionRadius{
+    
+    MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius, regionRadius);
+    [_mapView setRegion:coordinateRegion animated:YES];
 }
 
 - (void)pinStationLocation:(id)sender {
@@ -187,16 +217,21 @@
     [self.mapView addAnnotations:self.GoStations];
     
     // 2. Begin to rotate detail
-    [self startDetailInfoButtonTimmer];
+    [self animateDetailInfoButton];
 }
 
 #pragma mark CLLocationManagerDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
     if (locations.count > 0) {
-        self.userLocation = [locations firstObject];
-        [self centerMapOnLocation:self.userLocation Distance:5000];
         
+        CLLocationDistance distanceThreshold = 500; //Meter
+        if (!self.userLocation || [self.userLocation distanceFromLocation:[locations firstObject]] > distanceThreshold) {
+            
+            self.userLocation = [locations firstObject];
+            [self centerMapOnLocation:self.userLocation Distance:5000];
+        }
+
         if (!self.mapView.showsUserLocation) {
             [self.mapView setShowsUserLocation:YES];
         }
