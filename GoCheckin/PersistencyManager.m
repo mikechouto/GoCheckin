@@ -174,6 +174,8 @@ static NSString *const kDefaultMapApplication = @"defaultMap";
                                                                  }];
                 [realm commitWriteTransaction];
             }
+            
+            [self removeDeprecatedGoStation];
         }
         
     } else {
@@ -259,6 +261,24 @@ static NSString *const kDefaultMapApplication = @"defaultMap";
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     return [userDefaults integerForKey:kDefaultMapApplication];
+}
+
+#pragma mark - Private Functions
+- (void)removeDeprecatedGoStation {
+    
+    // Make depercated GoStation threshold to be 2 days.
+    long long depercatedThreshold = [[NSDate date] timeIntervalSince1970];
+    depercatedThreshold = depercatedThreshold - (60 * (60 * 48));
+
+    RLMResults<GoStation *> *stations = [GoStation objectsWhere:@"update_time <= %i && is_checkin ==  0 && state != 1", depercatedThreshold];
+    
+    if (stations.count > 0) {
+        RLMRealm *realm = [RLMRealm defaultRealm];
+        
+        [realm transactionWithBlock:^{
+            [realm deleteObjects:stations];
+        }];
+    }
 }
 
 @end
