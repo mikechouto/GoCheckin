@@ -1,4 +1,7 @@
 # GoCheckin
+[![Build Status](https://travis-ci.org/mikechouto/GoCheckin.svg)](https://travis-ci.org/mikechouto/GoCheckin/branches)
+[![codecov.io](https://codecov.io/github/mikechouto/GoCheckin/coverage.svg?branch=master)](https://codecov.io/github/mikechouto/GoCheckin?branch=master)
+[![License (GPL version 3)](https://img.shields.io/badge/license-GPLv3-blue.svg)](./LICENSE.md)
 
 GoCheckin is an iOS app for Gogoro users to check-in on visited GoStations.
 
