@@ -22,11 +22,14 @@
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIView * bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *detailInfoButton;
+
 @property (strong, nonnull) NSTimer *detailInfoUpdateTimer;
 @property (strong, nonatomic) UserInfoDetailView *detailInfoView;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLLocation *userLocation;
 @property (strong, nonatomic) NSArray *GoStations;
+
+@property (nonatomic, assign) BOOL hasCenteredToUserLocation;
 
 @end
 
@@ -203,8 +206,13 @@
 
 - (void)centerMapOnLocation:(CLLocation *)location Distance:(CLLocationDistance) regionRadius{
     
-    MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius, regionRadius);
-    [_mapView setRegion:coordinateRegion animated:YES];
+    if (!self.hasCenteredToUserLocation) {
+        
+        MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius, regionRadius);
+        [_mapView setRegion:coordinateRegion animated:YES];
+        
+        self.hasCenteredToUserLocation = YES;
+    }
 }
 
 - (void)pinStationLocation:(id)sender {
