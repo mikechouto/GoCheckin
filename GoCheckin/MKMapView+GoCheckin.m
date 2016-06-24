@@ -31,15 +31,15 @@ dispatch_source_t CreateGestureWatchDog(double interval, dispatch_block_t block)
 @interface MKMapView (GoCheckinPrivate)<UIGestureRecognizerDelegate>
 
 @property (nonatomic, assign) GCIMapViewTouchState zoomTouchState;
-@property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
-@property (nonatomic, strong) UILongPressGestureRecognizer *longPressGestureRecognizer;
+@property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
+@property (nonatomic, strong) UILongPressGestureRecognizer *longPressRecognizer;
 @property (nonatomic, strong) dispatch_source_t gestureWatchdog;
 
 @end
 
 NSString * const kZoomTouchState = @"kZoomTouchState";
-NSString * const kTapGestureRecognizer = @"kTapGestureRecognizer";
-NSString * const kLongPressGestureRecognizer = @"kLongPressGestureRecognizer";
+NSString * const kTapRecognizer = @"kTapRecognizer";
+NSString * const kLongPressRecognizer = @"kLongPressRecognizer";
 NSString * const kGestureWatchdog = @"kGestureWatchdog";
 
 @implementation MKMapView (GoCheckinPrivate)
@@ -48,12 +48,12 @@ NSString * const kGestureWatchdog = @"kGestureWatchdog";
     objc_setAssociatedObject(self, (__bridge const void*)(kGestureWatchdog), gestureWatchdog, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (void)setTapGestureRecognizer:(UITapGestureRecognizer *)tapGestureRecognizer {
-    objc_setAssociatedObject(self, (__bridge const void*)(kTapGestureRecognizer), tapGestureRecognizer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setTapRecognizer:(UITapGestureRecognizer *)tapRecognizer {
+    objc_setAssociatedObject(self, (__bridge const void*)(kTapRecognizer), tapRecognizer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (void)setLongPressGestureRecognizer:(UILongPressGestureRecognizer *)longPressGestureRecognizer {
-    objc_setAssociatedObject(self, (__bridge const void*)(kLongPressGestureRecognizer), longPressGestureRecognizer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setLongPressRecognizer:(UILongPressGestureRecognizer *)longPressRecognizer {
+    objc_setAssociatedObject(self, (__bridge const void*)(kLongPressRecognizer), longPressRecognizer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)setZoomTouchState:(GCIMapViewTouchState)zoomTouchState {
@@ -66,13 +66,13 @@ NSString * const kGestureWatchdog = @"kGestureWatchdog";
     return val;
 }
 
-- (UITapGestureRecognizer *)tapGestureRecognizer {
-    id val = objc_getAssociatedObject(self, (__bridge const void*)kTapGestureRecognizer);
+- (UITapGestureRecognizer *)tapRecognizer {
+    id val = objc_getAssociatedObject(self, (__bridge const void*)kTapRecognizer);
     return val;
 }
 
-- (UILongPressGestureRecognizer *)longPressGestureRecognizer {
-    id val = objc_getAssociatedObject(self, (__bridge const void*)kLongPressGestureRecognizer);
+- (UILongPressGestureRecognizer *)longPressRecognizer {
+    id val = objc_getAssociatedObject(self, (__bridge const void*)kLongPressRecognizer);
     return val;
 }
 
@@ -114,35 +114,35 @@ NSString * const kIsSingleHandControlEnable = @"kIsSingleHandControlEnable";
     self.isSingleHandControlEnable = isEnable;
     
     if (self.isSingleHandControlEnable) {
-        self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
-        self.tapGestureRecognizer.numberOfTapsRequired = 1;
-        self.tapGestureRecognizer.cancelsTouchesInView = NO; // Make sure to pass the touch even if the recognizer has already recongizerd the touch.
-        self.tapGestureRecognizer.delegate = self;
-        [self addGestureRecognizer:self.tapGestureRecognizer];
+        self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+        self.tapRecognizer.numberOfTapsRequired = 1;
+        self.tapRecognizer.cancelsTouchesInView = NO; // Make sure to pass the touch even if the recognizer has already recongizerd the touch.
+        self.tapRecognizer.delegate = self;
+        [self addGestureRecognizer:self.tapRecognizer];
         
-        self.longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
-        self.longPressGestureRecognizer.minimumPressDuration = 0.01;
-        self.longPressGestureRecognizer.cancelsTouchesInView = NO;
-        self.longPressGestureRecognizer.delegate = self;
+        self.longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+        self.longPressRecognizer.minimumPressDuration = 0.01;
+        self.longPressRecognizer.cancelsTouchesInView = NO;
+        self.longPressRecognizer.delegate = self;
         
     } else {
         
-        if (self.tapGestureRecognizer) {
-            [self removeGestureRecognizer:self.tapGestureRecognizer];
-            self.tapGestureRecognizer.delegate = nil;
-            self.tapGestureRecognizer = nil;
+        if (self.tapRecognizer) {
+            [self removeGestureRecognizer:self.tapRecognizer];
+            self.tapRecognizer.delegate = nil;
+            self.tapRecognizer = nil;
         }
         
-        if (self.longPressGestureRecognizer) {
-            [self removeGestureRecognizer:self.longPressGestureRecognizer];
-            self.longPressGestureRecognizer.delegate = nil;
-            self.longPressGestureRecognizer = nil;
+        if (self.longPressRecognizer) {
+            [self removeGestureRecognizer:self.longPressRecognizer];
+            self.longPressRecognizer.delegate = nil;
+            self.longPressRecognizer = nil;
         }
     }
 }
 
 - (void)resetGestureRecognizers {
-    [self removeGestureRecognizer:self.longPressGestureRecognizer];
+    [self removeGestureRecognizer:self.longPressRecognizer];
     [self setZoomTouchState:GCIMapViewTouchStateNormal];
 }
 
@@ -154,7 +154,7 @@ NSString * const kIsSingleHandControlEnable = @"kIsSingleHandControlEnable";
     
     UIGestureRecognizer *recognizer = sender;
     
-    if (recognizer == self.tapGestureRecognizer) {
+    if (recognizer == self.tapRecognizer) {
         
         double timeoutInterval = 0.200f;
         self.gestureWatchdog = CreateGestureWatchDog(timeoutInterval, ^{
@@ -162,10 +162,10 @@ NSString * const kIsSingleHandControlEnable = @"kIsSingleHandControlEnable";
             [self resetGestureRecognizers];
         });
         
-        [self addGestureRecognizer:self.longPressGestureRecognizer];
+        [self addGestureRecognizer:self.longPressRecognizer];
     }
     
-    if (recognizer == self.longPressGestureRecognizer) {
+    if (recognizer == self.longPressRecognizer) {
         
         switch (recognizer.state) {
             case UIGestureRecognizerStateBegan:

@@ -17,7 +17,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
-@property (strong, nonatomic) NSArray<MapOption *> *supportedMapApplication;
+@property (strong, nonatomic) NSArray<MapOption *> *supportedMaps;
 
 @end
 
@@ -28,7 +28,7 @@
     // Do any additional setup after loading the view.
     [self prepareNavigationBar];
     [self.versionLabel setText:[NSString stringWithFormat:NSLocalizedString(@"Version: %@", nil), [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]];
-    self.supportedMapApplication = @[[[MapOption alloc] initWithName:@"Apple Map" MapType:MapTypeApple],
+    self.supportedMaps = @[[[MapOption alloc] initWithName:@"Apple Map" MapType:MapTypeApple],
                            [[MapOption alloc] initWithName:@"Google Map" MapType:MapTypeGoogle]];
     
 }
@@ -93,7 +93,7 @@
     
     switch (section) {
         case 0:
-            rows = self.supportedMapApplication.count;
+            rows = self.supportedMaps.count;
             break;
         case 1:
             rows = 1;
@@ -121,7 +121,7 @@
             
             if ([cell isKindOfClass:[MapApplicationCell class]]) {
                 
-                [(MapApplicationCell *)cell setMapOption:[self.supportedMapApplication objectAtIndex:indexPath.row]];
+                [(MapApplicationCell *)cell setMapOption:[self.supportedMaps objectAtIndex:indexPath.row]];
             }
             break;
         case 1:
@@ -151,7 +151,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.section) {
         case 0:
-            [[self.supportedMapApplication objectAtIndex:indexPath.row] setToDefault];
+            [[self.supportedMaps objectAtIndex:indexPath.row] setToDefault];
             [tableView reloadData];
             [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
             break;

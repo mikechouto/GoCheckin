@@ -25,16 +25,16 @@
 @property (weak, nonatomic) IBOutlet UIView * bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *detailInfoButton;
 
-@property (strong, nonnull) NSTimer *detailInfoUpdateTimer;
+@property (strong, nonnull) NSTimer *detailInfoTimer;
 @property (strong, nonatomic) UserInfoDetailView *detailInfoView;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLLocation *userLocation;
 @property (strong, nonatomic) NSArray *GoStations;
 
-@property (nonatomic, assign) BOOL hasCenteredToUserLocation;
+@property (nonatomic, assign) BOOL hasCentered;
 
-@property (nonatomic, strong) CAKeyframeAnimation *bounceAnimationAdd;
-@property (nonatomic, strong) CAKeyframeAnimation *bounceAnimationSelect;
+@property (nonatomic, strong) CAKeyframeAnimation *animationAdd;
+@property (nonatomic, strong) CAKeyframeAnimation *animationSelect;
 
 @end
 
@@ -112,7 +112,7 @@
 
 - (IBAction)showHideDetailInfoView:(id)sender {
     
-    if (self.detailInfoUpdateTimer.isValid) {
+    if (self.detailInfoTimer.isValid) {
         
         [self stopAnimatingDetailInfoButton];
         
@@ -120,8 +120,8 @@
         [self.detailInfoView setCenter:CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2)];
         [self.view addSubview:self.detailInfoView];
         
-        // Use getter to get bounceAnimationAdd due to override getter at end.
-        [self.detailInfoView.layer addAnimation:self.bounceAnimationAdd forKey:@"bounce"];
+        // Use getter to get animationAdd due to override getter at end.
+        [self.detailInfoView.layer addAnimation:self.animationAdd forKey:@"bounce"];
         
     } else {
         
@@ -137,8 +137,8 @@
 #pragma mark - Deatil Info Button
 - (void)animateDetailInfoButton {
     [self stopAnimatingDetailInfoButton];
-    self.detailInfoUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:2.5 target:self selector:@selector(updateDetailInfoButtonTitle) userInfo:nil repeats:YES];
-    [[NSRunLoop mainRunLoop] addTimer:self.detailInfoUpdateTimer forMode:NSRunLoopCommonModes];
+    self.detailInfoTimer = [NSTimer scheduledTimerWithTimeInterval:2.5 target:self selector:@selector(updateDetailInfoButtonTitle) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:self.detailInfoTimer forMode:NSRunLoopCommonModes];
 }
 
 - (void)updateDetailInfoButtonTitle {
@@ -179,8 +179,8 @@
 
 - (void)stopAnimatingDetailInfoButton {
     
-    if (self.detailInfoUpdateTimer) {
-        [self.detailInfoUpdateTimer invalidate];
+    if (self.detailInfoTimer) {
+        [self.detailInfoTimer invalidate];
     }
     
     [self.detailInfoButton setTitle:NSLocalizedString(@"More", nil) forState:UIControlStateNormal];
@@ -210,12 +210,12 @@
 
 - (void)centerMapOnLocation:(CLLocation *)location Distance:(CLLocationDistance) regionRadius{
     
-    if (!self.hasCenteredToUserLocation) {
+    if (!self.hasCentered) {
         
         MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius, regionRadius);
         [_mapView setRegion:coordinateRegion animated:YES];
         
-        self.hasCenteredToUserLocation = YES;
+        self.hasCentered = YES;
     }
 }
 
@@ -380,13 +380,13 @@
         [UIView animateWithDuration:0.1 animations:^{
             annView.alpha = 1.0;
         }];
-        [annView.layer addAnimation:self.bounceAnimationAdd forKey:@"bounce"];
+        [annView.layer addAnimation:self.animationAdd forKey:@"bounce"];
     }
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     
-    [view.layer addAnimation:self.bounceAnimationSelect forKey:@"bounce"];
+    [view.layer addAnimation:self.animationSelect forKey:@"bounce"];
     // Center the annotation so that the detailView will not be covered by the title text.
     CGPoint annotationCenter=CGPointMake(view.frame.origin.x + (view.frame.size.width/2),
                                          view.frame.origin.y - (view.frame.size.height/2) - 40);
@@ -416,27 +416,27 @@
     }
 }
 
-- (CAKeyframeAnimation *)bounceAnimationAdd {
+- (CAKeyframeAnimation *)animationAdd {
     
     // Override bounceAnimation setter
-    if (!_bounceAnimationAdd) {
-        _bounceAnimationAdd = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-        _bounceAnimationAdd.values = @[@0.01f, @1.1f, @0.8f, @1.0f];
-        _bounceAnimationAdd.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
-        _bounceAnimationAdd.duration = 0.5;
+    if (!_animationAdd) {
+        _animationAdd = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+        _animationAdd.values = @[@0.01f, @1.1f, @0.8f, @1.0f];
+        _animationAdd.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
+        _animationAdd.duration = 0.5;
     }
-    return _bounceAnimationAdd;
+    return _animationAdd;
 }
 
-- (CAKeyframeAnimation *)bounceAnimationSelect {
-    // Override bounceAnimationSelect setter
-    if (!_bounceAnimationSelect) {
-        _bounceAnimationSelect = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-        _bounceAnimationSelect.values = @[@0.8f, @1.1f, @0.8f, @1.0f];
-        _bounceAnimationSelect.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
-        _bounceAnimationSelect.duration = 0.5;
+- (CAKeyframeAnimation *)animationSelect {
+    // Override animationSelect setter
+    if (!_animationSelect) {
+        _animationSelect = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+        _animationSelect.values = @[@0.8f, @1.1f, @0.8f, @1.0f];
+        _animationSelect.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
+        _animationSelect.duration = 0.5;
     }
-    return _bounceAnimationSelect;
+    return _animationSelect;
     
 }
 
