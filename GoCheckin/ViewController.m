@@ -8,13 +8,15 @@
 
 #import <MapKit/MapKit.h>
 #import "ViewController.h"
-#import "UIColor+GoCheckin.h"
+#import "MKMapView+GoCheckin.h"
 #import "APIManager.h"
+
 #import "SVPulsingAnnotationView.h"
 #import "GoStationDetailView.h"
 #import "UserInfoDetailView.h"
 #import "MapOption.h" // Uses MapType so must import
 
+#import "UIColor+GoCheckin.h"
 
 @interface ViewController () <MKMapViewDelegate, CLLocationManagerDelegate, GoStationDetailViewDelegate>
 
@@ -44,6 +46,8 @@
         [self.mapView setShowsScale:NO];
         [self.mapView setShowsCompass:NO];
     }
+    
+    [self.mapView setSingleHandControlEnable:YES];
     
     [self stopAnimatingDetailInfoButton];
     
