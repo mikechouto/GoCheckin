@@ -8,13 +8,15 @@
 
 #import <MapKit/MapKit.h>
 #import "ViewController.h"
-#import "UIColor+GoCheckin.h"
+#import "MKMapView+GoCheckin.h"
 #import "APIManager.h"
+
 #import "SVPulsingAnnotationView.h"
 #import "GoStationDetailView.h"
 #import "UserInfoDetailView.h"
 #import "MapOption.h" // Uses MapType so must import
 
+#import "UIColor+GoCheckin.h"
 
 @interface ViewController () <MKMapViewDelegate, CLLocationManagerDelegate, GoStationDetailViewDelegate>
 
@@ -31,6 +33,9 @@
 
 @property (nonatomic, assign) BOOL hasCenteredToUserLocation;
 
+@property (nonatomic, strong) CAKeyframeAnimation *bounceAnimationAdd;
+@property (nonatomic, strong) CAKeyframeAnimation *bounceAnimationSelect;
+
 @end
 
 @implementation ViewController
@@ -44,6 +49,8 @@
         [self.mapView setShowsScale:NO];
         [self.mapView setShowsCompass:NO];
     }
+    
+    [self.mapView setSingleHandControlEnable:YES];
     
     [self stopAnimatingDetailInfoButton];
     
@@ -113,11 +120,8 @@
         [self.detailInfoView setCenter:CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2)];
         [self.view addSubview:self.detailInfoView];
         
-        CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-        bounceAnimation.values = @[@0.01f, @1.1f, @0.8f, @1.0f];
-        bounceAnimation.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
-        bounceAnimation.duration = 0.5;
-        [self.detailInfoView.layer addAnimation:bounceAnimation forKey:@"bounce"];
+        // Use getter to get bounceAnimationAdd due to override getter at end.
+        [self.detailInfoView.layer addAnimation:self.bounceAnimationAdd forKey:@"bounce"];
         
     } else {
         
@@ -354,15 +358,15 @@
             
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
                                                           reuseIdentifier:AnnotationIdentifier];
+            annotationView.detailCalloutAccessoryView = nil;
+            GoStationDetailView *detailView = [[GoStationDetailView alloc] init];
+            annotationView.detailCalloutAccessoryView = detailView;
+            
+            annotationView.canShowCallout = YES;
+            annotationView.centerOffset = CGPointMake(0, -25.0f);
         }
         
         annotationView.image = [self imageForAnnotation:annotation];
-        
-        annotationView.detailCalloutAccessoryView = nil;
-        GoStationDetailView *detailView = [[GoStationDetailView alloc] init];
-        annotationView.detailCalloutAccessoryView = detailView;
-        annotationView.canShowCallout = YES;
-        annotationView.centerOffset = CGPointMake(0, -25.0f);
     }
     
     return annotationView;
@@ -373,29 +377,21 @@
     for (MKAnnotationView *annView in annotationViews)
     {
         annView.alpha = 0;
-        [UIView animateWithDuration:0.1 animations:^{annView.alpha = 1.0;}];
-        
-        CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-        bounceAnimation.values = @[@0.01f, @1.1f, @0.8f, @1.0f];
-        bounceAnimation.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
-        bounceAnimation.duration = 0.5;
-        [annView.layer addAnimation:bounceAnimation forKey:@"bounce"];
+        [UIView animateWithDuration:0.1 animations:^{
+            annView.alpha = 1.0;
+        }];
+        [annView.layer addAnimation:self.bounceAnimationAdd forKey:@"bounce"];
     }
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     
-    CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-    bounceAnimation.values = @[@0.8f, @1.1f, @0.8f, @1.0f];
-    bounceAnimation.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
-    bounceAnimation.duration = 0.5;
-    [view.layer addAnimation:bounceAnimation forKey:@"bounce"];
-    
+    [view.layer addAnimation:self.bounceAnimationSelect forKey:@"bounce"];
     // Center the annotation so that the detailView will not be covered by the title text.
     CGPoint annotationCenter=CGPointMake(view.frame.origin.x + (view.frame.size.width/2),
                                          view.frame.origin.y - (view.frame.size.height/2) - 40);
     
-    CLLocationCoordinate2D newCenter=[mapView convertPoint:annotationCenter toCoordinateFromView:view.superview];
+    CLLocationCoordinate2D newCenter = [mapView convertPoint:annotationCenter toCoordinateFromView:view.superview];
     [mapView setCenterCoordinate:newCenter animated:YES];
     
     if ([view.detailCalloutAccessoryView isKindOfClass:[GoStationDetailView class]]) {
@@ -418,6 +414,30 @@
     if (self.detailInfoView) {
         [self showHideDetailInfoView:nil];
     }
+}
+
+- (CAKeyframeAnimation *)bounceAnimationAdd {
+    
+    // Override bounceAnimation setter
+    if (!_bounceAnimationAdd) {
+        _bounceAnimationAdd = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+        _bounceAnimationAdd.values = @[@0.01f, @1.1f, @0.8f, @1.0f];
+        _bounceAnimationAdd.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
+        _bounceAnimationAdd.duration = 0.5;
+    }
+    return _bounceAnimationAdd;
+}
+
+- (CAKeyframeAnimation *)bounceAnimationSelect {
+    // Override bounceAnimationSelect setter
+    if (!_bounceAnimationSelect) {
+        _bounceAnimationSelect = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+        _bounceAnimationSelect.values = @[@0.8f, @1.1f, @0.8f, @1.0f];
+        _bounceAnimationSelect.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
+        _bounceAnimationSelect.duration = 0.5;
+    }
+    return _bounceAnimationSelect;
+    
 }
 
 @end
