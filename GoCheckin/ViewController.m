@@ -33,6 +33,8 @@
 
 @property (nonatomic, assign) BOOL hasCenteredToUserLocation;
 
+@property (nonatomic, strong) CAKeyframeAnimation *bounceAnimation;
+
 @end
 
 @implementation ViewController
@@ -117,11 +119,11 @@
         [self.detailInfoView setCenter:CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2)];
         [self.view addSubview:self.detailInfoView];
         
-        CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-        bounceAnimation.values = @[@0.01f, @1.1f, @0.8f, @1.0f];
-        bounceAnimation.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
-        bounceAnimation.duration = 0.5;
-        [self.detailInfoView.layer addAnimation:bounceAnimation forKey:@"bounce"];
+//        CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+//        bounceAnimation.values = @[@0.01f, @1.1f, @0.8f, @1.0f];
+//        bounceAnimation.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
+//        bounceAnimation.duration = 0.5;
+        [self.detailInfoView.layer addAnimation:self.bounceAnimation forKey:@"bounce"];
         
     } else {
         
@@ -358,15 +360,15 @@
             
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
                                                           reuseIdentifier:AnnotationIdentifier];
+            annotationView.detailCalloutAccessoryView = nil;
+            GoStationDetailView *detailView = [[GoStationDetailView alloc] init];
+            annotationView.detailCalloutAccessoryView = detailView;
+            
+            annotationView.canShowCallout = YES;
+            annotationView.centerOffset = CGPointMake(0, -25.0f);
         }
         
         annotationView.image = [self imageForAnnotation:annotation];
-        
-        annotationView.detailCalloutAccessoryView = nil;
-        GoStationDetailView *detailView = [[GoStationDetailView alloc] init];
-        annotationView.detailCalloutAccessoryView = detailView;
-        annotationView.canShowCallout = YES;
-        annotationView.centerOffset = CGPointMake(0, -25.0f);
     }
     
     return annotationView;
@@ -377,13 +379,10 @@
     for (MKAnnotationView *annView in annotationViews)
     {
         annView.alpha = 0;
-        [UIView animateWithDuration:0.1 animations:^{annView.alpha = 1.0;}];
-        
-        CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-        bounceAnimation.values = @[@0.01f, @1.1f, @0.8f, @1.0f];
-        bounceAnimation.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
-        bounceAnimation.duration = 0.5;
-        [annView.layer addAnimation:bounceAnimation forKey:@"bounce"];
+        [UIView animateWithDuration:0.1 animations:^{
+            annView.alpha = 1.0;
+        }];
+        [annView.layer addAnimation:self.bounceAnimation forKey:@"bounce"];
     }
 }
 
@@ -399,7 +398,7 @@
     CGPoint annotationCenter=CGPointMake(view.frame.origin.x + (view.frame.size.width/2),
                                          view.frame.origin.y - (view.frame.size.height/2) - 40);
     
-    CLLocationCoordinate2D newCenter=[mapView convertPoint:annotationCenter toCoordinateFromView:view.superview];
+    CLLocationCoordinate2D newCenter = [mapView convertPoint:annotationCenter toCoordinateFromView:view.superview];
     [mapView setCenterCoordinate:newCenter animated:YES];
     
     if ([view.detailCalloutAccessoryView isKindOfClass:[GoStationDetailView class]]) {
@@ -422,6 +421,16 @@
     if (self.detailInfoView) {
         [self showHideDetailInfoView:nil];
     }
+}
+
+- (CAKeyframeAnimation *)bounceAnimation {
+    if (!_bounceAnimation) {
+        _bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+        _bounceAnimation.values = @[@0.01f, @1.1f, @0.8f, @1.0f];
+        _bounceAnimation.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
+        _bounceAnimation.duration = 0.5;
+    }
+    return _bounceAnimation;
 }
 
 @end

@@ -13,6 +13,7 @@
 		2A0722C31CE42BF9001F0570 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A0722C51CE42BF9001F0570 /* Localizable.strings */; };
 		2A0F6FB11CD124810095D171 /* UIColor+GoCheckin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0F6FB01CD124810095D171 /* UIColor+GoCheckin.m */; };
 		2A0F6FB41CD1A4570095D171 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0F6FB31CD1A4570095D171 /* SettingsViewController.m */; };
+		2A10CBFB1D1CDDB500FB84F3 /* MKMapView+GoCheckin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A10CBFA1D1CDDB500FB84F3 /* MKMapView+GoCheckin.m */; };
 		2A21D29F1CB63BE000F569D5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D29E1CB63BE000F569D5 /* main.m */; };
 		2A21D2A21CB63BE000F569D5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D2A11CB63BE000F569D5 /* AppDelegate.m */; };
 		2A21D2A51CB63BE000F569D5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D2A41CB63BE000F569D5 /* ViewController.m */; };
@@ -50,6 +51,8 @@
 		2A0F6FB01CD124810095D171 /* UIColor+GoCheckin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+GoCheckin.m"; sourceTree = "<group>"; };
 		2A0F6FB21CD1A4570095D171 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		2A0F6FB31CD1A4570095D171 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		2A10CBF91D1CDDB500FB84F3 /* MKMapView+GoCheckin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+GoCheckin.h"; sourceTree = "<group>"; };
+		2A10CBFA1D1CDDB500FB84F3 /* MKMapView+GoCheckin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+GoCheckin.m"; sourceTree = "<group>"; };
 		2A21D29A1CB63BE000F569D5 /* GoCheckin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoCheckin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A21D29E1CB63BE000F569D5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2A21D2A01CB63BE000F569D5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -204,6 +207,8 @@
 		2A21D30D1CCA05E300F569D5 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				2A10CBF91D1CDDB500FB84F3 /* MKMapView+GoCheckin.h */,
+				2A10CBFA1D1CDDB500FB84F3 /* MKMapView+GoCheckin.m */,
 				2A21D30E1CCA05EB00F569D5 /* SVPulsingAnnotationView.h */,
 				2A21D30F1CCA05EB00F569D5 /* SVPulsingAnnotationView.m */,
 			);
@@ -376,6 +381,7 @@
 			files = (
 				2A21D2A51CB63BE000F569D5 /* ViewController.m in Sources */,
 				2A21D2A21CB63BE000F569D5 /* AppDelegate.m in Sources */,
+				2A10CBFB1D1CDDB500FB84F3 /* MKMapView+GoCheckin.m in Sources */,
 				2A21D3061CC6380400F569D5 /* NSJSONSerialization+ParseString.m in Sources */,
 				2A21D2C01CBB59AF00F569D5 /* APIManager.m in Sources */,
 				2A21D2B61CB63BF700F569D5 /* GoStationAnnotation.m in Sources */,

@@ -189,12 +189,11 @@
         }
         
         if (annotation.isCheckIn && annotation.checkInTimes > 0) {
+            [self.removeBtn setHidden:NO];
             [self.removeBtn setEnabled:YES];
         } else {
-            [self.removeBtn removeFromSuperview];
+            [self.removeBtn setHidden:YES];
         }
-        
-        
     }
     
 }
