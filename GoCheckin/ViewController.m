@@ -33,7 +33,8 @@
 
 @property (nonatomic, assign) BOOL hasCenteredToUserLocation;
 
-@property (nonatomic, strong) CAKeyframeAnimation *bounceAnimation;
+@property (nonatomic, strong) CAKeyframeAnimation *bounceAnimationAdd;
+@property (nonatomic, strong) CAKeyframeAnimation *bounceAnimationSelect;
 
 @end
 
@@ -119,11 +120,8 @@
         [self.detailInfoView setCenter:CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2)];
         [self.view addSubview:self.detailInfoView];
         
-//        CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-//        bounceAnimation.values = @[@0.01f, @1.1f, @0.8f, @1.0f];
-//        bounceAnimation.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
-//        bounceAnimation.duration = 0.5;
-        [self.detailInfoView.layer addAnimation:self.bounceAnimation forKey:@"bounce"];
+        // Use getter to get bounceAnimationAdd due to override getter at end.
+        [self.detailInfoView.layer addAnimation:self.bounceAnimationAdd forKey:@"bounce"];
         
     } else {
         
@@ -382,18 +380,13 @@
         [UIView animateWithDuration:0.1 animations:^{
             annView.alpha = 1.0;
         }];
-        [annView.layer addAnimation:self.bounceAnimation forKey:@"bounce"];
+        [annView.layer addAnimation:self.bounceAnimationAdd forKey:@"bounce"];
     }
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     
-    CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-    bounceAnimation.values = @[@0.8f, @1.1f, @0.8f, @1.0f];
-    bounceAnimation.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
-    bounceAnimation.duration = 0.5;
-    [view.layer addAnimation:bounceAnimation forKey:@"bounce"];
-    
+    [view.layer addAnimation:self.bounceAnimationSelect forKey:@"bounce"];
     // Center the annotation so that the detailView will not be covered by the title text.
     CGPoint annotationCenter=CGPointMake(view.frame.origin.x + (view.frame.size.width/2),
                                          view.frame.origin.y - (view.frame.size.height/2) - 40);
@@ -423,14 +416,28 @@
     }
 }
 
-- (CAKeyframeAnimation *)bounceAnimation {
-    if (!_bounceAnimation) {
-        _bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-        _bounceAnimation.values = @[@0.01f, @1.1f, @0.8f, @1.0f];
-        _bounceAnimation.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
-        _bounceAnimation.duration = 0.5;
+- (CAKeyframeAnimation *)bounceAnimationAdd {
+    
+    // Override bounceAnimation setter
+    if (!_bounceAnimationAdd) {
+        _bounceAnimationAdd = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+        _bounceAnimationAdd.values = @[@0.01f, @1.1f, @0.8f, @1.0f];
+        _bounceAnimationAdd.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
+        _bounceAnimationAdd.duration = 0.5;
     }
-    return _bounceAnimation;
+    return _bounceAnimationAdd;
+}
+
+- (CAKeyframeAnimation *)bounceAnimationSelect {
+    // Override bounceAnimationSelect setter
+    if (!_bounceAnimationSelect) {
+        _bounceAnimationSelect = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+        _bounceAnimationSelect.values = @[@0.8f, @1.1f, @0.8f, @1.0f];
+        _bounceAnimationSelect.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
+        _bounceAnimationSelect.duration = 0.5;
+    }
+    return _bounceAnimationSelect;
+    
 }
 
 @end
