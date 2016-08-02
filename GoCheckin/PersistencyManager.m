@@ -175,7 +175,7 @@ static NSString *const kDefaultMapApplication = @"defaultMap";
                 [realm commitWriteTransaction];
             }
             
-            [self removeDeprecatedGoStation];
+//            [self removeDeprecatedGoStation];
         }
         
     } else {
