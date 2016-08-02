@@ -106,6 +106,7 @@
 - (IBAction)centerMapToUserLocation:(id)sender {
     
     if (self.userLocation) {
+        self.hasCenteredToUserLocation = NO;
         [self centerMapOnLocation:self.userLocation Distance:5000];
     }
 }
