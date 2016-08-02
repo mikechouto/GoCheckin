@@ -315,7 +315,7 @@
     
     if (defaultType == MapTypeGoogle) {
         // google map
-        NSString* url = [NSString stringWithFormat:@"http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f",self.userLocation.coordinate.latitude, self.userLocation.coordinate.longitude, annotation.latitude, annotation.longitude];
+        NSString* url = [NSString stringWithFormat:@"comgooglemaps://?saddr=%f,%f&daddr=%f,%f",self.userLocation.coordinate.latitude, self.userLocation.coordinate.longitude, annotation.latitude, annotation.longitude];
         [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
     } else {
         // apple map
