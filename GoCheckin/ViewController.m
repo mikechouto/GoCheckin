@@ -277,7 +277,7 @@
                 }
                 break;
             case GoStationStatusConstructing:
-            case GoStationStatusComingSoon:
+            case GoStationStatusPreparing:
             case GoStationStatusUnknown:
                 pinImage = [UIImage imageNamed:@"pin_station_constructing"];
                 break;

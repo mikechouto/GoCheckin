@@ -46,9 +46,9 @@ static NSString *const kDefaultMapApplication = @"defaultMap";
         if (stationDicts.count > 0) {
             // Create realm pointing to default file which was set in AppDelegate.
             RLMRealm *realm = [RLMRealm defaultRealm];
+            long long update_time = [[NSDate date] timeIntervalSince1970];
             
             for (NSDictionary *stationDict in stationDicts) {
-                
                 
                 NSString *uuid = [stationDict objectForKey:kResponseKeyUUID];
                 NSString *available_time = [stationDict objectForKey:kResponseKeyAvailableTime];
@@ -152,8 +152,6 @@ static NSString *const kDefaultMapApplication = @"defaultMap";
                     state = [[stationDict objectForKey:kResponseKeyState] intValue];
                 }
                 
-                long long update_time = [[NSDate date] timeIntervalSince1970];
-                
                 // Create or update your object
                 [realm beginWriteTransaction];
                 [GoStation createOrUpdateInDefaultRealmWithValue:@{@"uuid": uuid,
@@ -175,7 +173,7 @@ static NSString *const kDefaultMapApplication = @"defaultMap";
                 [realm commitWriteTransaction];
             }
             
-//            [self removeDeprecatedGoStation];
+            [self checkStationState];
         }
         
     } else {
@@ -264,13 +262,49 @@ static NSString *const kDefaultMapApplication = @"defaultMap";
 }
 
 #pragma mark - Private Functions
-- (void)removeDeprecatedGoStation {
-    
-    // Make depercated GoStation threshold to be 2 days.
-    long long depercatedThreshold = [[NSDate date] timeIntervalSince1970];
-    depercatedThreshold = depercatedThreshold - (60 * (60 * 48));
+- (void)checkStationState {
+    [self updateWorkingStationState];
+    [self updateDeprecatedStationState];
+    [self removeDeprecatedConstructingStation];
+}
 
-    RLMResults<GoStation *> *stations = [GoStation objectsWhere:@"update_time <= %i && is_checkin ==  0 && state != 1", depercatedThreshold];
+- (void)updateWorkingStationState {
+    RLMResults<GoStation *> *stations = [GoStation objectsWhere:@"state == 1 && online_time == null"];
+    
+    if (stations.count > 0) {
+        RLMRealm *realm = [RLMRealm defaultRealm];
+        [realm transactionWithBlock:^{
+            for (GoStation *station in stations) {
+                station.online_time = @(round([[NSDate date] timeIntervalSince1970]));
+            }
+        }];
+    }
+}
+
+- (void)updateDeprecatedStationState {
+    // Make depercated GoStation threshold to be 5 days.
+    long long depercatedThreshold = [[NSDate date] timeIntervalSince1970];
+    depercatedThreshold = depercatedThreshold - (60 * (60 * 24) * 5);
+    
+    RLMResults<GoStation *> *stations = [GoStation objectsWhere:@"online_time > 0 && offline_time == 0 && update_time <= %i", depercatedThreshold];
+    if (stations.count > 0) {
+        RLMRealm *realm = [RLMRealm defaultRealm];
+        [realm transactionWithBlock:^{
+            for (GoStation *station in stations) {
+                station.offline_time = @(station.update_time);
+                station.state = 997; // GoStationStatusDeprecated
+            }
+        }];
+    }
+}
+
+- (void)removeDeprecatedConstructingStation {
+    
+    // Make depercated GoStation threshold to be 5 days.
+    long long depercatedThreshold = [[NSDate date] timeIntervalSince1970];
+    depercatedThreshold = depercatedThreshold - (60 * (60 * 24) * 5);
+
+    RLMResults<GoStation *> *stations = [GoStation objectsWhere:@"state != 1 && online_time == 0 && update_time <= %i", depercatedThreshold];
     
     if (stations.count > 0) {
         RLMRealm *realm = [RLMRealm defaultRealm];

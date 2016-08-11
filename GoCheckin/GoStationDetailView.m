@@ -77,7 +77,7 @@
                 [self.availableStatusImageView setImage:[UIImage imageNamed:@"icon_status_closed"]];
                 break;
             case GoStationStatusConstructing:
-            case GoStationStatusComingSoon:
+            case GoStationStatusPreparing:
                 [self.availableStatusImageView setImage:[UIImage imageNamed:@"icon_status_unavailable"]];
                 break;
             default:

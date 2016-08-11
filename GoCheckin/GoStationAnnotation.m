@@ -42,7 +42,10 @@
                 _status = GoStationStatusConstructing;
                 break;
             case 100:
-                _status = GoStationStatusComingSoon;
+                _status = GoStationStatusPreparing;
+                break;
+            case -99:
+                _status = GoStationStatusDeprecated;
                 break;
             default:
                 _status = GoStationStatusUnknown;
