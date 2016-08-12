@@ -31,7 +31,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)initUserDefaultsIfNeeded;
 - (void)changeDefaultMapToGoogle;
 - (void)changeDefaultMapToApple;
-- (NSUInteger)currentDefaultMapApplication;
+- (NSUInteger)currentMapApplication;
+- (void)changeShowDeprecatedStation:(BOOL)isShow;
+- (BOOL)shouldShowDeprecatedStation;
+- (void)changeUpdateInterval:(NSInteger)interval;
+- (NSInteger)currentUpdateInterval;
 
 NS_ASSUME_NONNULL_END
 

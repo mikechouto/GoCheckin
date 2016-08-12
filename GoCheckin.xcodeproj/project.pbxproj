@@ -31,6 +31,9 @@
 		2A21D3121CCA05F900F569D5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A21D3111CCA05F900F569D5 /* QuartzCore.framework */; };
 		2A21D3161CCA18E800F569D5 /* GoStationDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D3151CCA18E800F569D5 /* GoStationDetailView.m */; };
 		2AA303411CF833DB009B530D /* UserInfoDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA303401CF833DB009B530D /* UserInfoDetailView.m */; };
+		2ABB72D61D5C7E2A001E0AE0 /* SwitchableTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB72D51D5C7E2A001E0AE0 /* SwitchableTableViewCell.m */; };
+		2ABB72DC1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB72DB1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m */; };
+		2ABB72DF1D5D5DC1001E0AE0 /* UpdateIntervalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB72DD1D5D5DC1001E0AE0 /* UpdateIntervalViewController.m */; };
 		2AFDA2171D02BE49007469D5 /* UserInfoDetailView_iOS8.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDA2151D02BE49007469D5 /* UserInfoDetailView_iOS8.xib */; };
 		2AFDA21F1D054EE4007469D5 /* GoStationDetailView_iOS8.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDA21D1D054EE4007469D5 /* GoStationDetailView_iOS8.xib */; };
 		2AFDA2221D055799007469D5 /* GoStationDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDA2201D055799007469D5 /* GoStationDetailView.xib */; };
@@ -83,6 +86,12 @@
 		2A21D3151CCA18E800F569D5 /* GoStationDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoStationDetailView.m; sourceTree = "<group>"; };
 		2AA3033F1CF833DB009B530D /* UserInfoDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoDetailView.h; sourceTree = "<group>"; };
 		2AA303401CF833DB009B530D /* UserInfoDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoDetailView.m; sourceTree = "<group>"; };
+		2ABB72D41D5C7E2A001E0AE0 /* SwitchableTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchableTableViewCell.h; sourceTree = "<group>"; };
+		2ABB72D51D5C7E2A001E0AE0 /* SwitchableTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchableTableViewCell.m; sourceTree = "<group>"; };
+		2ABB72DA1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateIntervalTableViewCell.h; sourceTree = "<group>"; };
+		2ABB72DB1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateIntervalTableViewCell.m; sourceTree = "<group>"; };
+		2ABB72DD1D5D5DC1001E0AE0 /* UpdateIntervalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateIntervalViewController.m; sourceTree = "<group>"; };
+		2ABB72DE1D5D5DC1001E0AE0 /* UpdateIntervalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateIntervalViewController.h; sourceTree = "<group>"; };
 		2AFDA2161D02BE49007469D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/UserInfoDetailView_iOS8.xib; sourceTree = "<group>"; };
 		2AFDA21C1D02C34D007469D5 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hant"; path = "zh-Hant.lproj/UserInfoDetailView_iOS8.xib"; sourceTree = "<group>"; };
 		2AFDA21E1D054EE4007469D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/GoStationDetailView_iOS8.xib; sourceTree = "<group>"; };
@@ -142,6 +151,8 @@
 				2A21D2A41CB63BE000F569D5 /* ViewController.m */,
 				2A0F6FB21CD1A4570095D171 /* SettingsViewController.h */,
 				2A0F6FB31CD1A4570095D171 /* SettingsViewController.m */,
+				2ABB72DE1D5D5DC1001E0AE0 /* UpdateIntervalViewController.h */,
+				2ABB72DD1D5D5DC1001E0AE0 /* UpdateIntervalViewController.m */,
 				2A21D2A61CB63BE000F569D5 /* Main.storyboard */,
 				2A21D2A91CB63BE000F569D5 /* Assets.xcassets */,
 				2A21D2AB1CB63BE000F569D5 /* LaunchScreen.storyboard */,
@@ -226,10 +237,22 @@
 				2AA303401CF833DB009B530D /* UserInfoDetailView.m */,
 				2AFDA2151D02BE49007469D5 /* UserInfoDetailView_iOS8.xib */,
 				2AFDA2231D0557A5007469D5 /* UserInfoDetailView.xib */,
-				2A0722BA1CE2D54D001F0570 /* MapApplicationCell.h */,
-				2A0722BB1CE2D54D001F0570 /* MapApplicationCell.m */,
+				2ABB72E01D5D7E79001E0AE0 /* CustomCell */,
 			);
 			name = CustomView;
+			sourceTree = "<group>";
+		};
+		2ABB72E01D5D7E79001E0AE0 /* CustomCell */ = {
+			isa = PBXGroup;
+			children = (
+				2A0722BA1CE2D54D001F0570 /* MapApplicationCell.h */,
+				2A0722BB1CE2D54D001F0570 /* MapApplicationCell.m */,
+				2ABB72D41D5C7E2A001E0AE0 /* SwitchableTableViewCell.h */,
+				2ABB72D51D5C7E2A001E0AE0 /* SwitchableTableViewCell.m */,
+				2ABB72DA1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.h */,
+				2ABB72DB1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m */,
+			);
+			name = CustomCell;
 			sourceTree = "<group>";
 		};
 		6B537520921EE79EB87FDBF6 /* Pods */ = {
@@ -380,6 +403,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A21D2A51CB63BE000F569D5 /* ViewController.m in Sources */,
+				2ABB72D61D5C7E2A001E0AE0 /* SwitchableTableViewCell.m in Sources */,
 				2A21D2A21CB63BE000F569D5 /* AppDelegate.m in Sources */,
 				2A10CBFB1D1CDDB500FB84F3 /* MKMapView+GoCheckin.m in Sources */,
 				2A21D3061CC6380400F569D5 /* NSJSONSerialization+ParseString.m in Sources */,
@@ -388,11 +412,13 @@
 				2A0F6FB11CD124810095D171 /* UIColor+GoCheckin.m in Sources */,
 				2A0722BC1CE2D54D001F0570 /* MapApplicationCell.m in Sources */,
 				2A21D3101CCA05EB00F569D5 /* SVPulsingAnnotationView.m in Sources */,
+				2ABB72DC1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m in Sources */,
 				2AA303411CF833DB009B530D /* UserInfoDetailView.m in Sources */,
 				2A21D2BD1CBB4B0300F569D5 /* HTTPClient.m in Sources */,
 				2A21D29F1CB63BE000F569D5 /* main.m in Sources */,
 				2A21D2EE1CBF891900F569D5 /* GoStation.m in Sources */,
 				2A21D3161CCA18E800F569D5 /* GoStationDetailView.m in Sources */,
+				2ABB72DF1D5D5DC1001E0AE0 /* UpdateIntervalViewController.m in Sources */,
 				2A21D2C31CBB5D8A00F569D5 /* PersistencyManager.m in Sources */,
 				2A0F6FB41CD1A4570095D171 /* SettingsViewController.m in Sources */,
 				2A07226B1CDB4BFE001F0570 /* MapOption.m in Sources */,

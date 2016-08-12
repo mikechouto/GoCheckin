@@ -35,7 +35,7 @@
 - (BOOL)isDefault {
     
     BOOL isDefault = NO;
-    MapType current = [[APIManager sharedInstance] currentDefaultMapApplication];
+    MapType current = [[APIManager sharedInstance] currentMapApplication];
     if (current == _type) {
         isDefault = YES;
     }
