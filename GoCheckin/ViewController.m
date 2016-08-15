@@ -42,7 +42,7 @@
 @implementation ViewController
 
 - (void)awakeFromNib {
-    
+    [super awakeFromNib];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     // Create the observe before calling update station.
@@ -66,8 +66,10 @@
     
     [self startRequestingUserLocation];
     
+    // Set the map retion directly so the centerMapOnLocation: doesn't get messed up.
     CLLocation *initialLocation = [[CLLocation alloc] initWithLatitude:23.7 longitude:120.9];
-    [self centerMapOnLocation:initialLocation Distance:550000];
+    MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate, 550000, 550000);
+    [_mapView setRegion:coordinateRegion animated:YES];
     
     [[APIManager sharedInstance] updateGoStationIfNeeded];
 }
