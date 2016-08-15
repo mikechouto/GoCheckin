@@ -47,7 +47,6 @@
 		2A0722BA1CE2D54D001F0570 /* MapApplicationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapApplicationCell.h; sourceTree = "<group>"; };
 		2A0722BB1CE2D54D001F0570 /* MapApplicationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapApplicationCell.m; sourceTree = "<group>"; };
 		2A0722BD1CE30DCD001F0570 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		2A0722C11CE42BD2001F0570 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
 		2A0722C41CE42BF9001F0570 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2A0722D01CE463B1001F0570 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		2A0F6FAF1CD124810095D171 /* UIColor+GoCheckin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+GoCheckin.h"; sourceTree = "<group>"; };
@@ -56,6 +55,7 @@
 		2A0F6FB31CD1A4570095D171 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		2A10CBF91D1CDDB500FB84F3 /* MKMapView+GoCheckin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+GoCheckin.h"; sourceTree = "<group>"; };
 		2A10CBFA1D1CDDB500FB84F3 /* MKMapView+GoCheckin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+GoCheckin.m"; sourceTree = "<group>"; };
+		2A1CB5BD1D619DC3003A1BD9 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
 		2A21D29A1CB63BE000F569D5 /* GoCheckin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoCheckin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A21D29E1CB63BE000F569D5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2A21D2A01CB63BE000F569D5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -441,7 +441,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				2A21D2A71CB63BE000F569D5 /* Base */,
-				2A0722C11CE42BD2001F0570 /* zh-Hant */,
+				2A1CB5BD1D619DC3003A1BD9 /* zh-Hant */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

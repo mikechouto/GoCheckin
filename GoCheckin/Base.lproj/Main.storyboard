@@ -358,9 +358,7 @@
                             <constraint firstAttribute="bottom" secondItem="xSg-9r-kJY" secondAttribute="bottom" id="mir-ng-Oy0"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Update Station" id="D2J-kl-SE0">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="dKx-aa-U8g"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Update Station" id="D2J-kl-SE0"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="tableView" destination="xSg-9r-kJY" id="Aeh-4f-3oN"/>

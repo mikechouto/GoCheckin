@@ -142,7 +142,7 @@
                     cell = [[UpdateIntervalTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:intervalPageIdentifier];
                 }
                 [[(UpdateIntervalTableViewCell *)cell titleLabel] setText:NSLocalizedString(@"Update Stations", nil)];
-                NSString *detailString = [NSString stringWithFormat:NSLocalizedString(@"Every %d hour", nil), [[APIManager sharedInstance] currentUpdateInterval]];
+                NSString *detailString = [NSString stringWithFormat:NSLocalizedString(@"Every %@ hour", nil), @([[APIManager sharedInstance] currentUpdateInterval])];
                 [[(UpdateIntervalTableViewCell *)cell detailLabel] setText:detailString];
             }
             

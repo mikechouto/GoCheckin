@@ -1,18 +1,5 @@
-
-/* Class = "UILabel"; text = "999"; ObjectID = "B7j-MB-ajf"; */
-"B7j-MB-ajf.text" = "999";
-
-/* Class = "UILabel"; text = "999"; ObjectID = "LBb-Tv-B5U"; */
-"LBb-Tv-B5U.text" = "999";
-
-/* Class = "UILabel"; text = "Title"; ObjectID = "bdT-TE-jsu"; */
-"bdT-TE-jsu.text" = "Title";
-
-/* Class = "UILabel"; text = "999"; ObjectID = "fdd-TT-OPU"; */
-"fdd-TT-OPU.text" = "999";
-
-/* Class = "UILabel"; text = "Title"; ObjectID = "fr6-W0-Cuq"; */
-"fr6-W0-Cuq.text" = "Title";
+/* Class = "UINavigationItem"; title = "Update Station"; ObjectID = "D2J-kl-SE0"; */
+"D2J-kl-SE0.title" = "資料更新";
 
 /* Class = "UILabel"; text = "Version: 1.0"; ObjectID = "gdN-pn-jnS"; */
 "gdN-pn-jnS.text" = "版本: 1.0";
@@ -20,8 +7,8 @@
 /* Class = "UINavigationItem"; title = "GoCheckin"; ObjectID = "tQd-0N-GDE"; */
 "tQd-0N-GDE.title" = "GoCheckin";
 
-/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "trE-uB-DNs"; */
-"trE-uB-DNs.normalTitle" = "Button";
+/* Class = "UIButton"; normalTitle = "Detail"; ObjectID = "trE-uB-DNs"; */
+"trE-uB-DNs.normalTitle" = "詳細資訊";
 
 /* Class = "UINavigationItem"; title = "Settings"; ObjectID = "ukY-eH-9Uv"; */
 "ukY-eH-9Uv.title" = "設定";
