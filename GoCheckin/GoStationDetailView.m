@@ -127,20 +127,9 @@
 
 - (void)didMoveToSuperview {
     
-    float width = 210;
-    CGSize availableTimeSize = [self.availableTimeLabel.text boundingRectWithSize:CGSizeMake(136, 17) options:NSStringDrawingTruncatesLastVisibleLine attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0]} context:nil].size;
-    CGFloat perferredWidth = availableTimeSize.width + self.availableStatusImageView.frame.size.width + 5;
-    width = perferredWidth > width ? perferredWidth : width;
+    CGFloat width = [self calculatePerferredWidth];
     
-    float height = 220;
-    
-    if (self.annotation) {
-        UIFont *titleFont = [UIFont systemFontOfSize:17.0f];
-        CGSize titleSize = [self.annotation.title boundingRectWithSize:CGSizeMake(300, 21) options:NSStringDrawingTruncatesLastVisibleLine attributes:@{NSFontAttributeName:titleFont} context:nil].size;
-        
-        width = titleSize.width > width ? titleSize.width : width;
-        [self.addressLabel setPreferredMaxLayoutWidth:width];
-    }
+    CGFloat height = 220;
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:width]];
     
@@ -149,6 +138,31 @@
     [self setNeedsLayout];
     [self layoutIfNeeded];
     [self setNeedsDisplay];
+}
+
+- (CGFloat)calculatePerferredWidth {
+    
+    float width = 210;
+    
+    if (self.annotation) {
+        // check available view width
+        CGSize availableTimeSize = [self.availableTimeLabel.text boundingRectWithSize:CGSizeMake(136, 17) options:NSStringDrawingUsesDeviceMetrics attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0]} context:nil].size;
+        CGFloat availableIconWidth = 38.0;
+        if (self.annotation.status != GoStationStatusNormal || self.annotation.status != GoStationStatusClosed) {
+            availableIconWidth = 66.0;
+        }
+        CGFloat perferredWidth = availableTimeSize.width + 6 + availableIconWidth + 5;
+        width = perferredWidth > width ? perferredWidth : width;
+        
+        // check title view width
+        UIFont *titleFont = [UIFont systemFontOfSize:17.0f];
+        CGSize titleSize = [self.annotation.title boundingRectWithSize:CGSizeMake(300, 21) options:NSStringDrawingTruncatesLastVisibleLine attributes:@{NSFontAttributeName:titleFont} context:nil].size;
+        
+        width = titleSize.width > width ? titleSize.width : width;
+        [self.addressLabel setPreferredMaxLayoutWidth:width];
+    }
+    
+    return width;
 }
 
 - (void)calculateETAWithAnnotation:(GoStationAnnotation *)annotation UserLocation:(CLLocation *)location {
