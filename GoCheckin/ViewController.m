@@ -64,8 +64,6 @@
     
     [self stopAnimatingDetailInfoButton];
     
-    [self startRequestingUserLocation];
-    
     // Set the map retion directly so the centerMapOnLocation: doesn't get messed up.
     CLLocation *initialLocation = [[CLLocation alloc] initWithLatitude:23.7 longitude:120.9];
     MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate, 550000, 550000);
@@ -79,6 +77,8 @@
     [self prepareCustomNavigationBar];
     [super viewWillAppear:animated];
     
+    [self startRequestingUserLocation];
+    
     if (self.dataReady) {
         [self pinStationLocation:nil];
     }
@@ -90,6 +90,10 @@
 }
 
 - (void)dealloc {
+    if (self.locationManager) {
+        [self.locationManager setDelegate:nil];
+        self.locationManager = nil;
+    }
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self stopAnimatingDetailInfoButton];
 }
@@ -209,7 +213,6 @@
         self.locationManager = [[CLLocationManager alloc] init];
         [self.locationManager setDelegate:self];
         [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
-        [self.locationManager requestWhenInUseAuthorization];
     }
     [self.locationManager startUpdatingLocation];
 }
@@ -217,8 +220,6 @@
 - (void)stopRequestingUserLocation {
     if (self.locationManager) {
         [self.locationManager stopUpdatingLocation];
-        [self.locationManager setDelegate:nil];
-        self.locationManager = nil;
     }
 }
 
@@ -252,6 +253,19 @@
 }
 
 #pragma mark CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    switch (status) {
+        case kCLAuthorizationStatusNotDetermined:
+            [manager requestWhenInUseAuthorization];
+            break;
+        case kCLAuthorizationStatusAuthorizedWhenInUse:
+            [manager startUpdatingLocation];
+            break;
+        default:
+            break;
+    }
+}
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
     if (locations.count > 0) {

@@ -53,7 +53,7 @@
     // Request GoStation from GOGORO API server.
     [self.httpClient getRequest:@"/vm/list" completion:^(NSDictionary *responseDict, NSError *error) {
         if (!error) {
-            NSLog(@"%@", responseDict);
+//            NSLog(@"%@", responseDict);
             [self.persistencyManager createOrUpdateGoStationWithData:responseDict];
             
             [[NSNotificationCenter defaultCenter] postNotificationName:@"GoStationUpdateFinishNotification" object:nil];
