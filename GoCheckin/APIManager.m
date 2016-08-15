@@ -171,6 +171,7 @@
 }
 
 - (NSUInteger)getTotalCheckedInCount {
+    // Not counting the deprecated stations
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"is_checkin == true && state != %d", GoStationStatusDeprecated];
     RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
     return stations.count;

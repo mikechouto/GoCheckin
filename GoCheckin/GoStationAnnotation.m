@@ -37,6 +37,9 @@
         switch (status) {
             case 1:
                 _status = GoStationStatusNormal;
+                if (![self isBusinessHour:availableTime]) {
+                    _status = GoStationStatusClosed;
+                }
                 break;
             case 99:
                 _status = GoStationStatusConstructing;
@@ -44,18 +47,12 @@
             case 100:
                 _status = GoStationStatusPreparing;
                 break;
-            case -99:
+            case 997:
                 _status = GoStationStatusDeprecated;
                 break;
             default:
                 _status = GoStationStatusUnknown;
                 break;
-        }
-        
-        if (_status == GoStationStatusNormal) {
-            if (![self isBusinessHour:availableTime]) {
-                _status = GoStationStatusClosed;
-            }
         }
         
         _locale = [[NSLocale preferredLanguages] objectAtIndex:0];

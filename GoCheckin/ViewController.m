@@ -32,6 +32,7 @@
 @property (strong, nonatomic) NSArray *GoStations;
 
 @property (nonatomic, assign) BOOL hasCentered;
+@property (nonatomic, assign) BOOL dataReady;
 
 @property (nonatomic, strong) CAKeyframeAnimation *animationAdd;
 @property (nonatomic, strong) CAKeyframeAnimation *animationSelect;
@@ -39,6 +40,15 @@
 @end
 
 @implementation ViewController
+
+- (void)awakeFromNib {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    // Create the observe before calling update station.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pinStationLocation:) name:@"GoStationUpdateFinishNotification" object:nil];
+    self.dataReady = NO;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -59,10 +69,6 @@
     CLLocation *initialLocation = [[CLLocation alloc] initWithLatitude:23.7 longitude:120.9];
     [self centerMapOnLocation:initialLocation Distance:550000];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
-    // Create the observe before calling update station.
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pinStationLocation:) name:@"GoStationUpdateFinishNotification" object:nil];
     [[APIManager sharedInstance] updateGoStationIfNeeded];
 }
 
@@ -70,6 +76,10 @@
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     [self prepareCustomNavigationBar];
     [super viewWillAppear:animated];
+    
+    if (self.dataReady) {
+        [self pinStationLocation:nil];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -151,10 +161,11 @@
     
     NSString *newTitle;
     NSInteger newTag;
+    double accomplishPercentage = 100.0f * checkedinCount / (workingCount + closedCount);
     
     switch (self.detailInfoButton.tag) {
         case 100:
-            newTitle = [NSString stringWithFormat:NSLocalizedString(@"Collected: %02.1f", nil), 100.0f * checkedinCount / (workingCount + closedCount)];
+            newTitle = [NSString stringWithFormat:NSLocalizedString(@"Collected: %02.1f", nil), accomplishPercentage < 100.0 ? accomplishPercentage : 100.0];
             newTag = 101;
             break;
         case 101:
@@ -221,15 +232,20 @@
 }
 
 - (void)pinStationLocation:(id)sender {
+    
+    // 1. Update status GoStations
+    if (!self.dataReady) {
+        self.dataReady = YES;
+    }
 
-    // 1. Pin GoStations
+    // 2. Pin GoStations
     self.GoStations = [[APIManager sharedInstance] getGoStations];
     if (self.mapView.annotations) {
         [self.mapView removeAnnotations:self.mapView.annotations];
     }
     [self.mapView addAnnotations:self.GoStations];
     
-    // 2. Begin to rotate detail
+    // 3. Begin to rotate detail
     [self animateDetailInfoButton];
 }
 
@@ -276,6 +292,13 @@
                     pinImage = [UIImage imageNamed:@"pin_station_closed"];
                 }
                 break;
+            case GoStationStatusDeprecated:
+                if (station.isCheckIn) {
+                    pinImage = [UIImage imageNamed:@"pin_station_checkin_retired"];
+                } else {
+                    pinImage = [UIImage imageNamed:@"pin_station_retired"];
+                }
+                break;
             case GoStationStatusConstructing:
             case GoStationStatusPreparing:
             case GoStationStatusUnknown:
@@ -311,7 +334,7 @@
 }
 
 - (void)didPressNavigateButtonWithAnnotation:(GoStationAnnotation *)annotation {
-    MapType defaultType = [[APIManager sharedInstance] currentDefaultMapApplication];
+    MapType defaultType = [[APIManager sharedInstance] currentMapApplication];
     
     if (defaultType == MapTypeGoogle) {
         // google map

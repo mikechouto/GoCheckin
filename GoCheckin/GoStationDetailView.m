@@ -76,6 +76,7 @@
             case GoStationStatusClosed:
                 [self.availableStatusImageView setImage:[UIImage imageNamed:@"icon_status_closed"]];
                 break;
+            case GoStationStatusDeprecated:
             case GoStationStatusConstructing:
             case GoStationStatusPreparing:
                 [self.availableStatusImageView setImage:[UIImage imageNamed:@"icon_status_unavailable"]];
@@ -184,15 +185,15 @@
     
     if (annotation) {
         
+        [self.removeBtn setHidden:YES];
+        
         if (annotation.status == GoStationStatusNormal || annotation.status == GoStationStatusClosed) {
             [self.checkInBtn setEnabled:YES];
-        }
-        
-        if (annotation.isCheckIn && annotation.checkInTimes > 0) {
-            [self.removeBtn setHidden:NO];
-            [self.removeBtn setEnabled:YES];
-        } else {
-            [self.removeBtn setHidden:YES];
+            
+            if (annotation.isCheckIn && annotation.checkInTimes > 0) {
+                [self.removeBtn setHidden:NO];
+                [self.removeBtn setEnabled:YES];
+            }
         }
     }
     
