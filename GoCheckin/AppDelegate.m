@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import <Realm/Realm.h>
 #import "APIManager.h"
+#import "GoStation.h"
 
 @interface AppDelegate ()
 
@@ -22,10 +23,34 @@
     
     RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
     // Use the default directory, but replace the filename with the username.
-    NSString *newFileURL = [[[[config.fileURL absoluteString] stringByDeletingLastPathComponent]
+    NSString *databaseURL = [[[[config.fileURL absoluteString] stringByDeletingLastPathComponent]
                             stringByAppendingPathComponent:@"gocheckin"]
                             stringByAppendingPathExtension:@"realm"];
-    config.fileURL = [NSURL URLWithString:newFileURL];
+    config.fileURL = [NSURL URLWithString:databaseURL];
+    
+    /* 2016/08/08 issus #5
+     * Update realm database schemaVersion and perform migration
+     * Add new column online_date, offline_date
+     */
+    config.schemaVersion = 1;
+    config.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
+        
+        if (oldSchemaVersion < 1) {
+            
+            [migration enumerateObjects:GoStation.className block:^(RLMObject * _Nullable oldObject, RLMObject * _Nullable newObject) {
+                if ([oldObject[@"state"] integerValue] == 1) {
+                    newObject[@"online_time"] = oldObject[@"update_time"];
+                }
+                
+                // Handle the only offline station uuid:27588f6e-8248-4bb5-8c66-fd009d6cdb17
+                if ([oldObject[@"uuid"] isEqualToString:@"27588f6e-8248-4bb5-8c66-fd009d6cdb17"]) {
+                    newObject[@"online_time"] = oldObject[@"update_time"];
+                    newObject[@"offline_time"] = oldObject[@"update_time"];
+                    newObject[@"state"] = @(997);
+                }
+            }];
+        }
+    };
     
     // Set this as the configuration used for the default Realm
     [RLMRealmConfiguration setDefaultConfiguration:config];

@@ -20,7 +20,12 @@
 "Collected at: %@" = "Collected at: %@";
 "Times collected: %lu" = "Times collected: %lu";
 
+"General" = "General";
+"Update Stations" = "Update Stations";
+"Show Deprecated Stations" = "Show Deprecated Stations";
 "Map Selection" = "Map Selection";
 "Get Help" = "Get Help";
 "Contact us" = "Contact us";
 "Version: %@" = "Version: %@";
+
+"Every %@ hour" = "Every %@ hour";

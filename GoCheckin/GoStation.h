@@ -11,6 +11,7 @@
 
 @interface GoStation : RLMObject
 
+// schema version 0
 @property NSString *uuid;
 @property long long update_time;
 @property NSString *name_eng;
@@ -30,5 +31,9 @@
 @property NSNumber<RLMInt> *checkin_times;
 @property NSDate *checkin_date;
 @property NSDate *last_checkin_date;
+
+// schema version 1
+@property NSNumber<RLMDouble> *online_time;
+@property NSNumber<RLMDouble> *offline_time;
 
 @end

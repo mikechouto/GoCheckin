@@ -72,7 +72,7 @@
 - (GoStationAnnotation *)updateCheckInDataWithStationUUID:(NSString *)uuid {
     [self.persistencyManager updateCheckInDataWithUUID:uuid];
     
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"uuid==%@", uuid];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"uuid == %@", uuid];
     RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
     
     GoStation *s = [stations firstObject];
@@ -103,7 +103,7 @@
 - (GoStationAnnotation *)removeCheckInDataWithStationUUID:(NSString *)uuid {
     [self.persistencyManager removeCheckInDataWithUUID:uuid];
     
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"uuid==%@", uuid];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"uuid == %@", uuid];
     RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
     
     GoStation *s = [stations firstObject];
@@ -135,7 +135,14 @@
     
     NSMutableArray *goStations = [NSMutableArray array];
     
-    RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:nil];
+    RLMResults<GoStation *> *stations;
+    if ([self shouldShowDeprecatedStation]) {
+        stations = [self.persistencyManager queryGoStationWithWithPredicate:nil];
+    } else {
+        NSPredicate *pred = [NSPredicate predicateWithFormat:@"state != %d", GoStationStatusDeprecated];
+        stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
+    }
+
     
     if (stations.count > 0) {
         for (GoStation *s in stations) {
@@ -164,32 +171,33 @@
 }
 
 - (NSUInteger)getTotalCheckedInCount {
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"is_checkin==true"];
+    // Not counting the deprecated stations
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"is_checkin == true && state != %d", GoStationStatusDeprecated];
     RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
     return stations.count;
 }
 
 - (NSUInteger)getWorkingGoStationCount {
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"state==%d", GoStationStatusNormal];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"state == %d", GoStationStatusNormal];
     RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
     return stations.count;
 }
 
 - (NSUInteger)getClosedGoStationCount {
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"state==%d", GoStationStatusClosed];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"state == %d", GoStationStatusClosed];
     RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
     return stations.count;
 }
 
 - (NSUInteger)getConstructingGoStationCount {
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"state==%d OR state==%d", GoStationStatusConstructing, GoStationStatusComingSoon];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"state == %d OR state == %d", GoStationStatusConstructing, GoStationStatusPreparing];
     RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
     return stations.count;
 }
 
 - (NSDate * _Nullable ) getFirstCheckinDate {
     
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"is_checkin==true"];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"is_checkin == true"];
     RLMResults<GoStation *> *stations = [[self.persistencyManager queryGoStationWithWithPredicate:pred] sortedResultsUsingProperty:@"checkin_date" ascending:YES];
     
     return stations.count > 0 ? [stations firstObject].checkin_date : nil;
@@ -197,14 +205,14 @@
 
 - (NSDate * _Nullable ) getLatestCheckinDate {
     
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"is_checkin==true"];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"is_checkin == true"];
     RLMResults<GoStation *> *stations = [[self.persistencyManager queryGoStationWithWithPredicate:pred] sortedResultsUsingProperty:@"last_checkin_date" ascending:NO];
     
     return stations.count > 0 ? [stations firstObject].last_checkin_date : nil;
 }
 
 - (void)initUserDefaultsIfNeeded {
-    [self.persistencyManager initUserDefaultsWithDefaultMapType:MapTypeApple];
+    [self.persistencyManager initUserDefaultsWithDefaultValuesMapType:MapTypeApple isShowDeprecatedStation:NO updateInterval:3];
 }
 
 - (void)changeDefaultMapToApple {
@@ -215,8 +223,24 @@
     [self.persistencyManager changeDefaultMapInUserDefaultsWithMapType:MapTypeGoogle];
 }
 
-- (NSUInteger)currentDefaultMapApplication {
+- (NSUInteger)currentMapApplication {
     return [self.persistencyManager getCurrentDefaultMap];
+}
+
+- (void)changeShowDeprecatedStation:(BOOL)isShow {
+    [self.persistencyManager changeIsShowDeprecatedStationInUserDefault:isShow];
+}
+
+- (BOOL)shouldShowDeprecatedStation {
+    return [self.persistencyManager getIsShowDeprecatedStation];
+}
+
+- (void)changeUpdateInterval:(NSInteger)interval {
+    [self.persistencyManager changeUpdateIntervalInUserDefault:interval];
+}
+
+- (NSInteger)currentUpdateInterval {
+    return [self.persistencyManager getUpdateInterval];
 }
 
 #pragma mark internal functions
@@ -225,16 +249,17 @@
     
     BOOL flag = NO;
     
-    // Make the threshold to be 3 hr.
+    // Calculate if data needs to be updated.
     long long lastThreshold = [[NSDate date] timeIntervalSince1970];
-    lastThreshold = lastThreshold - (60 * (60 * 3));
+    lastThreshold = lastThreshold - (60 * (60 * [self currentUpdateInterval]));
     
     // Retrive all Station, if theres no station data then it'll return 0.
-    RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:nil];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"state == %d", GoStationStatusNormal];
+    RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
     
     if (stations.count > 0) {
         // If there is data, check if data is needed to update.
-        NSPredicate *pred = [NSPredicate predicateWithFormat:@"update_time <= %i", lastThreshold];
+        NSPredicate *pred = [NSPredicate predicateWithFormat:@"state == %d && update_time <= %i", GoStationStatusNormal, lastThreshold];
         stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
         
         if (stations.count > 0) {
