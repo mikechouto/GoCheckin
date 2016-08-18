@@ -19,8 +19,12 @@
 - (void)removeCheckInDataWithUUID:(NSString *)uuid;
 - (RLMResults<GoStation *> *)queryGoStationWithWithPredicate:(NSPredicate *)predicate;
 
-- (void)initUserDefaultsWithDefaultMapType:(NSUInteger)type;
+- (void)initUserDefaultsWithDefaultValuesMapType:(NSUInteger)type isShowDeprecatedStation:(BOOL)isShow updateInterval:(NSInteger)interval;
 - (void)changeDefaultMapInUserDefaultsWithMapType:(NSUInteger)type;
 - (NSUInteger)getCurrentDefaultMap;
+- (void)changeIsShowDeprecatedStationInUserDefault:(BOOL)isShow;
+- (BOOL)getIsShowDeprecatedStation;
+- (void)changeUpdateIntervalInUserDefault:(NSInteger)interval;
+- (NSInteger)getUpdateInterval;
 
 @end

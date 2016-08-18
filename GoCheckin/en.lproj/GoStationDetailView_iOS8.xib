@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -70,26 +70,36 @@
                         <constraint firstAttribute="height" constant="16" id="tEx-4k-FBl"/>
                     </constraints>
                 </imageView>
-                <button opaque="NO" contentMode="scaleAspectFit" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="13R-FQ-3i0">
-                    <rect key="frame" x="3" y="172" width="98" height="32"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="32" id="tkO-0U-B1d"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                    <state key="normal" title="CHECK-IN" backgroundImage="icon_btn_checkin"/>
-                    <connections>
-                        <action selector="checkInBtnPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="Jsb-OE-24i"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleAspectFit" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ore-l8-gFX">
+                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ore-l8-gFX">
                     <rect key="frame" x="109" y="172" width="98" height="32"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="32" id="Bvo-ge-fUL"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                     <state key="normal" title="REMOVE" backgroundImage="icon_btn_remove"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="Bvo-ge-fUL"/>
+                        </mask>
+                    </variation>
                     <connections>
                         <action selector="removeBtnPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="9EH-PW-tbT"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="13R-FQ-3i0">
+                    <rect key="frame" x="3" y="172" width="98" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="32" id="tkO-0U-B1d"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                    <state key="normal" title="CHECK-IN" backgroundImage="icon_btn_checkin"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="tkO-0U-B1d"/>
+                        </mask>
+                    </variation>
+                    <connections>
+                        <action selector="checkInBtnPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="Jsb-OE-24i"/>
                     </connections>
                 </button>
             </subviews>
@@ -97,7 +107,7 @@
                 <constraint firstItem="Ktr-tm-Gbd" firstAttribute="trailing" secondItem="fCt-lr-JPc" secondAttribute="trailing" id="4jT-kU-fAd"/>
                 <constraint firstItem="Vde-ZQ-nTA" firstAttribute="leading" secondItem="fCt-lr-JPc" secondAttribute="leading" id="69e-hH-lJ5"/>
                 <constraint firstItem="Ktr-tm-Gbd" firstAttribute="height" secondItem="rIz-TG-Q2U" secondAttribute="height" id="6hf-2O-hgY"/>
-                <constraint firstItem="Ore-l8-gFX" firstAttribute="leading" secondItem="13R-FQ-3i0" secondAttribute="trailing" constant="8" id="7rd-Xz-z2C"/>
+                <constraint firstItem="Ore-l8-gFX" firstAttribute="leading" secondItem="13R-FQ-3i0" secondAttribute="trailing" priority="999" constant="8" id="7rd-Xz-z2C"/>
                 <constraint firstAttribute="trailing" secondItem="fCt-lr-JPc" secondAttribute="trailing" constant="3" id="84T-U9-acb"/>
                 <constraint firstItem="Ktr-tm-Gbd" firstAttribute="top" secondItem="rIz-TG-Q2U" secondAttribute="top" id="BhK-oZ-0Uy"/>
                 <constraint firstAttribute="bottom" secondItem="13R-FQ-3i0" secondAttribute="bottom" constant="8" id="DTR-UM-Kl5"/>
@@ -107,12 +117,13 @@
                 <constraint firstItem="rIz-TG-Q2U" firstAttribute="leading" secondItem="fCt-lr-JPc" secondAttribute="leading" id="OA6-la-naY"/>
                 <constraint firstAttribute="trailing" secondItem="Ore-l8-gFX" secondAttribute="trailing" constant="3" id="SgT-tC-Kqy"/>
                 <constraint firstItem="rIz-TG-Q2U" firstAttribute="top" secondItem="fCt-lr-JPc" secondAttribute="bottom" constant="8" id="XAf-ll-og1"/>
+                <constraint firstItem="Ore-l8-gFX" firstAttribute="width" secondItem="13R-FQ-3i0" secondAttribute="width" id="Z0F-7s-JWN"/>
                 <constraint firstItem="fCt-lr-JPc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="cfr-vx-zab"/>
                 <constraint firstItem="13R-FQ-3i0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="3" id="d7h-Em-Yu7"/>
                 <constraint firstItem="og8-O8-70A" firstAttribute="top" secondItem="Ktr-tm-Gbd" secondAttribute="bottom" constant="8" id="f1Q-9R-XGV"/>
                 <constraint firstItem="Ktr-tm-Gbd" firstAttribute="leading" secondItem="rIz-TG-Q2U" secondAttribute="trailing" constant="8" id="hTb-dF-L3Q"/>
                 <constraint firstItem="kmY-u4-MIf" firstAttribute="leading" secondItem="og8-O8-70A" secondAttribute="trailing" constant="6" id="jUn-Mq-pKf"/>
-                <constraint firstAttribute="trailing" secondItem="13R-FQ-3i0" secondAttribute="trailing" priority="750" constant="3" id="mgF-Vz-UB5"/>
+                <constraint firstAttribute="trailing" secondItem="13R-FQ-3i0" secondAttribute="trailing" priority="500" constant="3" id="mgF-Vz-UB5"/>
                 <constraint firstItem="RCk-m1-yPh" firstAttribute="top" secondItem="Vde-ZQ-nTA" secondAttribute="bottom" constant="5" id="prX-pa-wOE"/>
                 <constraint firstItem="RCk-m1-yPh" firstAttribute="trailing" secondItem="fCt-lr-JPc" secondAttribute="trailing" id="qIe-Mr-JJC"/>
                 <constraint firstItem="Vde-ZQ-nTA" firstAttribute="trailing" secondItem="fCt-lr-JPc" secondAttribute="trailing" id="qYh-0c-04m"/>
@@ -129,6 +140,8 @@
                 <outlet property="availableTimeLabel" destination="og8-O8-70A" id="Uxb-pC-Sh8"/>
                 <outlet property="checkInBtn" destination="13R-FQ-3i0" id="aG6-Bh-19K"/>
                 <outlet property="checkInTimesLabel" destination="RCk-m1-yPh" id="FLE-We-NsS"/>
+                <outlet property="checkinButtonLeftX" destination="mgF-Vz-UB5" id="zFg-qL-0pu"/>
+                <outlet property="checkinButtonSpace" destination="7rd-Xz-z2C" id="5RH-0K-r7w"/>
                 <outlet property="etaLabel" destination="Ktr-tm-Gbd" id="UhT-kH-qxa"/>
                 <outlet property="lastCheckInDateLabel" destination="Vde-ZQ-nTA" id="Mwh-G1-VoN"/>
                 <outlet property="navigationBtn" destination="rIz-TG-Q2U" id="Xi0-8J-JOi"/>

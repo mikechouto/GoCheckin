@@ -20,7 +20,12 @@
 "Collected at: %@" = "收集時間: %@";
 "Times collected: %lu" = "收集次數: %lu";
 
+"General" = "基本選項";
+"Update Stations" = "資料更新";
+"Show Deprecated Stations" = "顯示已關閉 GoStations";
 "Map Selection" = "預設導航App";
 "Get Help" = "支援與服務";
 "Contact us" = "回報問題";
 "Version: %@" = "版本: %@";
+
+"Every %@ hour" = "每 %@ 小時";

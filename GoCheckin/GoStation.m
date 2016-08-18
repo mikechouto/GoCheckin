@@ -23,7 +23,7 @@
 }
 
 + (NSDictionary *)defaultPropertyValues {
-    return @{@"is_checkin":@NO};
+    return @{@"is_checkin":@NO, @"online_time":@(0), @"offline_time":@(0)};
 }
 
 @end

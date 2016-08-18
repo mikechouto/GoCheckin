@@ -61,10 +61,11 @@
     NSUInteger constructingCount = [[APIManager sharedInstance] getConstructingGoStationCount];
     NSUInteger checkedinCount = [[APIManager sharedInstance] getTotalCheckedInCount];
     
-    self.workingNumberLabel.text = [NSString stringWithFormat:@"%lu", workingCount + closedCount];
-    self.constructingNumberLabel.text = [NSString stringWithFormat:@"%lu", constructingCount];
-    self.checkinNumberLabel.text = [NSString stringWithFormat:@"%lu", checkedinCount];
-    self.accomplishPercentageLabel.text = [NSString stringWithFormat:@"%02.1f%%", 100.0f * checkedinCount / (workingCount + closedCount)];
+    self.workingNumberLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)workingCount + closedCount];
+    self.constructingNumberLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)constructingCount];
+    self.checkinNumberLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)checkedinCount];
+    double accomplishPercentage = 100.0f * checkedinCount / (workingCount + closedCount);
+    self.accomplishPercentageLabel.text = [NSString stringWithFormat:@"%02.1f%%", accomplishPercentage < 100.0 ? accomplishPercentage : 100.0];
     
     NSDate *firstCheckinDate = [[APIManager sharedInstance] getFirstCheckinDate];
     NSDate *latestCheckinDate = [[APIManager sharedInstance] getLatestCheckinDate];

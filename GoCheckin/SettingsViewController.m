@@ -12,12 +12,16 @@
 #import "UIColor+GoCheckin.h"
 #import "MapOption.h"
 #import "MapApplicationCell.h"
+#import "APIManager.h"
+#import "SwitchableTableViewCell.h"
+#import "UpdateIntervalTableViewCell.h"
 
 @interface SettingsViewController () <UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
-@property (strong, nonatomic) NSArray<MapOption *> *supportedMapApplication;
+@property (strong, nonatomic) NSArray<MapOption *> *supportedMaps;
+@property (strong, nonatomic) NSArray *sectionTitles;
 
 @end
 
@@ -28,9 +32,19 @@
     // Do any additional setup after loading the view.
     [self prepareNavigationBar];
     [self.versionLabel setText:[NSString stringWithFormat:NSLocalizedString(@"Version: %@", nil), [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]];
-    self.supportedMapApplication = @[[[MapOption alloc] initWithName:@"Apple Map" MapType:MapTypeApple],
-                           [[MapOption alloc] initWithName:@"Google Map" MapType:MapTypeGoogle]];
     
+    self.sectionTitles = @[NSLocalizedString(@"General", nil),
+                           NSLocalizedString(@"Map Selection", nil),
+                           NSLocalizedString(@"Get Help", nil)];
+    
+    self.supportedMaps = @[[[MapOption alloc] initWithName:@"Apple Map" MapType:MapTypeApple],
+                           [[MapOption alloc] initWithName:@"Google Map" MapType:MapTypeGoogle]];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -40,6 +54,9 @@
 
 - (void)prepareNavigationBar {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+    
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.backBarButtonItem = backItem;
     
     [self.navigationController.navigationBar.backItem setTitle:@""];
     [self.navigationController.navigationBar setBackIndicatorImage:[UIImage imageNamed:@"icon_nav_item_back"]];
@@ -56,7 +73,7 @@
     NSString *emailTitle = @"GoCheckin Feedback";
     // Email Body
     NSString *iOSVersion = [[UIDevice currentDevice] systemVersion];
-    NSString *messageBody = [NSString stringWithFormat:@"%@-%@:\n%@", [self deviceModel], iOSVersion, [self deviceUniqueIdentifier]];
+    NSString *messageBody = [NSString stringWithFormat:@"GoCheckin %@\n%@-%@:\n%@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [self deviceModel], iOSVersion, [self deviceUniqueIdentifier]];
     // To address
     NSArray *toRecipents = [NSArray arrayWithObject:@"mikechouto@gmail.com"];
     
@@ -93,9 +110,12 @@
     
     switch (section) {
         case 0:
-            rows = self.supportedMapApplication.count;
+            rows = 2;
             break;
         case 1:
+            rows = self.supportedMaps.count;
+            break;
+        case 2:
             rows = 1;
             break;
         default:
@@ -109,11 +129,33 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *selectionIdentifier = @"SelectionCell";
     static NSString *clickableIdentifier = @"ClickableCell";
+    static NSString *switchableIdentifier = @"SwitchableCell";
+    static NSString *intervalPageIdentifier = @"IntervalPageCell";
     
     UITableViewCell *cell;
     
     switch (indexPath.section) {
         case 0:
+            if (indexPath.row == 0) {
+                cell = [tableView dequeueReusableCellWithIdentifier:intervalPageIdentifier];
+                if (cell == nil) {
+                    cell = [[UpdateIntervalTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:intervalPageIdentifier];
+                }
+                [[(UpdateIntervalTableViewCell *)cell titleLabel] setText:NSLocalizedString(@"Update Stations", nil)];
+                NSString *detailString = [NSString stringWithFormat:NSLocalizedString(@"Every %@ hour", nil), @([[APIManager sharedInstance] currentUpdateInterval])];
+                [[(UpdateIntervalTableViewCell *)cell detailLabel] setText:detailString];
+            }
+            
+            if (indexPath.row == 1) {
+                cell = [tableView dequeueReusableCellWithIdentifier:switchableIdentifier];
+                if (cell == nil) {
+                    cell = [[SwitchableTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:switchableIdentifier];
+                }
+                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                [(SwitchableTableViewCell *)cell setTitle:NSLocalizedString(@"Show Deprecated Stations", nil)];
+            }
+            break;
+        case 1:
             cell = [tableView dequeueReusableCellWithIdentifier:selectionIdentifier];
             if (cell == nil) {
                 cell = [[MapApplicationCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:selectionIdentifier];
@@ -121,10 +163,10 @@
             
             if ([cell isKindOfClass:[MapApplicationCell class]]) {
                 
-                [(MapApplicationCell *)cell setMapOption:[self.supportedMapApplication objectAtIndex:indexPath.row]];
+                [(MapApplicationCell *)cell setMapOption:[self.supportedMaps objectAtIndex:indexPath.row]];
             }
             break;
-        case 1:
+        case 2:
             cell = [tableView dequeueReusableCellWithIdentifier:clickableIdentifier];
             if (cell == nil) {
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:clickableIdentifier];
@@ -144,19 +186,20 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 3;
 }
 
 #pragma mark UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.section) {
         case 0:
-            [[self.supportedMapApplication objectAtIndex:indexPath.row] setToDefault];
+            break;
+        case 1:
+            [[self.supportedMaps objectAtIndex:indexPath.row] setToDefault];
             [tableView reloadData];
             [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
             break;
-        case 1:
-            // TODO: Callout to email.
+        case 2:
             [self sendFeedbackMail];
             break;
         default:
@@ -167,20 +210,7 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSString *sectionTitle;
-    switch (section) {
-        case 0:
-            sectionTitle = NSLocalizedString(@"Map Selection", nil);
-            break;
-        case 1:
-            sectionTitle = NSLocalizedString(@"Get Help", nil);
-            break;
-        default:
-            sectionTitle = @"";
-            break;
-    }
-    
-    return sectionTitle;
+    return [self.sectionTitles objectAtIndex:section];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

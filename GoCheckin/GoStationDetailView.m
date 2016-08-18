@@ -26,6 +26,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *checkInBtn;
 @property (weak, nonatomic) IBOutlet UIButton *removeBtn;
 
+// Only exists when ios8
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *checkinButtonSpace;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *checkinButtonLeftX;
+
 @end
 
 @implementation GoStationDetailView
@@ -76,8 +80,9 @@
             case GoStationStatusClosed:
                 [self.availableStatusImageView setImage:[UIImage imageNamed:@"icon_status_closed"]];
                 break;
+            case GoStationStatusDeprecated:
             case GoStationStatusConstructing:
-            case GoStationStatusComingSoon:
+            case GoStationStatusPreparing:
                 [self.availableStatusImageView setImage:[UIImage imageNamed:@"icon_status_unavailable"]];
                 break;
             default:
@@ -122,15 +127,9 @@
 
 - (void)didMoveToSuperview {
     
-    float width = 210;
-    float height = 220;
+    CGFloat width = [self calculatePerferredWidth];
     
-    if (self.annotation) {
-        UIFont *titleFont = [UIFont systemFontOfSize:17.0f];
-        CGSize titleSize = [self.annotation.title boundingRectWithSize:CGSizeMake(300, 21) options:NSStringDrawingTruncatesLastVisibleLine attributes:@{NSFontAttributeName:titleFont} context:nil].size;
-        width = titleSize.width > 210.0 ? titleSize.width : 210;
-        [self.addressLabel setPreferredMaxLayoutWidth:width];
-    }
+    CGFloat height = 220;
     
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:width]];
     
@@ -139,6 +138,31 @@
     [self setNeedsLayout];
     [self layoutIfNeeded];
     [self setNeedsDisplay];
+}
+
+- (CGFloat)calculatePerferredWidth {
+    
+    float width = 210;
+    
+    if (self.annotation) {
+        // check available view width
+        CGSize availableTimeSize = [self.availableTimeLabel.text boundingRectWithSize:CGSizeMake(136, 17) options:NSStringDrawingUsesDeviceMetrics attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0]} context:nil].size;
+        CGFloat availableIconWidth = 38.0;
+        if (self.annotation.status != GoStationStatusNormal || self.annotation.status != GoStationStatusClosed) {
+            availableIconWidth = 66.0;
+        }
+        CGFloat perferredWidth = availableTimeSize.width + 6 + availableIconWidth + 5;
+        width = perferredWidth > width ? perferredWidth : width;
+        
+        // check title view width
+        UIFont *titleFont = [UIFont systemFontOfSize:17.0f];
+        CGSize titleSize = [self.annotation.title boundingRectWithSize:CGSizeMake(300, 21) options:NSStringDrawingTruncatesLastVisibleLine attributes:@{NSFontAttributeName:titleFont} context:nil].size;
+        
+        width = titleSize.width > width ? titleSize.width : width;
+        [self.addressLabel setPreferredMaxLayoutWidth:width];
+    }
+    
+    return width;
 }
 
 - (void)calculateETAWithAnnotation:(GoStationAnnotation *)annotation UserLocation:(CLLocation *)location {
@@ -184,17 +208,24 @@
     
     if (annotation) {
         
+        [self.removeBtn setHidden:YES];
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] < 9.0) {
+            self.checkinButtonSpace.priority = 500;
+            self.checkinButtonLeftX.priority = 999;
+        }
+        
         if (annotation.status == GoStationStatusNormal || annotation.status == GoStationStatusClosed) {
             [self.checkInBtn setEnabled:YES];
+            
+            if (annotation.isCheckIn && annotation.checkInTimes > 0) {
+                [self.removeBtn setHidden:NO];
+                [self.removeBtn setEnabled:YES];
+                if ([[[UIDevice currentDevice] systemVersion] floatValue] < 9.0) {
+                    self.checkinButtonSpace.priority = 999;
+                    self.checkinButtonLeftX.priority = 500;
+                }
+            }
         }
-        
-        if (annotation.isCheckIn && annotation.checkInTimes > 0) {
-            [self.removeBtn setEnabled:YES];
-        } else {
-            [self.removeBtn removeFromSuperview];
-        }
-        
-        
     }
     
 }
