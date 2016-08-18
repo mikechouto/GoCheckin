@@ -13,6 +13,7 @@
 		2A0722C31CE42BF9001F0570 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A0722C51CE42BF9001F0570 /* Localizable.strings */; };
 		2A0F6FB11CD124810095D171 /* UIColor+GoCheckin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0F6FB01CD124810095D171 /* UIColor+GoCheckin.m */; };
 		2A0F6FB41CD1A4570095D171 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0F6FB31CD1A4570095D171 /* SettingsViewController.m */; };
+		2A100B961D656A6700B36AED /* GoUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A100B951D656A6700B36AED /* GoUtility.m */; };
 		2A10CBFB1D1CDDB500FB84F3 /* MKMapView+GoCheckin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A10CBFA1D1CDDB500FB84F3 /* MKMapView+GoCheckin.m */; };
 		2A21D29F1CB63BE000F569D5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D29E1CB63BE000F569D5 /* main.m */; };
 		2A21D2A21CB63BE000F569D5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D2A11CB63BE000F569D5 /* AppDelegate.m */; };
@@ -53,6 +54,8 @@
 		2A0F6FB01CD124810095D171 /* UIColor+GoCheckin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+GoCheckin.m"; sourceTree = "<group>"; };
 		2A0F6FB21CD1A4570095D171 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		2A0F6FB31CD1A4570095D171 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		2A100B941D656A6700B36AED /* GoUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoUtility.h; sourceTree = "<group>"; };
+		2A100B951D656A6700B36AED /* GoUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoUtility.m; sourceTree = "<group>"; };
 		2A10CBF91D1CDDB500FB84F3 /* MKMapView+GoCheckin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+GoCheckin.h"; sourceTree = "<group>"; };
 		2A10CBFA1D1CDDB500FB84F3 /* MKMapView+GoCheckin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+GoCheckin.m"; sourceTree = "<group>"; };
 		2A1CB5BD1D619DC3003A1BD9 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
@@ -180,6 +183,8 @@
 				2A21D2BF1CBB59AF00F569D5 /* APIManager.m */,
 				2A21D2C11CBB5D8A00F569D5 /* PersistencyManager.h */,
 				2A21D2C21CBB5D8A00F569D5 /* PersistencyManager.m */,
+				2A100B941D656A6700B36AED /* GoUtility.h */,
+				2A100B951D656A6700B36AED /* GoUtility.m */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -414,6 +419,7 @@
 				2A21D3101CCA05EB00F569D5 /* SVPulsingAnnotationView.m in Sources */,
 				2ABB72DC1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m in Sources */,
 				2AA303411CF833DB009B530D /* UserInfoDetailView.m in Sources */,
+				2A100B961D656A6700B36AED /* GoUtility.m in Sources */,
 				2A21D2BD1CBB4B0300F569D5 /* HTTPClient.m in Sources */,
 				2A21D29F1CB63BE000F569D5 /* main.m in Sources */,
 				2A21D2EE1CBF891900F569D5 /* GoStation.m in Sources */,

@@ -10,6 +10,7 @@
 #import "ViewController.h"
 #import "MKMapView+GoCheckin.h"
 #import "APIManager.h"
+#import "GoUtility.h"
 
 #import "SVPulsingAnnotationView.h"
 #import "GoStationDetailView.h"
@@ -22,7 +23,7 @@
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
-@property (weak, nonatomic) IBOutlet UIView * bottomView;
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *detailInfoButton;
 
 @property (strong, nonnull) NSTimer *detailInfoTimer;
@@ -289,38 +290,37 @@
 
 - (UIImage *)imageForAnnotation:(id<MKAnnotation>)annotation {
     
-    UIImage *pinImage = [UIImage imageNamed:@"pin_station_constructing"];
+    UIImage *pinImage;
     
     if ([annotation isKindOfClass:[GoStationAnnotation class]]) {
         GoStationAnnotation *station = annotation;
         switch (station.status) {
             case GoStationStatusNormal:
                 if (station.isCheckIn) {
-                    pinImage = [UIImage imageNamed:@"pin_station_checkin_normal"];
+                    pinImage = [GoUtility normalCheckinImage];
                 } else {
-                    pinImage = [UIImage imageNamed:@"pin_station_normal"];
+                    pinImage = [GoUtility normalImage];
                 }
                 break;
             case GoStationStatusClosed:
                 if (station.isCheckIn) {
-                    pinImage = [UIImage imageNamed:@"pin_station_checkin_closed"];
+                    pinImage = [GoUtility closedCheckinImage];
                 } else {
-                    pinImage = [UIImage imageNamed:@"pin_station_closed"];
+                    pinImage = [GoUtility closedImage];
                 }
                 break;
             case GoStationStatusDeprecated:
                 if (station.isCheckIn) {
-                    pinImage = [UIImage imageNamed:@"pin_station_checkin_retired"];
+                    pinImage = [GoUtility deprecatedCheckinImage];
                 } else {
-                    pinImage = [UIImage imageNamed:@"pin_station_retired"];
+                    pinImage = [GoUtility deprecatedImage];
                 }
                 break;
             case GoStationStatusConstructing:
             case GoStationStatusPreparing:
             case GoStationStatusUnknown:
-                pinImage = [UIImage imageNamed:@"pin_station_constructing"];
-                break;
             default:
+                pinImage = [GoUtility constructingImage];
                 break;
         }
     }
@@ -398,10 +398,6 @@
             
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
                                                           reuseIdentifier:AnnotationIdentifier];
-            annotationView.detailCalloutAccessoryView = nil;
-            GoStationDetailView *detailView = [[GoStationDetailView alloc] init];
-            annotationView.detailCalloutAccessoryView = detailView;
-            
             annotationView.canShowCallout = YES;
             annotationView.centerOffset = CGPointMake(0, -25.0f);
         }
@@ -434,18 +430,23 @@
     CLLocationCoordinate2D newCenter = [mapView convertPoint:annotationCenter toCoordinateFromView:view.superview];
     [mapView setCenterCoordinate:newCenter animated:YES];
     
-    if ([view.detailCalloutAccessoryView isKindOfClass:[GoStationDetailView class]]) {
-        GoStationDetailView *detailView = (GoStationDetailView *)view.detailCalloutAccessoryView;
-        detailView.delegate = self;
-        [detailView setAnnotation:view.annotation UserLocation:self.userLocation];
-        
+    GoStationDetailView *detailView;
+    if (!view.detailCalloutAccessoryView || ![view.detailCalloutAccessoryView isKindOfClass:[GoStationDetailView class]]) {
+        detailView = [[GoStationDetailView alloc] init];
+    } else {
+        detailView = (GoStationDetailView *)view.detailCalloutAccessoryView;
     }
+    
+    detailView.delegate = self;
+    [detailView setAnnotation:view.annotation UserLocation:self.userLocation];
+    view.detailCalloutAccessoryView = detailView;
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
     if ([view.detailCalloutAccessoryView isKindOfClass:[GoStationDetailView class]]) {
         GoStationDetailView *detailView = (GoStationDetailView *)view.detailCalloutAccessoryView;
         detailView.delegate = nil;
+        view.detailCalloutAccessoryView = nil;
     }
 }
 

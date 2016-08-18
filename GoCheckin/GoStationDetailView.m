@@ -47,6 +47,10 @@
     return self;
 }
 
+- (void)dealloc {
+    _delegate = nil;
+}
+
 - (void)setAnnotation:(GoStationAnnotation *)annotation UserLocation:(CLLocation *)userLocation {
     self.annotation = annotation;
     self.userLocation = userLocation;

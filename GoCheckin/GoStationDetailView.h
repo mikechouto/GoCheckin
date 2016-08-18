@@ -22,6 +22,8 @@ IB_DESIGNABLE
 @interface GoStationDetailView : UIView
 
 @property (weak, nonatomic) id<GoStationDetailViewDelegate> delegate;
+- (instancetype)initWithAnnotation:(GoStationAnnotation *)annotation;
+- (void)setUserLocation:(CLLocation *)location;
 - (void)setAnnotation:(GoStationAnnotation *)annotation UserLocation:(CLLocation *)userLocation;
 
 @end
