@@ -26,8 +26,9 @@
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *detailInfoButton;
 
-@property (strong, nonnull) NSTimer *detailInfoTimer;
+@property (strong, nonatomic) NSTimer *detailInfoTimer;
 @property (strong, nonatomic) UserInfoDetailView *detailInfoView;
+@property (strong, nonatomic) GoStationDetailView *detailAnnotationView;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLLocation *userLocation;
 @property (strong, nonatomic) NSArray *GoStations;
@@ -85,6 +86,13 @@
     }
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    // Remove timer here instead of dealloc to prevent retain cycle
+    [self stopAnimatingDetailInfoButton];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -95,8 +103,13 @@
         [self.locationManager setDelegate:nil];
         self.locationManager = nil;
     }
+    
+    if (self.detailAnnotationView) {
+        [self.detailAnnotationView setDelegate:nil];
+        self.detailAnnotationView = nil;
+    }
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self stopAnimatingDetailInfoButton];
 }
 
 #pragma mark - Private Functions
@@ -200,6 +213,7 @@
     
     if (self.detailInfoTimer) {
         [self.detailInfoTimer invalidate];
+        self.detailInfoTimer = nil;
     }
     
     [self.detailInfoButton setTitle:NSLocalizedString(@"More", nil) forState:UIControlStateNormal];
@@ -391,11 +405,9 @@
     } else {
         
         static NSString* AnnotationIdentifier = @"AnnotationIdentifier";
-        
         annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:AnnotationIdentifier];
         
         if(annotationView == nil) {
-            
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
                                                           reuseIdentifier:AnnotationIdentifier];
             annotationView.canShowCallout = YES;
@@ -422,32 +434,29 @@
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     
-    [view.layer addAnimation:self.animationSelect forKey:@"bounce"];
-    // Center the annotation so that the detailView will not be covered by the title text.
-    CGPoint annotationCenter=CGPointMake(view.frame.origin.x + (view.frame.size.width/2),
-                                         view.frame.origin.y - (view.frame.size.height/2) - 40);
-    
-    CLLocationCoordinate2D newCenter = [mapView convertPoint:annotationCenter toCoordinateFromView:view.superview];
-    [mapView setCenterCoordinate:newCenter animated:YES];
-    
-    GoStationDetailView *detailView;
-    if (!view.detailCalloutAccessoryView || ![view.detailCalloutAccessoryView isKindOfClass:[GoStationDetailView class]]) {
-        detailView = [[GoStationDetailView alloc] init];
+    if (view.annotation == mapView.userLocation) {
+        [mapView deselectAnnotation:view.annotation animated:NO];
     } else {
-        detailView = (GoStationDetailView *)view.detailCalloutAccessoryView;
+        [view.layer addAnimation:self.animationSelect forKey:@"bounce"];
+        // Center the annotation so that the detailView will not be covered by the title text.
+        CGPoint annotationCenter = CGPointMake(view.frame.origin.x + (view.frame.size.width/2),
+                                             view.frame.origin.y - (view.frame.size.height/2) - 40);
+        
+        CLLocationCoordinate2D newCenter = [mapView convertPoint:annotationCenter toCoordinateFromView:view.superview];
+        [mapView setCenterCoordinate:newCenter animated:YES];
+        
+        if (!self.detailAnnotationView) {
+            self.detailAnnotationView = [[GoStationDetailView alloc] init];
+            self.detailAnnotationView.delegate = self;
+        }
+        
+        [self.detailAnnotationView setAnnotation:view.annotation UserLocation:self.userLocation];
+        view.detailCalloutAccessoryView = self.detailAnnotationView;
     }
-    
-    detailView.delegate = self;
-    [detailView setAnnotation:view.annotation UserLocation:self.userLocation];
-    view.detailCalloutAccessoryView = detailView;
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
-    if ([view.detailCalloutAccessoryView isKindOfClass:[GoStationDetailView class]]) {
-        GoStationDetailView *detailView = (GoStationDetailView *)view.detailCalloutAccessoryView;
-        detailView.delegate = nil;
-        view.detailCalloutAccessoryView = nil;
-    }
+
 }
 
 #pragma mark - Touches handeling
