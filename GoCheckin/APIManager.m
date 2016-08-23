@@ -41,6 +41,7 @@
 }
 
 - (void)updateGoStationIfNeeded {
+    [self updateGoCharger];
     if ([self dataUpdateNeeded]) {
         [self updateGoStation];
     } else {
@@ -51,7 +52,7 @@
 - (void)updateGoStation {
     
     // Request GoStation from GOGORO API server.
-    [self.httpClient getRequest:@"/vm/list" completion:^(NSDictionary *responseDict, NSError *error) {
+    [self.httpClient getRequestForStation:@"/vm/list" completion:^(NSDictionary *responseDict, NSError *error) {
         if (!error) {
 //            NSLog(@"%@", responseDict);
             [self.persistencyManager createOrUpdateGoStationWithData:responseDict];
@@ -65,6 +66,14 @@
                 [alertController addAction:okAction];
                 [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alertController animated:NO completion:nil];
             });
+        }
+    }];
+}
+
+- (void)updateGoCharger {
+    [self.httpClient getRequestForChargerWithCompletion:^(NSDictionary *responseDict, NSError *error) {
+        if (!error) {
+            NSLog(@"%@", responseDict);
         }
     }];
 }

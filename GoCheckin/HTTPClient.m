@@ -11,16 +11,13 @@
 @implementation HTTPClient
 
 static NSString * const GoStationAPIServer = @"http://wapi.gogoroapp.com/tw/api";
+static NSString * const GoChargerAPIServer = @"https://raw.githubusercontent.com/mikechouto/GoCheckin-data/master/list.json";
 
-///vm/list
-
-- (void)getRequest:(NSString *)path completion:(void (^)(NSDictionary *responseDict, NSError *error))completion {
-    
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", GoStationAPIServer, path]];
+- (void)getRequest:(NSURL *)url completion:(void (^)(NSDictionary *responseDict, NSError *error))completion {
     
     NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
-
+    
     NSURLSessionDataTask *dataTask = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
         if (!error) {
@@ -44,5 +41,19 @@ static NSString * const GoStationAPIServer = @"http://wapi.gogoroapp.com/tw/api"
     
     [dataTask resume];
 }
+
+//http://wapi.gogoroapp.com/tw/api/vm/list
+- (void)getRequestForStation:(NSString *)path completion:(void (^)(NSDictionary *responseDict, NSError *error))completion {
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", GoStationAPIServer, path]];
+    [self getRequest:url completion:completion];
+}
+
+//https://raw.githubusercontent.com/mikechouto/GoCheckin-data/master/list.json
+- (void)getRequestForChargerWithCompletion:(void (^)(NSDictionary *responseDict, NSError *error))completion {
+    NSURL *url = [NSURL URLWithString:GoChargerAPIServer];
+    [self getRequest:url completion:completion];
+}
+
+
 
 @end

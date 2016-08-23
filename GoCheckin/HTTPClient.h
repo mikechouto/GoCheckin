@@ -10,6 +10,7 @@
 
 @interface HTTPClient : NSObject
 
-- (void)getRequest:(NSString *)path completion:(void (^)(NSDictionary *responseDict, NSError *error))completion;
+- (void)getRequestForStation:(NSString *)path completion:(void (^)(NSDictionary *responseDict, NSError *error))completion;
+- (void)getRequestForChargerWithCompletion:(void (^)(NSDictionary *responseDict, NSError *error))completion;
 
 @end
