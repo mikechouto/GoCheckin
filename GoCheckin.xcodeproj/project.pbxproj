@@ -14,7 +14,6 @@
 		2A0F6FB11CD124810095D171 /* UIColor+GoCheckin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0F6FB01CD124810095D171 /* UIColor+GoCheckin.m */; };
 		2A0F6FB41CD1A4570095D171 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0F6FB31CD1A4570095D171 /* SettingsViewController.m */; };
 		2A100B961D656A6700B36AED /* GoUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A100B951D656A6700B36AED /* GoUtility.m */; };
-		2A10CBFB1D1CDDB500FB84F3 /* MKMapView+GoCheckin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A10CBFA1D1CDDB500FB84F3 /* MKMapView+GoCheckin.m */; };
 		2A21D29F1CB63BE000F569D5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D29E1CB63BE000F569D5 /* main.m */; };
 		2A21D2A21CB63BE000F569D5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D2A11CB63BE000F569D5 /* AppDelegate.m */; };
 		2A21D2A51CB63BE000F569D5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D2A41CB63BE000F569D5 /* ViewController.m */; };
@@ -39,7 +38,7 @@
 		2AFDA21F1D054EE4007469D5 /* GoStationDetailView_iOS8.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDA21D1D054EE4007469D5 /* GoStationDetailView_iOS8.xib */; };
 		2AFDA2221D055799007469D5 /* GoStationDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDA2201D055799007469D5 /* GoStationDetailView.xib */; };
 		2AFDA2251D0557A5007469D5 /* UserInfoDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDA2231D0557A5007469D5 /* UserInfoDetailView.xib */; };
-		DC10D95B9494066D1607BB3A /* libPods-GoCheckin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BDD437BBB8FF11F48238722 /* libPods-GoCheckin.a */; };
+		4C8E6B908C5E0833842D7960 /* libPods-GoCheckin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF1C1C00F7C4A0550D9120D /* libPods-GoCheckin.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,8 +55,6 @@
 		2A0F6FB31CD1A4570095D171 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		2A100B941D656A6700B36AED /* GoUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoUtility.h; sourceTree = "<group>"; };
 		2A100B951D656A6700B36AED /* GoUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoUtility.m; sourceTree = "<group>"; };
-		2A10CBF91D1CDDB500FB84F3 /* MKMapView+GoCheckin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+GoCheckin.h"; sourceTree = "<group>"; };
-		2A10CBFA1D1CDDB500FB84F3 /* MKMapView+GoCheckin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+GoCheckin.m"; sourceTree = "<group>"; };
 		2A1CB5BD1D619DC3003A1BD9 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
 		2A21D29A1CB63BE000F569D5 /* GoCheckin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoCheckin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A21D29E1CB63BE000F569D5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -101,9 +98,9 @@
 		2AFDA2211D055799007469D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/GoStationDetailView.xib; sourceTree = "<group>"; };
 		2AFDA2241D0557A5007469D5 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hant"; path = "zh-Hant.lproj/UserInfoDetailView.xib"; sourceTree = "<group>"; };
 		2AFDA2261D0557B1007469D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/UserInfoDetailView.xib; sourceTree = "<group>"; };
-		4E087006A0931C4A1B04D3E7 /* Pods-GoCheckin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoCheckin.release.xcconfig"; path = "Pods/Target Support Files/Pods-GoCheckin/Pods-GoCheckin.release.xcconfig"; sourceTree = "<group>"; };
-		9BDD437BBB8FF11F48238722 /* libPods-GoCheckin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GoCheckin.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BA31575ED7762E61134EB07F /* Pods-GoCheckin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoCheckin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GoCheckin/Pods-GoCheckin.debug.xcconfig"; sourceTree = "<group>"; };
+		6AF1C1C00F7C4A0550D9120D /* libPods-GoCheckin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GoCheckin.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6FFB360D9BEAF26B8DBF4FDD /* Pods-GoCheckin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoCheckin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GoCheckin/Pods-GoCheckin.debug.xcconfig"; sourceTree = "<group>"; };
+		C4B031C1E673C68ADF42E9A2 /* Pods-GoCheckin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoCheckin.release.xcconfig"; path = "Pods/Target Support Files/Pods-GoCheckin/Pods-GoCheckin.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,7 +111,7 @@
 				2A0722BE1CE30DCD001F0570 /* MessageUI.framework in Frameworks */,
 				2A21D3121CCA05F900F569D5 /* QuartzCore.framework in Frameworks */,
 				2A21D3081CC75B5E00F569D5 /* MapKit.framework in Frameworks */,
-				DC10D95B9494066D1607BB3A /* libPods-GoCheckin.a in Frameworks */,
+				4C8E6B908C5E0833842D7960 /* libPods-GoCheckin.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,8 +123,8 @@
 			children = (
 				2A21D29C1CB63BE000F569D5 /* GoCheckin */,
 				2A21D29B1CB63BE000F569D5 /* Products */,
-				6B537520921EE79EB87FDBF6 /* Pods */,
 				AF124DABF15F05C6278ECA60 /* Frameworks */,
+				E49B2BFE714C9DE46FAD3136 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -223,8 +220,6 @@
 		2A21D30D1CCA05E300F569D5 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				2A10CBF91D1CDDB500FB84F3 /* MKMapView+GoCheckin.h */,
-				2A10CBFA1D1CDDB500FB84F3 /* MKMapView+GoCheckin.m */,
 				2A21D30E1CCA05EB00F569D5 /* SVPulsingAnnotationView.h */,
 				2A21D30F1CCA05EB00F569D5 /* SVPulsingAnnotationView.m */,
 			);
@@ -260,24 +255,24 @@
 			name = CustomCell;
 			sourceTree = "<group>";
 		};
-		6B537520921EE79EB87FDBF6 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				BA31575ED7762E61134EB07F /* Pods-GoCheckin.debug.xcconfig */,
-				4E087006A0931C4A1B04D3E7 /* Pods-GoCheckin.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		AF124DABF15F05C6278ECA60 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				2A0722BD1CE30DCD001F0570 /* MessageUI.framework */,
 				2A21D3111CCA05F900F569D5 /* QuartzCore.framework */,
 				2A21D3071CC75B5E00F569D5 /* MapKit.framework */,
-				9BDD437BBB8FF11F48238722 /* libPods-GoCheckin.a */,
+				6AF1C1C00F7C4A0550D9120D /* libPods-GoCheckin.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E49B2BFE714C9DE46FAD3136 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6FFB360D9BEAF26B8DBF4FDD /* Pods-GoCheckin.debug.xcconfig */,
+				C4B031C1E673C68ADF42E9A2 /* Pods-GoCheckin.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -287,12 +282,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2A21D2B11CB63BE000F569D5 /* Build configuration list for PBXNativeTarget "GoCheckin" */;
 			buildPhases = (
-				B893027D4F1E4F8610F0FE3D /* Check Pods Manifest.lock */,
+				2687A0C2E99ABBF63AF802A1 /* [CP] Check Pods Manifest.lock */,
 				2A21D2961CB63BE000F569D5 /* Sources */,
 				2A21D2971CB63BE000F569D5 /* Frameworks */,
 				2A21D2981CB63BE000F569D5 /* Resources */,
-				A545DC18EBA42DE6C1090751 /* Embed Pods Frameworks */,
-				2182EE694B7A16BDEE8E91E0 /* Copy Pods Resources */,
+				FA52D714A442C8014E7E2942 /* [CP] Embed Pods Frameworks */,
+				D3ABBB65E1DB7FCAB4DF3876 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -355,14 +350,29 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2182EE694B7A16BDEE8E91E0 /* Copy Pods Resources */ = {
+		2687A0C2E99ABBF63AF802A1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D3ABBB65E1DB7FCAB4DF3876 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -370,34 +380,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GoCheckin/Pods-GoCheckin-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A545DC18EBA42DE6C1090751 /* Embed Pods Frameworks */ = {
+		FA52D714A442C8014E7E2942 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GoCheckin/Pods-GoCheckin-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B893027D4F1E4F8610F0FE3D /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -410,7 +405,6 @@
 				2A21D2A51CB63BE000F569D5 /* ViewController.m in Sources */,
 				2ABB72D61D5C7E2A001E0AE0 /* SwitchableTableViewCell.m in Sources */,
 				2A21D2A21CB63BE000F569D5 /* AppDelegate.m in Sources */,
-				2A10CBFB1D1CDDB500FB84F3 /* MKMapView+GoCheckin.m in Sources */,
 				2A21D3061CC6380400F569D5 /* NSJSONSerialization+ParseString.m in Sources */,
 				2A21D2C01CBB59AF00F569D5 /* APIManager.m in Sources */,
 				2A21D2B61CB63BF700F569D5 /* GoStationAnnotation.m in Sources */,
@@ -581,7 +575,7 @@
 		};
 		2A21D2B21CB63BE000F569D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BA31575ED7762E61134EB07F /* Pods-GoCheckin.debug.xcconfig */;
+			baseConfigurationReference = 6FFB360D9BEAF26B8DBF4FDD /* Pods-GoCheckin.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -597,7 +591,7 @@
 		};
 		2A21D2B31CB63BE000F569D5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4E087006A0931C4A1B04D3E7 /* Pods-GoCheckin.release.xcconfig */;
+			baseConfigurationReference = C4B031C1E673C68ADF42E9A2 /* Pods-GoCheckin.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

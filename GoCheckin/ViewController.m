@@ -6,9 +6,8 @@
 //
 //
 
-#import <MapKit/MapKit.h>
+#import "SGMapView.h"
 #import "ViewController.h"
-#import "MKMapView+GoCheckin.h"
 #import "APIManager.h"
 #import "GoUtility.h"
 
@@ -22,7 +21,7 @@
 @interface ViewController () <MKMapViewDelegate, CLLocationManagerDelegate, GoStationDetailViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
-@property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (weak, nonatomic) IBOutlet SGMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIButton *detailInfoButton;
 
@@ -62,7 +61,7 @@
         [self.mapView setShowsCompass:NO];
     }
     
-    [self.mapView setSingleHandControlEnable:YES];
+    [self.mapView setEnableSingleHandControl:YES];
     
     [self stopAnimatingDetailInfoButton];
     

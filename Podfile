@@ -4,6 +4,7 @@
 # use_frameworks!
 platform :ios, '8.4'
 target 'GoCheckin' do
-    pod 'Realm', '~> 1.0'
+    pod 'Realm', '~> 1.0.0'
+    pod 'SGMapView'
 end
 
