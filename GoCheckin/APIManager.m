@@ -41,23 +41,35 @@
 }
 
 - (void)updateGoStationIfNeeded {
-    [self updateGoCharger];
+    // MARK: for developing porpurse will move in after finish
+    dispatch_group_t requestGroup = dispatch_group_create();
+    [self updateGoChargerWithGroup:requestGroup];
+    [self updateGoStationWithGroup:requestGroup];
+    dispatch_group_notify(requestGroup, dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"GoStationUpdateFinishNotification" object:nil];
+    });
+    
     if ([self dataUpdateNeeded]) {
-        [self updateGoStation];
+
     } else {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"GoStationUpdateFinishNotification" object:nil];
     }
 }
 
 - (void)updateGoStation {
+    [self updateGoStationWithGroup:nil];
+}
+
+- (void)updateGoStationWithGroup:(dispatch_group_t)requestGroup {
+    if (requestGroup) {
+        dispatch_group_enter(requestGroup);
+    }
     
     // Request GoStation from GOGORO API server.
     [self.httpClient getRequestForStation:@"/vm/list" completion:^(NSDictionary *responseDict, NSError *error) {
         if (!error) {
-//            NSLog(@"%@", responseDict);
+            //            NSLog(@"%@", responseDict);
             [self.persistencyManager createOrUpdateGoStationWithData:responseDict];
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"GoStationUpdateFinishNotification" object:nil];
             
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -67,13 +79,24 @@
                 [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alertController animated:NO completion:nil];
             });
         }
+        
+        if (requestGroup) {
+            dispatch_group_leave(requestGroup);
+        }
     }];
 }
 
-- (void)updateGoCharger {
+- (void)updateGoChargerWithGroup:(dispatch_group_t)requestGroup {
+    if (requestGroup) {
+        dispatch_group_enter(requestGroup);
+    }
     [self.httpClient getRequestForChargerWithCompletion:^(NSDictionary *responseDict, NSError *error) {
         if (!error) {
             NSLog(@"%@", responseDict);
+            [self.persistencyManager createOrUpdateGoChargerWithData:responseDict];
+        }
+        if (requestGroup) {
+            dispatch_group_leave(requestGroup);
         }
     }];
 }

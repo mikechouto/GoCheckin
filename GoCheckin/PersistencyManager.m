@@ -10,10 +10,7 @@
 #import "NSJSONSerialization+ParseString.h"
 
 
-// Gogoro API Keys
-static NSString *const kResponseKeyStatus = @"result";
-static NSString *const kResponseKeyContent = @"data";
-
+// Gogoro API General Keys
 static NSString *const kResponseKeyList = @"List";
 static NSString *const kResponseKeyValue = @"Value";
 static NSString *const kResponseKeyLanguage = @"Lang";
@@ -21,30 +18,42 @@ static NSString *const kResponseValueEnglish = @"en-US";
 static NSString *const kResponseValueChinese = @"zh-TW";
 
 static NSString *const kResponseKeyUUID = @"Id";
-static NSString *const kResponseKeyAvailableTime = @"AvailableTime";
-static NSString *const kResponseKeyAvailableTimeByte = @"AvailableTimeByte"; // Not used
+static NSString *const kResponseKeyCity = @"City";
+static NSString *const kResponseKeyState = @"State";
 static NSString *const kResponseKeyName = @"LocName";
 static NSString *const kResponseKeyAddress = @"Address";
-static NSString *const kResponseKeyCity = @"City";
 static NSString *const kResponseKeyDistrict = @"District";
 static NSString *const kResponseKeyLatitude = @"Latitude";
 static NSString *const kResponseKeyLongitude = @"Longitude";
+static NSString *const kResponseKeyAvailableTime = @"AvailableTime";
+
+// Station Specific Keys
 static NSString *const kResponseKeyZip = @"ZipCode";
-static NSString *const kResponseKeyState = @"State";
+static NSString *const kResponseKeyStatus = @"result";
+static NSString *const kResponseKeyStationContent = @"data";
+static NSString *const kResponseKeyAvailableTimeByte = @"AvailableTimeByte"; // Not used
+
+
+// Charger Specific Keys
+static NSString *const kResponseKeyUrl = @"Url";
+static NSString *const kResponseKeyPhoneNumber = @"Phone";
+static NSString *const kResponseKeyChargerGeoPoint = @"GeoPoint";
+static NSString *const kResponseKeyChargerContent = @"PublicHcDataList";
 
 // NSUserDefaults Keys
 static NSString *const kFirstRunDate = @"initTimestamp";
+static NSString *const kUpdateInterval = @"updateInterval";
 static NSString *const kDefaultMapApplication = @"defaultMap";
 static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
-static NSString *const kUpdateInterval = @"updateInterval";
 
 @implementation PersistencyManager
 
-- (void)createOrUpdateGoStationWithData:(NSDictionary *)stationDict {
+#pragma mark GoStation
+- (void)createOrUpdateGoStationWithData:(NSDictionary *)dictionary {
     
-    if ([[stationDict objectForKey:kResponseKeyStatus] boolValue]) {
+    if ([[dictionary objectForKey:kResponseKeyStatus] boolValue]) {
         
-        NSArray *stationDicts = [stationDict objectForKey:kResponseKeyContent];
+        NSArray *stationDicts = [dictionary objectForKey:kResponseKeyStationContent];
         if (stationDicts.count > 0) {
             // Create realm pointing to default file which was set in AppDelegate.
             RLMRealm *realm = [RLMRealm defaultRealm];
@@ -240,6 +249,141 @@ static NSString *const kUpdateInterval = @"updateInterval";
     return stations;
 }
 
+- (nonnull NSDictionary *)parseLocNameWithDictionary:(NSDictionary *)dictionary {
+    
+    NSDictionary *nameDict = [NSJSONSerialization JSONObjectWithString:[dictionary objectForKey:kResponseKeyName]
+                                                               options:kNilOptions error:nil];
+    id nameArray = [nameDict objectForKey:kResponseKeyList];
+    return [self parseMultipleLanguageDataWithArray:nameArray];
+}
+
+- (nonnull NSDictionary *)parseAddressWithDictionary:(NSDictionary *)dictionary {
+    NSDictionary *addressDict = [NSJSONSerialization JSONObjectWithString:[dictionary objectForKey:kResponseKeyAddress]
+                                                                  options:kNilOptions error:nil];
+    id addressArray = [addressDict objectForKey:kResponseKeyList];
+    return [self parseMultipleLanguageDataWithArray:addressArray];
+}
+
+- (nonnull NSDictionary *)parseCityWithDictionary:(NSDictionary *)dictionary {
+    NSDictionary *cityDict = [NSJSONSerialization JSONObjectWithString:[dictionary objectForKey:kResponseKeyCity]
+                                                               options:kNilOptions error:nil];
+    id cityArray = [cityDict objectForKey:kResponseKeyList];
+    return [self parseMultipleLanguageDataWithArray:cityArray];
+}
+
+- (nonnull NSDictionary *)parseDistrictWithDictionary:(NSDictionary *)dictionary {
+    NSDictionary *districtDict = [NSJSONSerialization JSONObjectWithString:[dictionary objectForKey:kResponseKeyDistrict]
+                                                                   options:kNilOptions error:nil];
+    
+    id districtArray = [districtDict objectForKey:kResponseKeyList];
+    return [self parseMultipleLanguageDataWithArray:districtArray];
+}
+
+- (nonnull NSDictionary *)parseMultipleLanguageDataWithArray:(NSArray *)array {
+    NSMutableDictionary *tempDict;
+    if (array && [array isKindOfClass:[NSArray class]]) {
+        tempDict = [NSMutableDictionary dictionaryWithCapacity:[array count]];
+        for (id data in array) {
+            
+            if ([data isKindOfClass:[NSDictionary class]]) {
+                if ([[data objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueEnglish]) {
+                    [tempDict setObject:[data objectForKey:kResponseKeyValue] forKey:kResponseValueEnglish];
+                }
+                
+                if ([[data objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueChinese]) {
+                    [tempDict setObject:[data objectForKey:kResponseKeyValue] forKey:kResponseValueChinese];
+                }
+            }
+        }
+    }
+    return [NSDictionary dictionaryWithDictionary:tempDict];
+}
+
+#pragma mark GoCharger
+- (void)createOrUpdateGoChargerWithData:(NSDictionary *)dictionary {
+    NSArray *chargerDicts = [dictionary objectForKey:kResponseKeyChargerContent];
+    if (chargerDicts.count > 0) {
+        RLMRealm *realm = [RLMRealm defaultRealm];
+        long long update_time = [[NSDate date] timeIntervalSince1970];
+        
+        for (NSDictionary *chargerDict in chargerDicts) {
+            
+            NSString *uuid = [chargerDict objectForKey:kResponseKeyUUID];
+            NSString *available_time = [chargerDict objectForKey:kResponseKeyAvailableTime];
+            
+            // Name
+            NSDictionary *nameDict = [self parseLocNameWithDictionary:chargerDict];
+            NSString *name_eng = [nameDict objectForKey:kResponseValueEnglish];
+            NSString *name_cht = [nameDict objectForKey:kResponseValueChinese];
+
+            
+            // Address
+            NSDictionary *addressDict = [self parseAddressWithDictionary:chargerDict];
+            NSString *address_eng = [addressDict objectForKey:kResponseValueEnglish];
+            NSString *address_cht = [addressDict objectForKey:kResponseValueChinese];
+            
+            // City
+            NSDictionary *cityDict = [self parseCityWithDictionary:chargerDict];
+            NSString *city_eng = [cityDict objectForKey:kResponseValueEnglish];
+            NSString *city_cht = [cityDict objectForKey:kResponseValueChinese];
+            
+            
+            // District
+            NSDictionary *districtDict = [self parseDistrictWithDictionary:chargerDict];
+            NSString *district_eng = [districtDict objectForKey:kResponseValueEnglish];
+            NSString *district_cht = [districtDict objectForKey:kResponseValueChinese];
+            
+            double latitude = 0, longitude = 0;
+            int state;
+            
+            NSDictionary *geoPoint = [chargerDict objectForKey:kResponseKeyChargerGeoPoint];
+            if (geoPoint) {
+                if ([[geoPoint objectForKey:kResponseKeyLatitude] isKindOfClass:[NSNumber class]]) {
+                    latitude = [[geoPoint objectForKey:kResponseKeyLatitude] doubleValue];
+                }
+                
+                if ([[geoPoint objectForKey:kResponseKeyLongitude] isKindOfClass:[NSNumber class]]) {
+                    longitude = [[geoPoint objectForKey:kResponseKeyLongitude] doubleValue];
+                }
+            }
+            
+            if ([[chargerDict objectForKey:kResponseKeyState] isKindOfClass:[NSNumber class]]) {
+                state = [[chargerDict objectForKey:kResponseKeyState] intValue];
+            }
+            
+            NSString *phone_number = [chargerDict objectForKey:kResponseKeyPhoneNumber];
+            NSString *homepage = [chargerDict objectForKey:kResponseKeyUrl];
+            
+            // Create or update your object
+            [realm beginWriteTransaction];
+            [GoCharger createInDefaultRealmWithValue:@{@"uuid": uuid,
+                                                       @"update_time": @(update_time),
+                                                       @"name_eng": name_eng,
+                                                       @"name_cht": name_cht,
+                                                       @"latitude": @(latitude),
+                                                       @"longitude": @(longitude),
+                                                       @"state": @(state),
+                                                       @"address_eng": address_eng,
+                                                       @"address_cht": address_cht,
+                                                       @"city_eng": city_eng,
+                                                       @"city_cht": city_cht,
+                                                       @"district_eng": district_eng,
+                                                       @"district_cht": district_cht,
+                                                       @"available_time": available_time,
+                                                       @"phone_num": phone_number,
+                                                       @"homepage": homepage
+                                                       }];
+            [realm commitWriteTransaction];
+        }
+        NSLog(@"Charger finishtf");
+    }
+}
+
+- (RLMResults<GoCharger *> *)queryGoChargerWithWithPredicate:(NSPredicate *)predicate {
+    return nil;
+}
+
+#pragma mark NSUserDefaults
 - (void)initUserDefaultsWithDefaultValuesMapType:(NSUInteger)type isShowDeprecatedStation:(BOOL)isShow updateInterval:(NSInteger)interval {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
@@ -318,14 +462,12 @@ static NSString *const kUpdateInterval = @"updateInterval";
 
 - (void)updateWorkingStationState {
     RLMResults<GoStation *> *stations = [GoStation objectsWhere:@"state == 1 && online_time == 0"];
-//    if (stations.count > 0) {
-        RLMRealm *realm = [RLMRealm defaultRealm];
-        [realm transactionWithBlock:^{
-            for (GoStation *station in stations) {
-                station.online_time = @(round([[NSDate date] timeIntervalSince1970]));
-            }
-        }];
-//    }
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    [realm transactionWithBlock:^{
+        for (GoStation *station in stations) {
+            station.online_time = @(round([[NSDate date] timeIntervalSince1970]));
+        }
+    }];
     
     // Check if deprecated stations comes alive again
     stations = [GoStation objectsWhere:@"state == 1 && offline_time > 0"];
