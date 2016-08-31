@@ -10,7 +10,7 @@
 
 @implementation HTTPClient
 
-static NSString * const GoStationAPIServer = @"http://wapi.gogoroapp.com/tw/api";
+static NSString * const GoStationAPIServer = @"https://wapi.gogoro.com/tw/api";
 static NSString * const GoChargerAPIServer = @"https://raw.githubusercontent.com/mikechouto/GoCheckin-data/master/list.json";
 
 - (void)getRequest:(NSURL *)url completion:(void (^)(NSDictionary *responseDict, NSError *error))completion {
@@ -42,7 +42,7 @@ static NSString * const GoChargerAPIServer = @"https://raw.githubusercontent.com
     [dataTask resume];
 }
 
-//http://wapi.gogoroapp.com/tw/api/vm/list
+//https://wapi.gogoro.com/tw/api/vm/list
 - (void)getRequestForStation:(NSString *)path completion:(void (^)(NSDictionary *responseDict, NSError *error))completion {
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", GoStationAPIServer, path]];
     [self getRequest:url completion:completion];
