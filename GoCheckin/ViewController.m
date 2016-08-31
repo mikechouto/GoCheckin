@@ -426,6 +426,9 @@
         annView.alpha = 0;
         [UIView animateWithDuration:0.1 animations:^{
             annView.alpha = 1.0;
+        } completion:^(BOOL finished) {
+            MKAnnotationView *userAnnotation = [mapView viewForAnnotation:mapView.userLocation];
+            [userAnnotation.superview bringSubviewToFront:userAnnotation];
         }];
         [annView.layer addAnimation:self.animationAdd forKey:@"bounce"];
     }
@@ -455,7 +458,13 @@
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
+    MKAnnotationView *userAnnotation = [mapView viewForAnnotation:mapView.userLocation];
+    [userAnnotation.superview bringSubviewToFront:userAnnotation];
+}
 
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+    MKAnnotationView *userAnnotation = [mapView viewForAnnotation:mapView.userLocation];
+    [userAnnotation.superview bringSubviewToFront:userAnnotation];
 }
 
 #pragma mark - Touches handeling
