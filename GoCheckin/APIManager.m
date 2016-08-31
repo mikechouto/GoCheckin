@@ -70,7 +70,6 @@
         if (!error) {
             //            NSLog(@"%@", responseDict);
             [self.persistencyManager createOrUpdateGoStationWithData:responseDict];
-            
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil];

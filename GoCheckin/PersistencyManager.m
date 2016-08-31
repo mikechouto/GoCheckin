@@ -29,7 +29,7 @@ static NSString *const kResponseKeyAvailableTime = @"AvailableTime";
 
 // Station Specific Keys
 static NSString *const kResponseKeyZip = @"ZipCode";
-static NSString *const kResponseKeyStatus = @"result";
+static NSString *const kResponseKeyResult = @"result";
 static NSString *const kResponseKeyStationContent = @"data";
 static NSString *const kResponseKeyAvailableTimeByte = @"AvailableTimeByte"; // Not used
 
@@ -51,7 +51,7 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
 #pragma mark GoStation
 - (void)createOrUpdateGoStationWithData:(NSDictionary *)dictionary {
     
-    if ([[dictionary objectForKey:kResponseKeyStatus] boolValue]) {
+    if ([[dictionary objectForKey:kResponseKeyResult] boolValue]) {
         
         NSArray *stationDicts = [dictionary objectForKey:kResponseKeyStationContent];
         if (stationDicts.count > 0) {
@@ -64,104 +64,27 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
                 NSString *uuid = [stationDict objectForKey:kResponseKeyUUID];
                 NSString *available_time = [stationDict objectForKey:kResponseKeyAvailableTime];
                 
-                // Name
-                NSString *name_eng, *name_cht;
-                NSDictionary *nameDict = [NSJSONSerialization JSONObjectWithString:[stationDict objectForKey:kResponseKeyName]
-                                                                         options:kNilOptions error:nil];
-                if ([[nameDict objectForKey:kResponseKeyList] isKindOfClass:[NSArray class]]) {
-                    NSArray *nameArray = [nameDict objectForKey:kResponseKeyList];
-                    for (id name in nameArray) {
-                        if ([name isKindOfClass:[NSDictionary class]]) {
-                            
-                            if ([[name objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueEnglish]) {
-                                name_eng = [name objectForKey:kResponseKeyValue];
-                            }
-                            
-                            if ([[name objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueChinese]) {
-                                name_cht = [name objectForKey:kResponseKeyValue];
-                            }
-                        }
-                    }
-                }
+                NSDictionary *nameDict = [self parseLocNameWithDictionary:stationDict];
+                NSString *name_eng = [nameDict objectForKey:kResponseValueEnglish];
+                NSString *name_cht = [nameDict objectForKey:kResponseValueChinese];
                 
-                // Address
-                NSString *address_eng, *address_cht;
-                NSDictionary *addressDict = [NSJSONSerialization JSONObjectWithString:[stationDict objectForKey:kResponseKeyAddress]
-                                                                            options:kNilOptions error:nil];
-                if ([[addressDict objectForKey:kResponseKeyList] isKindOfClass:[NSArray class]]) {
-                    NSArray *addressArray = [addressDict objectForKey:kResponseKeyList];
-                    for (id address in addressArray) {
-                        if ([address isKindOfClass:[NSDictionary class]]) {
-                            
-                            if ([[address objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueEnglish]) {
-                                address_eng = [address objectForKey:kResponseKeyValue];
-                            }
-                            
-                            if ([[address objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueChinese]) {
-                                address_cht = [address objectForKey:kResponseKeyValue];
-                            }
-                        }
-                    }
-                }
+                NSDictionary *addressDict = [self parseAddressWithDictionary:stationDict];
+                NSString *address_eng = [addressDict objectForKey:kResponseValueEnglish];
+                NSString *address_cht = [addressDict objectForKey:kResponseValueChinese];
                 
-                // City
-                NSString *city_eng, *city_cht;
-                NSDictionary *cityDict = [NSJSONSerialization JSONObjectWithString:[stationDict objectForKey:kResponseKeyCity]
-                                                                         options:kNilOptions error:nil];
-                if ([[cityDict objectForKey:kResponseKeyList] isKindOfClass:[NSArray class]]) {
-                    NSArray *cityArray = [cityDict objectForKey:kResponseKeyList];
-                    for (id city in cityArray) {
-                        if ([city isKindOfClass:[NSDictionary class]]) {
-                            
-                            if ([[city objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueEnglish]) {
-                                city_eng = [city objectForKey:kResponseKeyValue];
-                            }
-                            
-                            if ([[city objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueChinese]) {
-                                city_cht = [city objectForKey:kResponseKeyValue];
-                            }
-                        }
-                    }
-                }
+                NSDictionary *cityDict = [self parseCityWithDictionary:stationDict];
+                NSString *city_eng = [cityDict objectForKey:kResponseValueEnglish];
+                NSString *city_cht = [cityDict objectForKey:kResponseValueChinese];
                 
-                // District
-                NSString *district_eng, *district_cht;
-                NSDictionary *districtDict = [NSJSONSerialization JSONObjectWithString:[stationDict objectForKey:kResponseKeyDistrict]
-                                                                             options:kNilOptions error:nil];
-                if ([[districtDict objectForKey:kResponseKeyList] isKindOfClass:[NSArray class]]) {
-                    NSArray *districtArray = [districtDict objectForKey:kResponseKeyList];
-                    for (id district in districtArray) {
-                        if ([district isKindOfClass:[NSDictionary class]]) {
-                            
-                            if ([[district objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueEnglish]) {
-                                district_eng = [district objectForKey:kResponseKeyValue];
-                            }
-                            
-                            if ([[district objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueChinese]) {
-                                district_cht = [district objectForKey:kResponseKeyValue];
-                            }
-                        }
-                    }
-                }
+                NSDictionary *districtDict = [self parseDistrictWithDictionary:stationDict];
+                NSString *district_eng = [districtDict objectForKey:kResponseValueEnglish];
+                NSString *district_cht = [districtDict objectForKey:kResponseValueChinese];
                 
-                double latitude = 0, longitude = 0;
-                int zip_code, state;
+                double latitude = [self parseLatitudeWithDictionary:stationDict];
+                double longitude = [self parseLongitudeWithDictionary:stationDict];
                 
-                if ([[stationDict objectForKey:kResponseKeyLatitude] isKindOfClass:[NSNumber class]]) {
-                    latitude = [[stationDict objectForKey:kResponseKeyLatitude] doubleValue];
-                }
-                
-                if ([[stationDict objectForKey:kResponseKeyLongitude] isKindOfClass:[NSNumber class]]) {
-                    longitude = [[stationDict objectForKey:kResponseKeyLongitude] doubleValue];
-                }
-                
-                if ([[stationDict objectForKey:kResponseKeyZip] isKindOfClass:[NSString class]]) {
-                    zip_code = [[stationDict objectForKey:kResponseKeyZip] intValue];
-                }
-                
-                if ([[stationDict objectForKey:kResponseKeyState] isKindOfClass:[NSNumber class]]) {
-                    state = [[stationDict objectForKey:kResponseKeyState] intValue];
-                }
+                int zip_code = [self parseZipCodeWithDictionary:stationDict];
+                int state = [self parseStateWithDictionary:stationDict];
                 
                 // Create or update your object
                 [realm beginWriteTransaction];
@@ -181,6 +104,7 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
                                                                  @"district_cht": district_cht,
                                                                  @"available_time": available_time
                                                                  }];
+                
                 [realm commitWriteTransaction];
             }
             
@@ -249,56 +173,6 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
     return stations;
 }
 
-- (nonnull NSDictionary *)parseLocNameWithDictionary:(NSDictionary *)dictionary {
-    
-    NSDictionary *nameDict = [NSJSONSerialization JSONObjectWithString:[dictionary objectForKey:kResponseKeyName]
-                                                               options:kNilOptions error:nil];
-    id nameArray = [nameDict objectForKey:kResponseKeyList];
-    return [self parseMultipleLanguageDataWithArray:nameArray];
-}
-
-- (nonnull NSDictionary *)parseAddressWithDictionary:(NSDictionary *)dictionary {
-    NSDictionary *addressDict = [NSJSONSerialization JSONObjectWithString:[dictionary objectForKey:kResponseKeyAddress]
-                                                                  options:kNilOptions error:nil];
-    id addressArray = [addressDict objectForKey:kResponseKeyList];
-    return [self parseMultipleLanguageDataWithArray:addressArray];
-}
-
-- (nonnull NSDictionary *)parseCityWithDictionary:(NSDictionary *)dictionary {
-    NSDictionary *cityDict = [NSJSONSerialization JSONObjectWithString:[dictionary objectForKey:kResponseKeyCity]
-                                                               options:kNilOptions error:nil];
-    id cityArray = [cityDict objectForKey:kResponseKeyList];
-    return [self parseMultipleLanguageDataWithArray:cityArray];
-}
-
-- (nonnull NSDictionary *)parseDistrictWithDictionary:(NSDictionary *)dictionary {
-    NSDictionary *districtDict = [NSJSONSerialization JSONObjectWithString:[dictionary objectForKey:kResponseKeyDistrict]
-                                                                   options:kNilOptions error:nil];
-    
-    id districtArray = [districtDict objectForKey:kResponseKeyList];
-    return [self parseMultipleLanguageDataWithArray:districtArray];
-}
-
-- (nonnull NSDictionary *)parseMultipleLanguageDataWithArray:(NSArray *)array {
-    NSMutableDictionary *tempDict;
-    if (array && [array isKindOfClass:[NSArray class]]) {
-        tempDict = [NSMutableDictionary dictionaryWithCapacity:[array count]];
-        for (id data in array) {
-            
-            if ([data isKindOfClass:[NSDictionary class]]) {
-                if ([[data objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueEnglish]) {
-                    [tempDict setObject:[data objectForKey:kResponseKeyValue] forKey:kResponseValueEnglish];
-                }
-                
-                if ([[data objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueChinese]) {
-                    [tempDict setObject:[data objectForKey:kResponseKeyValue] forKey:kResponseValueChinese];
-                }
-            }
-        }
-    }
-    return [NSDictionary dictionaryWithDictionary:tempDict];
-}
-
 #pragma mark GoCharger
 - (void)createOrUpdateGoChargerWithData:(NSDictionary *)dictionary {
     NSArray *chargerDicts = [dictionary objectForKey:kResponseKeyChargerContent];
@@ -311,45 +185,31 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
             NSString *uuid = [chargerDict objectForKey:kResponseKeyUUID];
             NSString *available_time = [chargerDict objectForKey:kResponseKeyAvailableTime];
             
-            // Name
             NSDictionary *nameDict = [self parseLocNameWithDictionary:chargerDict];
             NSString *name_eng = [nameDict objectForKey:kResponseValueEnglish];
             NSString *name_cht = [nameDict objectForKey:kResponseValueChinese];
 
-            
-            // Address
             NSDictionary *addressDict = [self parseAddressWithDictionary:chargerDict];
             NSString *address_eng = [addressDict objectForKey:kResponseValueEnglish];
             NSString *address_cht = [addressDict objectForKey:kResponseValueChinese];
             
-            // City
             NSDictionary *cityDict = [self parseCityWithDictionary:chargerDict];
             NSString *city_eng = [cityDict objectForKey:kResponseValueEnglish];
             NSString *city_cht = [cityDict objectForKey:kResponseValueChinese];
             
-            
-            // District
             NSDictionary *districtDict = [self parseDistrictWithDictionary:chargerDict];
             NSString *district_eng = [districtDict objectForKey:kResponseValueEnglish];
             NSString *district_cht = [districtDict objectForKey:kResponseValueChinese];
             
             double latitude = 0, longitude = 0;
-            int state;
             
             NSDictionary *geoPoint = [chargerDict objectForKey:kResponseKeyChargerGeoPoint];
             if (geoPoint) {
-                if ([[geoPoint objectForKey:kResponseKeyLatitude] isKindOfClass:[NSNumber class]]) {
-                    latitude = [[geoPoint objectForKey:kResponseKeyLatitude] doubleValue];
-                }
-                
-                if ([[geoPoint objectForKey:kResponseKeyLongitude] isKindOfClass:[NSNumber class]]) {
-                    longitude = [[geoPoint objectForKey:kResponseKeyLongitude] doubleValue];
-                }
+                latitude = [self parseLatitudeWithDictionary:geoPoint];
+                longitude = [self parseLongitudeWithDictionary:geoPoint];
             }
             
-            if ([[chargerDict objectForKey:kResponseKeyState] isKindOfClass:[NSNumber class]]) {
-                state = [[chargerDict objectForKey:kResponseKeyState] intValue];
-            }
+            int state = [self parseStateWithDictionary:chargerDict];
             
             NSString *phone_number = [chargerDict objectForKey:kResponseKeyPhoneNumber];
             NSString *homepage = [chargerDict objectForKey:kResponseKeyUrl];
@@ -375,7 +235,6 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
                                                        }];
             [realm commitWriteTransaction];
         }
-        NSLog(@"Charger finishtf");
     }
 }
 
@@ -454,6 +313,92 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
 }
 
 #pragma mark - Private Functions
+- (double)parseLatitudeWithDictionary:(NSDictionary *)dictionary {
+    double latitude = 0;
+    id lat = [dictionary objectForKey:kResponseKeyLatitude];
+    if ([lat isKindOfClass:[NSNumber class]]) {
+        latitude = [lat doubleValue];
+    }
+    return latitude;
+}
+
+- (double)parseLongitudeWithDictionary:(NSDictionary *)dictionary {
+    double longitude = 0;
+    id lon = [dictionary objectForKey:kResponseKeyLongitude];
+    if ([lon isKindOfClass:[NSNumber class]]) {
+        longitude = [lon doubleValue];
+    }
+    return longitude;
+}
+
+- (int)parseZipCodeWithDictionary:(NSDictionary *)dictionary {
+    int zip_code = 0;
+    id zip = [dictionary objectForKey:kResponseKeyZip];
+    if ([zip isKindOfClass:[NSNumber class]]) {
+        zip_code = [zip intValue];
+    }
+    return zip_code;
+}
+
+- (int)parseStateWithDictionary:(NSDictionary *)dictionary {
+    int state = 0;
+    id sta = [dictionary objectForKey:kResponseKeyState];
+    if ([sta isKindOfClass:[NSNumber class]]) {
+        state = [sta intValue];
+    }
+    return state;
+}
+
+- (nonnull NSDictionary *)parseLocNameWithDictionary:(NSDictionary *)dictionary {
+    
+    NSDictionary *nameDict = [NSJSONSerialization JSONObjectWithString:[dictionary objectForKey:kResponseKeyName]
+                                                               options:kNilOptions error:nil];
+    id nameArray = [nameDict objectForKey:kResponseKeyList];
+    return [self parseMultipleLanguageDataWithArray:nameArray];
+}
+
+- (nonnull NSDictionary *)parseAddressWithDictionary:(NSDictionary *)dictionary {
+    NSDictionary *addressDict = [NSJSONSerialization JSONObjectWithString:[dictionary objectForKey:kResponseKeyAddress]
+                                                                  options:kNilOptions error:nil];
+    id addressArray = [addressDict objectForKey:kResponseKeyList];
+    return [self parseMultipleLanguageDataWithArray:addressArray];
+}
+
+- (nonnull NSDictionary *)parseCityWithDictionary:(NSDictionary *)dictionary {
+    NSDictionary *cityDict = [NSJSONSerialization JSONObjectWithString:[dictionary objectForKey:kResponseKeyCity]
+                                                               options:kNilOptions error:nil];
+    id cityArray = [cityDict objectForKey:kResponseKeyList];
+    return [self parseMultipleLanguageDataWithArray:cityArray];
+}
+
+- (nonnull NSDictionary *)parseDistrictWithDictionary:(NSDictionary *)dictionary {
+    NSDictionary *districtDict = [NSJSONSerialization JSONObjectWithString:[dictionary objectForKey:kResponseKeyDistrict]
+                                                                   options:kNilOptions error:nil];
+    
+    id districtArray = [districtDict objectForKey:kResponseKeyList];
+    return [self parseMultipleLanguageDataWithArray:districtArray];
+}
+
+- (nonnull NSDictionary *)parseMultipleLanguageDataWithArray:(NSArray *)array {
+    NSMutableDictionary *tempDict;
+    if (array && [array isKindOfClass:[NSArray class]]) {
+        tempDict = [NSMutableDictionary dictionaryWithCapacity:[array count]];
+        for (id data in array) {
+            
+            if ([data isKindOfClass:[NSDictionary class]]) {
+                if ([[data objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueEnglish]) {
+                    [tempDict setObject:[data objectForKey:kResponseKeyValue] forKey:kResponseValueEnglish];
+                }
+                
+                if ([[data objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueChinese]) {
+                    [tempDict setObject:[data objectForKey:kResponseKeyValue] forKey:kResponseValueChinese];
+                }
+            }
+        }
+    }
+    return [NSDictionary dictionaryWithDictionary:tempDict];
+}
+
 - (void)checkStationState {
     [self updateWorkingStationState];
     [self updateDeprecatedStationState];
