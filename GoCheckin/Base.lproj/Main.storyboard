@@ -48,7 +48,7 @@
                                         <state key="normal" image="icon_btn_refresh"/>
                                         <state key="highlighted" image="icon_btn_refresh_highlight"/>
                                         <connections>
-                                            <action selector="refreshGoStationData:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5Xi-TE-epd"/>
+                                            <action selector="refreshEnergyNetworkData:" destination="BYZ-38-t0r" eventType="touchUpInside" id="m5C-wR-1uj"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="trE-uB-DNs" userLabel="Info Button">

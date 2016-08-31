@@ -10,6 +10,7 @@
 #import "HTTPClient.h"
 #import "PersistencyManager.h"
 #import "GoStationAnnotation.h"
+#import "GoChargerAnnotation.h"
 #import "MapOption.h"
 
 @interface APIManager()
@@ -40,14 +41,9 @@
     return self;
 }
 
-- (void)updateGoStationIfNeeded {
+- (void)updateEnergyNetworkIfNeeded {
     // MARK: for developing porpurse will move in after finish
-    dispatch_group_t requestGroup = dispatch_group_create();
-    [self updateGoChargerWithGroup:requestGroup];
-    [self updateGoStationWithGroup:requestGroup];
-    dispatch_group_notify(requestGroup, dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"GoStationUpdateFinishNotification" object:nil];
-    });
+    [self updateEnergyNetwork];
     
     if ([self dataUpdateNeeded]) {
 
@@ -56,8 +52,13 @@
     }
 }
 
-- (void)updateGoStation {
-    [self updateGoStationWithGroup:nil];
+- (void)updateEnergyNetwork {
+    dispatch_group_t requestGroup = dispatch_group_create();
+    [self updateGoChargerWithGroup:requestGroup];
+    [self updateGoStationWithGroup:requestGroup];
+    dispatch_group_notify(requestGroup, dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"GoStationUpdateFinishNotification" object:nil];
+    });
 }
 
 - (void)updateGoStationWithGroup:(dispatch_group_t)requestGroup {
@@ -198,7 +199,30 @@
         }
     }
     
-    return goStations;
+    return [NSArray arrayWithArray:goStations];
+}
+
+- (NSArray *)getGoChargers {
+    NSMutableArray *goChargers = [NSMutableArray array];
+    RLMResults<GoCharger *> *chargers;
+    chargers = [self.persistencyManager queryGoChargerWithWithPredicate:nil];
+    if (chargers.count > 0) {
+        for (GoCharger *c in chargers) {
+            GoChargerAnnotation *goCharger = [[GoChargerAnnotation alloc] initWithUUID:c.uuid
+                                                                           ChargerName:@{@"en": c.name_eng,
+                                                                                         @"zh": c.name_cht}
+                                                                               Address:@{@"en": c.address_eng,
+                                                                                         @"zh": c.address_cht}
+                                                                                  City:@{@"en": c.city_eng,
+                                                                                         @"zh": c.city_cht}
+                                                                              District:@{@"en": c.district_eng,
+                                                                                         @"zh": c.district_cht}
+                                                                              Latitude:c.latitude
+                                                                             Longitude:c.longitude];
+            [goChargers addObject:goCharger];
+        }
+    }
+    return [NSArray arrayWithArray:goChargers];
 }
 
 - (NSUInteger)getTotalCheckedInCount {

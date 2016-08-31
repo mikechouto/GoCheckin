@@ -35,6 +35,7 @@
 		2ABB72DC1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB72DB1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m */; };
 		2ABB72DF1D5D5DC1001E0AE0 /* UpdateIntervalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB72DD1D5D5DC1001E0AE0 /* UpdateIntervalViewController.m */; };
 		2AF2F0C51D742A5600742D11 /* GoCharger.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF2F0C41D742A5600742D11 /* GoCharger.m */; };
+		2AF2F0DB1D76970300742D11 /* GoChargerAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF2F0DA1D76970300742D11 /* GoChargerAnnotation.m */; };
 		2AFDA2171D02BE49007469D5 /* UserInfoDetailView_iOS8.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDA2151D02BE49007469D5 /* UserInfoDetailView_iOS8.xib */; };
 		2AFDA21F1D054EE4007469D5 /* GoStationDetailView_iOS8.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDA21D1D054EE4007469D5 /* GoStationDetailView_iOS8.xib */; };
 		2AFDA2221D055799007469D5 /* GoStationDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDA2201D055799007469D5 /* GoStationDetailView.xib */; };
@@ -95,6 +96,8 @@
 		2ABB72DE1D5D5DC1001E0AE0 /* UpdateIntervalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateIntervalViewController.h; sourceTree = "<group>"; };
 		2AF2F0C31D742A5600742D11 /* GoCharger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoCharger.h; sourceTree = "<group>"; };
 		2AF2F0C41D742A5600742D11 /* GoCharger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoCharger.m; sourceTree = "<group>"; };
+		2AF2F0D91D76970300742D11 /* GoChargerAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoChargerAnnotation.h; sourceTree = "<group>"; };
+		2AF2F0DA1D76970300742D11 /* GoChargerAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoChargerAnnotation.m; sourceTree = "<group>"; };
 		2AFDA2161D02BE49007469D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/UserInfoDetailView_iOS8.xib; sourceTree = "<group>"; };
 		2AFDA21C1D02C34D007469D5 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hant"; path = "zh-Hant.lproj/UserInfoDetailView_iOS8.xib"; sourceTree = "<group>"; };
 		2AFDA21E1D054EE4007469D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/GoStationDetailView_iOS8.xib; sourceTree = "<group>"; };
@@ -194,6 +197,8 @@
 			children = (
 				2A21D2B41CB63BF700F569D5 /* GoStationAnnotation.h */,
 				2A21D2B51CB63BF700F569D5 /* GoStationAnnotation.m */,
+				2AF2F0D91D76970300742D11 /* GoChargerAnnotation.h */,
+				2AF2F0DA1D76970300742D11 /* GoChargerAnnotation.m */,
 				2A0722691CDB4BFE001F0570 /* MapOption.h */,
 				2A07226A1CDB4BFE001F0570 /* MapOption.m */,
 			);
@@ -418,6 +423,7 @@
 				2A0722BC1CE2D54D001F0570 /* MapApplicationCell.m in Sources */,
 				2A21D3101CCA05EB00F569D5 /* SVPulsingAnnotationView.m in Sources */,
 				2ABB72DC1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m in Sources */,
+				2AF2F0DB1D76970300742D11 /* GoChargerAnnotation.m in Sources */,
 				2AA303411CF833DB009B530D /* UserInfoDetailView.m in Sources */,
 				2A100B961D656A6700B36AED /* GoUtility.m in Sources */,
 				2A21D2BD1CBB4B0300F569D5 /* HTTPClient.m in Sources */,

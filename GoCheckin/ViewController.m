@@ -30,7 +30,6 @@
 @property (strong, nonatomic) GoStationDetailView *detailAnnotationView;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLLocation *userLocation;
-@property (strong, nonatomic) NSArray *GoStations;
 
 @property (nonatomic, assign) BOOL hasCentered;
 @property (nonatomic, assign) BOOL dataReady;
@@ -47,7 +46,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     // Create the observe before calling update station.
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pinStationLocation:) name:@"GoStationUpdateFinishNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pinEnergyNetworkLocations:) name:@"GoStationUpdateFinishNotification" object:nil];
     self.dataReady = NO;
 }
 
@@ -70,7 +69,7 @@
     MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate, 550000, 550000);
     [_mapView setRegion:coordinateRegion animated:YES];
     
-    [[APIManager sharedInstance] updateGoStationIfNeeded];
+    [[APIManager sharedInstance] updateEnergyNetworkIfNeeded];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -81,7 +80,7 @@
     [self startRequestingUserLocation];
     
     if (self.dataReady) {
-        [self pinStationLocation:nil];
+        [self pinEnergyNetworkLocations:nil];
     }
 }
 
@@ -128,8 +127,8 @@
     [self.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blueGoCheckinColor], NSFontAttributeName:[UIFont fontWithName:@"Arial-BoldMT" size:21]}];
 }
 
-- (IBAction)refreshGoStationData:(id)sender {
-    [[APIManager sharedInstance] updateGoStation];
+- (IBAction)refreshEnergyNetworkData:(id)sender {
+    [[APIManager sharedInstance] updateEnergyNetwork];
 }
 
 - (IBAction)centerMapToUserLocation:(id)sender {
@@ -248,22 +247,34 @@
     }
 }
 
-- (void)pinStationLocation:(id)sender {
+- (void)pinEnergyNetworkLocations:(id)sender {
     
     // 1. Update status GoStations
     if (!self.dataReady) {
         self.dataReady = YES;
     }
-
-    // 2. Pin GoStations
-    self.GoStations = [[APIManager sharedInstance] getGoStations];
+    
     if (self.mapView.annotations) {
         [self.mapView removeAnnotations:self.mapView.annotations];
     }
-    [self.mapView addAnnotations:self.GoStations];
+    
+    // 2-1. Pin GoStations
+    [self pinStationsLocation:nil];
+    // 2-1. Pin GoChargers
+    [self pinChargersLocation:nil];
     
     // 3. Begin to rotate detail
     [self animateDetailInfoButton];
+}
+
+- (void)pinStationsLocation:(id)sender {
+    NSArray *stations = [[APIManager sharedInstance] getGoStations];
+    [self.mapView addAnnotations:stations];
+}
+
+- (void)pinChargersLocation:(id)sender {
+    NSArray *chargers = [[APIManager sharedInstance] getGoChargers];
+    [self.mapView addAnnotations:chargers];
 }
 
 #pragma mark CLLocationManagerDelegate
@@ -336,7 +347,10 @@
                 pinImage = [GoUtility constructingImage];
                 break;
         }
+    } else if ([annotation isKindOfClass:[GoChargerAnnotation class]]) {
+        pinImage = [GoUtility chargerImage];
     }
+    
     return pinImage;
 }
 
