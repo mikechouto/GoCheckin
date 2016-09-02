@@ -7,14 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GoStationDetailView.h"
 #import "GoChargerAnnotation.h"
 
 IB_DESIGNABLE
-@protocol GoChargerDetailViewDelegate <NSObject>
+@protocol GoChargerDetailViewDelegate <GoCheckinDetailViewDelegate>
 
 @required
 - (void)didPressSupportButttonWithAnnotation:(GoChargerAnnotation *)annotation;
-- (void)didPressNavigateButtonWithAnnotation:(id<MKAnnotation>)annotation;
 
 @end
 

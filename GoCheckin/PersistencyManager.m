@@ -216,30 +216,37 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
             
             // Create or update your object
             [realm beginWriteTransaction];
-            [GoCharger createInDefaultRealmWithValue:@{@"uuid": uuid,
-                                                       @"update_time": @(update_time),
-                                                       @"name_eng": name_eng,
-                                                       @"name_cht": name_cht,
-                                                       @"latitude": @(latitude),
-                                                       @"longitude": @(longitude),
-                                                       @"state": @(state),
-                                                       @"address_eng": address_eng,
-                                                       @"address_cht": address_cht,
-                                                       @"city_eng": city_eng,
-                                                       @"city_cht": city_cht,
-                                                       @"district_eng": district_eng,
-                                                       @"district_cht": district_cht,
-                                                       @"available_time": available_time,
-                                                       @"phone_num": phone_number,
-                                                       @"homepage": homepage
-                                                       }];
+            [GoCharger createOrUpdateInDefaultRealmWithValue:@{@"uuid": uuid,
+                                                               @"update_time": @(update_time),
+                                                               @"name_eng": name_eng,
+                                                               @"name_cht": name_cht,
+                                                               @"latitude": @(latitude),
+                                                               @"longitude": @(longitude),
+                                                               @"state": @(state),
+                                                               @"address_eng": address_eng,
+                                                               @"address_cht": address_cht,
+                                                               @"city_eng": city_eng,
+                                                               @"city_cht": city_cht,
+                                                               @"district_eng": district_eng,
+                                                               @"district_cht": district_cht,
+                                                               @"available_time": available_time,
+                                                               @"phone_num": phone_number,
+                                                               @"homepage": homepage
+                                                               }];
             [realm commitWriteTransaction];
         }
     }
 }
 
 - (RLMResults<GoCharger *> *)queryGoChargerWithWithPredicate:(NSPredicate *)predicate {
-    return nil;
+    RLMResults<GoCharger *> *chargers;
+    if (predicate) {
+        chargers = [GoCharger objectsWithPredicate:predicate];
+    } else {
+        chargers = [GoCharger allObjects];
+    }
+    
+    return chargers;
 }
 
 #pragma mark NSUserDefaults

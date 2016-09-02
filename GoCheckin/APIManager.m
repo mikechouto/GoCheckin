@@ -209,6 +209,8 @@
     if (chargers.count > 0) {
         for (GoCharger *c in chargers) {
             GoChargerAnnotation *goCharger = [[GoChargerAnnotation alloc] initWithUUID:c.uuid
+                                                                                 Phone:c.phone_num
+                                                                              Homepage:c.homepage
                                                                            ChargerName:@{@"en": c.name_eng,
                                                                                          @"zh": c.name_cht}
                                                                                Address:@{@"en": c.address_eng,

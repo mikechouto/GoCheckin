@@ -58,7 +58,7 @@
                                             <color key="titleColor" red="0.090196078431372548" green="0.30588235294117649" blue="0.76470588235294112" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="showHideDetailInfoView:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rTE-un-avW"/>
+                                            <action selector="detailInfoViewStateSwitch:" destination="BYZ-38-t0r" eventType="touchUpInside" id="p5p-61-ETs"/>
                                         </connections>
                                     </button>
                                 </subviews>
