@@ -13,12 +13,13 @@
 
 #import "SVPulsingAnnotationView.h"
 #import "GoStationDetailView.h"
+#import "GoChargerDetailView.h"
 #import "UserInfoDetailView.h"
 #import "MapOption.h" // Uses MapType so must import
 
 #import "UIColor+GoCheckin.h"
 
-@interface ViewController () <MKMapViewDelegate, CLLocationManagerDelegate, GoStationDetailViewDelegate>
+@interface ViewController () <MKMapViewDelegate, CLLocationManagerDelegate, GoStationDetailViewDelegate, GoChargerDetailViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (weak, nonatomic) IBOutlet SGMapView *mapView;
@@ -27,10 +28,10 @@
 
 @property (strong, nonatomic) NSTimer *detailInfoTimer;
 @property (strong, nonatomic) UserInfoDetailView *detailInfoView;
-@property (strong, nonatomic) GoStationDetailView *detailAnnotationView;
+@property (strong, nonatomic) GoStationDetailView *stationAnnotationView;
+@property (strong, nonatomic) GoChargerDetailView *chargerAnnotationView;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLLocation *userLocation;
-@property (strong, nonatomic) NSArray *GoStations;
 
 @property (nonatomic, assign) BOOL hasCentered;
 @property (nonatomic, assign) BOOL dataReady;
@@ -47,7 +48,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     // Create the observe before calling update station.
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pinStationLocation:) name:@"GoStationUpdateFinishNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pinEnergyNetworkLocations:) name:@"GoStationUpdateFinishNotification" object:nil];
     self.dataReady = NO;
 }
 
@@ -70,7 +71,7 @@
     MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(initialLocation.coordinate, 550000, 550000);
     [_mapView setRegion:coordinateRegion animated:YES];
     
-    [[APIManager sharedInstance] updateGoStationIfNeeded];
+    [[APIManager sharedInstance] updateEnergyNetworkIfNeeded];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -81,7 +82,7 @@
     [self startRequestingUserLocation];
     
     if (self.dataReady) {
-        [self pinStationLocation:nil];
+        [self pinEnergyNetworkLocations:nil];
     }
 }
 
@@ -103,9 +104,14 @@
         self.locationManager = nil;
     }
     
-    if (self.detailAnnotationView) {
-        [self.detailAnnotationView setDelegate:nil];
-        self.detailAnnotationView = nil;
+    if (self.stationAnnotationView) {
+        [self.stationAnnotationView setDelegate:nil];
+        self.stationAnnotationView = nil;
+    }
+    
+    if (self.chargerAnnotationView) {
+        [self.chargerAnnotationView setDelegate:nil];
+        self.chargerAnnotationView = nil;
     }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -128,8 +134,8 @@
     [self.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blueGoCheckinColor], NSFontAttributeName:[UIFont fontWithName:@"Arial-BoldMT" size:21]}];
 }
 
-- (IBAction)refreshGoStationData:(id)sender {
-    [[APIManager sharedInstance] updateGoStation];
+- (IBAction)refreshEnergyNetworkData:(id)sender {
+    [[APIManager sharedInstance] updateEnergyNetwork];
 }
 
 - (IBAction)centerMapToUserLocation:(id)sender {
@@ -140,7 +146,7 @@
     }
 }
 
-- (IBAction)showHideDetailInfoView:(id)sender {
+- (IBAction)detailInfoViewStateSwitch:(id)sender {
     
     if (self.detailInfoTimer.isValid) {
         
@@ -248,22 +254,34 @@
     }
 }
 
-- (void)pinStationLocation:(id)sender {
+- (void)pinEnergyNetworkLocations:(id)sender {
     
     // 1. Update status GoStations
     if (!self.dataReady) {
         self.dataReady = YES;
     }
-
-    // 2. Pin GoStations
-    self.GoStations = [[APIManager sharedInstance] getGoStations];
+    
     if (self.mapView.annotations) {
         [self.mapView removeAnnotations:self.mapView.annotations];
     }
-    [self.mapView addAnnotations:self.GoStations];
+    
+    // 2-1. Pin GoStations
+    [self pinStationsLocation:nil];
+    // 2-1. Pin GoChargers
+    [self pinChargersLocation:nil];
     
     // 3. Begin to rotate detail
     [self animateDetailInfoButton];
+}
+
+- (void)pinStationsLocation:(id)sender {
+    NSArray *stations = [[APIManager sharedInstance] getGoStations];
+    [self.mapView addAnnotations:stations];
+}
+
+- (void)pinChargersLocation:(id)sender {
+    NSArray *chargers = [[APIManager sharedInstance] getGoChargers];
+    [self.mapView addAnnotations:chargers];
 }
 
 #pragma mark CLLocationManagerDelegate
@@ -301,78 +319,41 @@
     NSLog(@"Error finding location: %@", error.localizedDescription);
 }
 
-- (UIImage *)imageForAnnotation:(id<MKAnnotation>)annotation {
-    
-    UIImage *pinImage;
-    
-    if ([annotation isKindOfClass:[GoStationAnnotation class]]) {
-        GoStationAnnotation *station = annotation;
-        switch (station.status) {
-            case GoStationStatusNormal:
-                if (station.isCheckIn) {
-                    pinImage = [GoUtility normalCheckinImage];
-                } else {
-                    pinImage = [GoUtility normalImage];
-                }
-                break;
-            case GoStationStatusClosed:
-                if (station.isCheckIn) {
-                    pinImage = [GoUtility closedCheckinImage];
-                } else {
-                    pinImage = [GoUtility closedImage];
-                }
-                break;
-            case GoStationStatusDeprecated:
-                if (station.isCheckIn) {
-                    pinImage = [GoUtility deprecatedCheckinImage];
-                } else {
-                    pinImage = [GoUtility deprecatedImage];
-                }
-                break;
-            case GoStationStatusConstructing:
-            case GoStationStatusPreparing:
-            case GoStationStatusUnknown:
-            default:
-                pinImage = [GoUtility constructingImage];
-                break;
-        }
-    }
-    return pinImage;
-}
-
-#pragma mark GoStationDetailViewDelegate
+#pragma mark GoStationDetailViewDelegate & GoChargerDetailViewDelegate
 - (void)didPressCheckInButttonWithAnnotation:(GoStationAnnotation *)annotation {
-    GoStationAnnotation *updatedStation = [[APIManager sharedInstance] updateCheckInDataWithStationUUID:annotation.uuid];
     
+    GoStationAnnotation *updatedStation = [[APIManager sharedInstance] updateCheckInDataWithStationUUID:annotation.uuid];
     if (updatedStation) {
         [self.mapView removeAnnotation:annotation];
         [self.mapView addAnnotation:updatedStation];
         // TBD: Show or not show annotation view after it's updated
-//        [self.mapView selectAnnotation:updatedStation animated:NO];
+        //        [self.mapView selectAnnotation:updatedStation animated:NO];
     }
-    
 }
 
 - (void)didPressRemoveButttonWithAnnotation:(GoStationAnnotation *)annotation {
-    GoStationAnnotation *updatedStation = [[APIManager sharedInstance] removeCheckInDataWithStationUUID:annotation.uuid];
     
+    GoStationAnnotation *updatedStation = [[APIManager sharedInstance] removeCheckInDataWithStationUUID:annotation.uuid];
     if (updatedStation) {
         [self.mapView removeAnnotation:annotation];
         [self.mapView addAnnotation:updatedStation];
     }
 }
 
-- (void)didPressNavigateButtonWithAnnotation:(GoStationAnnotation *)annotation {
+- (void)didPressSupportButttonWithAnnotation:(GoChargerAnnotation *)annotation {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:annotation.homepage]];
+}
+
+- (void)didPressNavigateButtonWithAnnotation:(id<MKAnnotation>)annotation {
     MapType defaultType = [[APIManager sharedInstance] currentMapApplication];
     
     if (defaultType == MapTypeGoogle) {
         // google map
-        NSString* url = [NSString stringWithFormat:@"comgooglemaps://?saddr=%f,%f&daddr=%f,%f",self.userLocation.coordinate.latitude, self.userLocation.coordinate.longitude, annotation.latitude, annotation.longitude];
-        [[UIApplication sharedApplication] openURL: [NSURL URLWithString: url]];
+        NSString* url = [NSString stringWithFormat:@"comgooglemaps://?saddr=%f,%f&daddr=%f,%f&dirflg=h,t",self.userLocation.coordinate.latitude, self.userLocation.coordinate.longitude, annotation.coordinate.latitude, annotation.coordinate.longitude];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString: url]];
     } else {
         // apple map
-        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(annotation.latitude, annotation.longitude);
-        MKPlacemark* placeMark = [[MKPlacemark alloc] initWithCoordinate:coordinate addressDictionary:nil];
+        MKPlacemark* placeMark = [[MKPlacemark alloc] initWithCoordinate:annotation.coordinate addressDictionary:nil];
         MKMapItem* destination =  [[MKMapItem alloc] initWithPlacemark:placeMark];
         [destination setName:annotation.title];
         if([destination respondsToSelector:@selector(openInMapsWithLaunchOptions:)])
@@ -447,13 +428,24 @@
         CLLocationCoordinate2D newCenter = [mapView convertPoint:annotationCenter toCoordinateFromView:view.superview];
         [mapView setCenterCoordinate:newCenter animated:YES];
         
-        if (!self.detailAnnotationView) {
-            self.detailAnnotationView = [[GoStationDetailView alloc] init];
-            self.detailAnnotationView.delegate = self;
+        if ([view.annotation isKindOfClass:[GoStationAnnotation class]]) {
+            if (!self.stationAnnotationView) {
+                self.stationAnnotationView = [[GoStationDetailView alloc] init];
+                self.stationAnnotationView.delegate = self;
+            }
+            
+            [self.stationAnnotationView setAnnotation:view.annotation UserLocation:self.userLocation];
+            view.detailCalloutAccessoryView = self.stationAnnotationView;
+            
+        } else if ([view.annotation isKindOfClass:[GoChargerAnnotation class]]) {
+            if (!self.chargerAnnotationView) {
+                self.chargerAnnotationView = [[GoChargerDetailView alloc] init];
+                self.chargerAnnotationView.delegate = self;
+            }
+            
+            [self.chargerAnnotationView setAnnotation:view.annotation UserLocation:self.userLocation];
+            view.detailCalloutAccessoryView = self.chargerAnnotationView;
         }
-        
-        [self.detailAnnotationView setAnnotation:view.annotation UserLocation:self.userLocation];
-        view.detailCalloutAccessoryView = self.detailAnnotationView;
     }
 }
 
@@ -467,10 +459,52 @@
     [userAnnotation.superview bringSubviewToFront:userAnnotation];
 }
 
+- (UIImage *)imageForAnnotation:(id<MKAnnotation>)annotation {
+    
+    UIImage *pinImage;
+    
+    if ([annotation isKindOfClass:[GoStationAnnotation class]]) {
+        GoStationAnnotation *station = annotation;
+        switch (station.status) {
+            case GoStationStatusNormal:
+                if (station.isCheckIn) {
+                    pinImage = [GoUtility normalCheckinImage];
+                } else {
+                    pinImage = [GoUtility normalImage];
+                }
+                break;
+            case GoStationStatusClosed:
+                if (station.isCheckIn) {
+                    pinImage = [GoUtility closedCheckinImage];
+                } else {
+                    pinImage = [GoUtility closedImage];
+                }
+                break;
+            case GoStationStatusDeprecated:
+                if (station.isCheckIn) {
+                    pinImage = [GoUtility deprecatedCheckinImage];
+                } else {
+                    pinImage = [GoUtility deprecatedImage];
+                }
+                break;
+            case GoStationStatusConstructing:
+            case GoStationStatusPreparing:
+            case GoStationStatusUnknown:
+            default:
+                pinImage = [GoUtility constructingImage];
+                break;
+        }
+    } else if ([annotation isKindOfClass:[GoChargerAnnotation class]]) {
+        pinImage = [GoUtility chargerImage];
+    }
+    
+    return pinImage;
+}
+
 #pragma mark - Touches handeling
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     if (self.detailInfoView) {
-        [self showHideDetailInfoView:nil];
+        [self detailInfoViewStateSwitch:nil];
     }
 }
 

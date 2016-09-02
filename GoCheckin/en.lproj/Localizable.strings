@@ -19,6 +19,8 @@
 "Opens: %@" = "Opens: %@";
 "Collected at: %@" = "Collected at: %@";
 "Times collected: %lu" = "Times collected: %lu";
+"Phone: %@" = "Phone: %@";
+"SUPPORT" = "SUPPORT";
 
 "General" = "General";
 "Update Stations" = "Update Stations";

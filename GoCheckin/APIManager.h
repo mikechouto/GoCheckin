@@ -16,11 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface APIManager : NSObject
 
 + (APIManager *)sharedInstance;
-- (void)updateGoStationIfNeeded;
-- (void)updateGoStation;
+- (void)updateEnergyNetworkIfNeeded;
+- (void)updateEnergyNetwork;
 - (GoStationAnnotation *)updateCheckInDataWithStationUUID:(NSString *)uuid;
 - (GoStationAnnotation *)removeCheckInDataWithStationUUID:(NSString *)uuid;
 - (NSArray *)getGoStations;
+- (NSArray *)getGoChargers;
 - (NSUInteger)getTotalCheckedInCount;
 - (NSUInteger)getWorkingGoStationCount;
 - (NSUInteger)getClosedGoStationCount;

@@ -19,6 +19,8 @@
 "Opens: %@" = "營業時間: %@";
 "Collected at: %@" = "收集時間: %@";
 "Times collected: %lu" = "收集次數: %lu";
+"Phone: %@" = "聯絡電話: %@";
+"SUPPORT" = "店家首頁";
 
 "General" = "基本選項";
 "Update Stations" = "資料更新";

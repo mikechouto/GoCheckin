@@ -10,6 +10,7 @@
 #import "HTTPClient.h"
 #import "PersistencyManager.h"
 #import "GoStationAnnotation.h"
+#import "GoChargerAnnotation.h"
 #import "MapOption.h"
 
 @interface APIManager()
@@ -40,25 +41,36 @@
     return self;
 }
 
-- (void)updateGoStationIfNeeded {
-    [self updateGoCharger];
+- (void)updateEnergyNetworkIfNeeded {
+    // MARK: for developing porpurse will move in after finish
+    [self updateEnergyNetwork];
+    
     if ([self dataUpdateNeeded]) {
-        [self updateGoStation];
+
     } else {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"GoStationUpdateFinishNotification" object:nil];
     }
 }
 
-- (void)updateGoStation {
+- (void)updateEnergyNetwork {
+    dispatch_group_t requestGroup = dispatch_group_create();
+    [self updateGoChargerWithGroup:requestGroup];
+    [self updateGoStationWithGroup:requestGroup];
+    dispatch_group_notify(requestGroup, dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"GoStationUpdateFinishNotification" object:nil];
+    });
+}
+
+- (void)updateGoStationWithGroup:(dispatch_group_t)requestGroup {
+    if (requestGroup) {
+        dispatch_group_enter(requestGroup);
+    }
     
     // Request GoStation from GOGORO API server.
     [self.httpClient getRequestForStation:@"/vm/list" completion:^(NSDictionary *responseDict, NSError *error) {
         if (!error) {
-//            NSLog(@"%@", responseDict);
+            //            NSLog(@"%@", responseDict);
             [self.persistencyManager createOrUpdateGoStationWithData:responseDict];
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"GoStationUpdateFinishNotification" object:nil];
-            
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil];
@@ -67,13 +79,24 @@
                 [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alertController animated:NO completion:nil];
             });
         }
+        
+        if (requestGroup) {
+            dispatch_group_leave(requestGroup);
+        }
     }];
 }
 
-- (void)updateGoCharger {
+- (void)updateGoChargerWithGroup:(dispatch_group_t)requestGroup {
+    if (requestGroup) {
+        dispatch_group_enter(requestGroup);
+    }
     [self.httpClient getRequestForChargerWithCompletion:^(NSDictionary *responseDict, NSError *error) {
         if (!error) {
             NSLog(@"%@", responseDict);
+            [self.persistencyManager createOrUpdateGoChargerWithData:responseDict];
+        }
+        if (requestGroup) {
+            dispatch_group_leave(requestGroup);
         }
     }];
 }
@@ -176,7 +199,32 @@
         }
     }
     
-    return goStations;
+    return [NSArray arrayWithArray:goStations];
+}
+
+- (NSArray *)getGoChargers {
+    NSMutableArray *goChargers = [NSMutableArray array];
+    RLMResults<GoCharger *> *chargers;
+    chargers = [self.persistencyManager queryGoChargerWithWithPredicate:nil];
+    if (chargers.count > 0) {
+        for (GoCharger *c in chargers) {
+            GoChargerAnnotation *goCharger = [[GoChargerAnnotation alloc] initWithUUID:c.uuid
+                                                                                 Phone:c.phone_num
+                                                                              Homepage:c.homepage
+                                                                           ChargerName:@{@"en": c.name_eng,
+                                                                                         @"zh": c.name_cht}
+                                                                               Address:@{@"en": c.address_eng,
+                                                                                         @"zh": c.address_cht}
+                                                                                  City:@{@"en": c.city_eng,
+                                                                                         @"zh": c.city_cht}
+                                                                              District:@{@"en": c.district_eng,
+                                                                                         @"zh": c.district_cht}
+                                                                              Latitude:c.latitude
+                                                                             Longitude:c.longitude];
+            [goChargers addObject:goCharger];
+        }
+    }
+    return [NSArray arrayWithArray:goChargers];
 }
 
 - (NSUInteger)getTotalCheckedInCount {
