@@ -45,10 +45,10 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_appWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_appWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     // Create the observe before calling update station.
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pinEnergyNetworkLocations:) name:@"GoStationUpdateFinishNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_pinEnergyNetworkLocations:) name:@"GoStationUpdateFinishNotification" object:nil];
     self.dataReady = NO;
 }
 
@@ -64,7 +64,7 @@
     
     [self.mapView setEnableSingleHandControl:YES];
     
-    [self stopAnimatingDetailInfoButton];
+    [self _stopAnimatingDetailInfoButton];
     
     // Set the map retion directly so the centerMapOnLocation: doesn't get messed up.
     CLLocation *initialLocation = [[CLLocation alloc] initWithLatitude:23.7 longitude:120.9];
@@ -76,13 +76,13 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [self.navigationController setNavigationBarHidden:YES animated:YES];
-    [self prepareCustomNavigationBar];
+    [self _prepareCustomNavigationBar];
     [super viewWillAppear:animated];
     
-    [self startRequestingUserLocation];
+    [self _startRequestingUserLocation];
     
     if (self.dataReady) {
-        [self pinEnergyNetworkLocations:nil];
+        [self _pinEnergyNetworkLocations:nil];
     }
 }
 
@@ -90,7 +90,7 @@
     [super viewDidDisappear:animated];
     
     // Remove timer here instead of dealloc to prevent retain cycle
-    [self stopAnimatingDetailInfoButton];
+    [self _stopAnimatingDetailInfoButton];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -118,15 +118,15 @@
 }
 
 #pragma mark - Private Functions
-- (void)appWillResignActive:(id)sender {
-    [self stopRequestingUserLocation];
+- (void)_appWillResignActive:(id)sender {
+    [self _stopRequestingUserLocation];
 }
 
-- (void)appWillEnterForeground:(id)sender {
-    [self startRequestingUserLocation];
+- (void)_appWillEnterForeground:(id)sender {
+    [self _startRequestingUserLocation];
 }
 
-- (void)prepareCustomNavigationBar {
+- (void)_prepareCustomNavigationBar {
     
     [self.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     self.navigationBar.shadowImage = [UIImage new];
@@ -134,23 +134,23 @@
     [self.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blueGoCheckinColor], NSFontAttributeName:[UIFont fontWithName:@"Arial-BoldMT" size:21]}];
 }
 
-- (IBAction)refreshEnergyNetworkData:(id)sender {
+- (IBAction)_refreshEnergyNetworkData:(id)sender {
     [[APIManager sharedInstance] updateEnergyNetwork];
 }
 
-- (IBAction)centerMapToUserLocation:(id)sender {
+- (IBAction)_centerMapToUserLocation:(id)sender {
     
     if (self.userLocation) {
         self.hasCentered = NO;
-        [self centerMapOnLocation:self.userLocation Distance:5000];
+        [self _centerMapOnLocation:self.userLocation Distance:5000];
     }
 }
 
-- (IBAction)detailInfoViewStateSwitch:(id)sender {
+- (IBAction)_detailInfoViewStateSwitch:(id)sender {
     
     if (self.detailInfoTimer.isValid) {
         
-        [self stopAnimatingDetailInfoButton];
+        [self _stopAnimatingDetailInfoButton];
         
         self.detailInfoView = [[UserInfoDetailView alloc] init];
         [self.detailInfoView setCenter:CGPointMake(self.view.frame.size.width / 2, self.view.frame.size.height / 2)];
@@ -166,23 +166,23 @@
             self.detailInfoView = nil;
         }
         
-        [self animateDetailInfoButton];
+        [self _animateDetailInfoButton];
     }
 }
 
 #pragma mark - Deatil Info Button
-- (void)animateDetailInfoButton {
-    [self stopAnimatingDetailInfoButton];
-    self.detailInfoTimer = [NSTimer scheduledTimerWithTimeInterval:2.5 target:self selector:@selector(updateDetailInfoButtonTitle) userInfo:nil repeats:YES];
+- (void)_animateDetailInfoButton {
+    [self _stopAnimatingDetailInfoButton];
+    self.detailInfoTimer = [NSTimer scheduledTimerWithTimeInterval:2.5 target:self selector:@selector(_updateDetailInfoButtonTitle) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:self.detailInfoTimer forMode:NSRunLoopCommonModes];
 }
 
-- (void)updateDetailInfoButtonTitle {
+- (void)_updateDetailInfoButtonTitle {
 
-    NSUInteger workingCount = [[APIManager sharedInstance] getWorkingGoStationCount];
-    NSUInteger closedCount = [[APIManager sharedInstance] getClosedGoStationCount];
-    NSUInteger constructingCount = [[APIManager sharedInstance] getConstructingGoStationCount];
-    NSUInteger checkedinCount = [[APIManager sharedInstance] getTotalCheckedInCount];
+    NSUInteger workingCount = [[APIManager sharedInstance] workingGoStationCount];
+    NSUInteger closedCount = [[APIManager sharedInstance] closedGoStationCount];
+    NSUInteger constructingCount = [[APIManager sharedInstance] constructingGoStationCount];
+    NSUInteger checkedinCount = [[APIManager sharedInstance] totalCheckedInCount];
     
     NSString *newTitle;
     NSInteger newTag;
@@ -214,7 +214,7 @@
     } completion:nil];
 }
 
-- (void)stopAnimatingDetailInfoButton {
+- (void)_stopAnimatingDetailInfoButton {
     
     if (self.detailInfoTimer) {
         [self.detailInfoTimer invalidate];
@@ -228,7 +228,7 @@
 }
 
 #pragma mark - Map & Location Functions
-- (void)startRequestingUserLocation {
+- (void)_startRequestingUserLocation {
     if (!self.locationManager) {
         self.locationManager = [[CLLocationManager alloc] init];
         [self.locationManager setDelegate:self];
@@ -237,13 +237,13 @@
     [self.locationManager startUpdatingLocation];
 }
 
-- (void)stopRequestingUserLocation {
+- (void)_stopRequestingUserLocation {
     if (self.locationManager) {
         [self.locationManager stopUpdatingLocation];
     }
 }
 
-- (void)centerMapOnLocation:(CLLocation *)location Distance:(CLLocationDistance) regionRadius{
+- (void)_centerMapOnLocation:(CLLocation *)location Distance:(CLLocationDistance) regionRadius{
     
     if (!self.hasCentered) {
         
@@ -254,7 +254,7 @@
     }
 }
 
-- (void)pinEnergyNetworkLocations:(id)sender {
+- (void)_pinEnergyNetworkLocations:(id)sender {
     
     // 1. Update status GoStations
     if (!self.dataReady) {
@@ -266,20 +266,20 @@
     }
     
     // 2-1. Pin GoStations
-    [self pinStationsLocation:nil];
+    [self _pinStationsLocation:nil];
     // 2-1. Pin GoChargers
-    [self pinChargersLocation:nil];
+    [self _pinChargersLocation:nil];
     
     // 3. Begin to rotate detail
-    [self animateDetailInfoButton];
+    [self _animateDetailInfoButton];
 }
 
-- (void)pinStationsLocation:(id)sender {
+- (void)_pinStationsLocation:(id)sender {
     NSArray *stations = [[APIManager sharedInstance] getGoStations];
     [self.mapView addAnnotations:stations];
 }
 
-- (void)pinChargersLocation:(id)sender {
+- (void)_pinChargersLocation:(id)sender {
     NSArray *chargers = [[APIManager sharedInstance] getGoChargers];
     [self.mapView addAnnotations:chargers];
 }
@@ -306,7 +306,7 @@
         if (!self.userLocation || [self.userLocation distanceFromLocation:[locations firstObject]] > distanceThreshold) {
             
             self.userLocation = [locations firstObject];
-            [self centerMapOnLocation:self.userLocation Distance:5000];
+            [self _centerMapOnLocation:self.userLocation Distance:5000];
         }
 
         if (!self.mapView.showsUserLocation) {
@@ -347,7 +347,7 @@
 - (void)didPressNavigateButtonWithAnnotation:(id<MKAnnotation>)annotation {
     MapType defaultType = [[APIManager sharedInstance] currentMapApplication];
     
-    if (defaultType == MapTypeGoogle) {
+    if (defaultType == GoogleMap) {
         // google map
         NSString* url = [NSString stringWithFormat:@"comgooglemaps://?saddr=%f,%f&daddr=%f,%f&dirflg=h,t",self.userLocation.coordinate.latitude, self.userLocation.coordinate.longitude, annotation.coordinate.latitude, annotation.coordinate.longitude];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString: url]];
@@ -394,7 +394,7 @@
             annotationView.centerOffset = CGPointMake(0, -25.0f);
         }
         
-        annotationView.image = [self imageForAnnotation:annotation];
+        annotationView.image = [self _imageForAnnotation:annotation];
     }
     
     return annotationView;
@@ -459,7 +459,7 @@
     [userAnnotation.superview bringSubviewToFront:userAnnotation];
 }
 
-- (UIImage *)imageForAnnotation:(id<MKAnnotation>)annotation {
+- (UIImage *)_imageForAnnotation:(id<MKAnnotation>)annotation {
     
     UIImage *pinImage;
     
@@ -504,7 +504,7 @@
 #pragma mark - Touches handeling
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     if (self.detailInfoView) {
-        [self detailInfoViewStateSwitch:nil];
+        [self _detailInfoViewStateSwitch:nil];
     }
 }
 

@@ -39,19 +39,42 @@
     _delegate = nil;
 }
 
+- (void)didMoveToSuperview {
+    
+    CGFloat width = 210;
+    
+    CGFloat height = 170;
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:width]];
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:height]];
+    
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
+    [self setNeedsDisplay];
+}
+
 - (void)setAnnotation:(GoChargerAnnotation *)annotation UserLocation:(CLLocation *)userLocation {
     self.annotation = annotation;
     self.userLocation = userLocation;
     
     if (self.annotation) {
         if (userLocation) {
-            [self calculateETAWithAnnotation:annotation UserLocation:userLocation];
+            [self _calculateETAWithAnnotation:annotation UserLocation:userLocation];
         }
     }
-    [self loadViewWithAnnotation:annotation];
+    [self _loadViewWithAnnotation:annotation];
 }
 
-- (void)loadViewWithAnnotation:(GoChargerAnnotation *)annotation {
+- (IBAction)_supportBtnPressed:(id)sender {
+    [self.delegate didPressSupportButttonWithAnnotation:self.annotation];
+}
+
+- (IBAction)_navigateToGoStation:(id)sender {
+    [self.delegate didPressNavigateButtonWithAnnotation:self.annotation];
+}
+
+- (void)_loadViewWithAnnotation:(GoChargerAnnotation *)annotation {
     
     if (annotation) {
         
@@ -72,7 +95,7 @@
     }
 }
 
-- (void)updateEtaLabelWithEta:(long long)eta {
+- (void)_updateEtaLabelWithEta:(long long)eta {
     if (eta != -1) {
         [self.etaLabel setText:[NSString stringWithFormat:NSLocalizedString(@"About: %lli min", nil), eta/60]];
     } else {
@@ -80,30 +103,7 @@
     }
 }
 
-- (IBAction)supportBtnPressed:(id)sender {
-    [self.delegate didPressSupportButttonWithAnnotation:self.annotation];
-}
-
-- (IBAction)navigateToGoStation:(id)sender {
-    [self.delegate didPressNavigateButtonWithAnnotation:self.annotation];
-}
-
-- (void)didMoveToSuperview {
-    
-    CGFloat width = 210;
-    
-    CGFloat height = 170;
-    
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:width]];
-    
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:height]];
-    
-    [self setNeedsLayout];
-    [self layoutIfNeeded];
-    [self setNeedsDisplay];
-}
-
-- (void)calculateETAWithAnnotation:(GoChargerAnnotation *)annotation UserLocation:(CLLocation *)location {
+- (void)_calculateETAWithAnnotation:(GoChargerAnnotation *)annotation UserLocation:(CLLocation *)location {
     
     MKPlacemark *userPlacemark = [[MKPlacemark alloc] initWithCoordinate:location.coordinate addressDictionary:nil];
     MKPlacemark *destinationPlacemark = [[MKPlacemark alloc] initWithCoordinate:CLLocationCoordinate2DMake(annotation.latitude, annotation.longitude) addressDictionary:nil];;
@@ -123,7 +123,7 @@
     [directions calculateETAWithCompletionHandler:^(MKETAResponse * _Nullable response, NSError * _Nullable error) {
         if (!error) {
             self.eta = response.expectedTravelTime;
-            [self updateEtaLabelWithEta:self.eta];
+            [self _updateEtaLabelWithEta:self.eta];
         }
     }];
 }

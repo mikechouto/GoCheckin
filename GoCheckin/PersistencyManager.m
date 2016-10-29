@@ -64,27 +64,27 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
                 NSString *uuid = [stationDict objectForKey:kResponseKeyUUID];
                 NSString *available_time = [stationDict objectForKey:kResponseKeyAvailableTime];
                 
-                NSDictionary *nameDict = [self parseLocNameWithDictionary:stationDict];
+                NSDictionary *nameDict = [self _parseLocNameWithDictionary:stationDict];
                 NSString *name_eng = [nameDict objectForKey:kResponseValueEnglish];
                 NSString *name_cht = [nameDict objectForKey:kResponseValueChinese];
                 
-                NSDictionary *addressDict = [self parseAddressWithDictionary:stationDict];
+                NSDictionary *addressDict = [self _parseAddressWithDictionary:stationDict];
                 NSString *address_eng = [addressDict objectForKey:kResponseValueEnglish];
                 NSString *address_cht = [addressDict objectForKey:kResponseValueChinese];
                 
-                NSDictionary *cityDict = [self parseCityWithDictionary:stationDict];
+                NSDictionary *cityDict = [self _parseCityWithDictionary:stationDict];
                 NSString *city_eng = [cityDict objectForKey:kResponseValueEnglish];
                 NSString *city_cht = [cityDict objectForKey:kResponseValueChinese];
                 
-                NSDictionary *districtDict = [self parseDistrictWithDictionary:stationDict];
+                NSDictionary *districtDict = [self _parseDistrictWithDictionary:stationDict];
                 NSString *district_eng = [districtDict objectForKey:kResponseValueEnglish];
                 NSString *district_cht = [districtDict objectForKey:kResponseValueChinese];
                 
-                double latitude = [self parseLatitudeWithDictionary:stationDict];
-                double longitude = [self parseLongitudeWithDictionary:stationDict];
+                double latitude = [self _parseLatitudeWithDictionary:stationDict];
+                double longitude = [self _parseLongitudeWithDictionary:stationDict];
                 
-                int zip_code = [self parseZipCodeWithDictionary:stationDict];
-                int state = [self parseStateWithDictionary:stationDict];
+                int zip_code = [self _parseZipCodeWithDictionary:stationDict];
+                int state = [self _parseStateWithDictionary:stationDict];
                 
                 // Create or update your object
                 [realm beginWriteTransaction];
@@ -108,7 +108,7 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
                 [realm commitWriteTransaction];
             }
             
-            [self checkStationState];
+            [self _checkStationState];
         }
         
     } else {
@@ -116,7 +116,7 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
     }
 }
 
-- (void)updateCheckInDataWithUUID:(NSString *)uuid {
+- (GoStation *)updateCheckInDataWithUUID:(NSString *)uuid {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
     GoStation *station = [[GoStation objectsWhere:@"uuid==%@",uuid] firstObject];
@@ -128,11 +128,12 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
     }
     station.last_checkin_date = [NSDate date];
     station.checkin_times = @([station.checkin_times integerValue] + 1);
-    
     [realm commitWriteTransaction];
+    
+    return station;
 }
 
-- (void)removeCheckInDataWithUUID:(NSString *)uuid {
+- (GoStation *)removeCheckInDataWithUUID:(NSString *)uuid {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
     GoStation *station = [[GoStation objectsWhere:@"uuid==%@",uuid] firstObject];
@@ -157,6 +158,7 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
         [realm commitWriteTransaction];
     }
     
+    return station;
 }
 
 - (RLMResults<GoStation *> *)queryGoStationWithWithPredicate:(NSPredicate *)predicate {
@@ -185,19 +187,19 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
             NSString *uuid = [chargerDict objectForKey:kResponseKeyUUID];
             NSString *available_time = [chargerDict objectForKey:kResponseKeyAvailableTime];
             
-            NSDictionary *nameDict = [self parseLocNameWithDictionary:chargerDict];
+            NSDictionary *nameDict = [self _parseLocNameWithDictionary:chargerDict];
             NSString *name_eng = [nameDict objectForKey:kResponseValueEnglish];
             NSString *name_cht = [nameDict objectForKey:kResponseValueChinese];
 
-            NSDictionary *addressDict = [self parseAddressWithDictionary:chargerDict];
+            NSDictionary *addressDict = [self _parseAddressWithDictionary:chargerDict];
             NSString *address_eng = [addressDict objectForKey:kResponseValueEnglish];
             NSString *address_cht = [addressDict objectForKey:kResponseValueChinese];
             
-            NSDictionary *cityDict = [self parseCityWithDictionary:chargerDict];
+            NSDictionary *cityDict = [self _parseCityWithDictionary:chargerDict];
             NSString *city_eng = [cityDict objectForKey:kResponseValueEnglish];
             NSString *city_cht = [cityDict objectForKey:kResponseValueChinese];
             
-            NSDictionary *districtDict = [self parseDistrictWithDictionary:chargerDict];
+            NSDictionary *districtDict = [self _parseDistrictWithDictionary:chargerDict];
             NSString *district_eng = [districtDict objectForKey:kResponseValueEnglish];
             NSString *district_cht = [districtDict objectForKey:kResponseValueChinese];
             
@@ -205,11 +207,11 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
             
             NSDictionary *geoPoint = [chargerDict objectForKey:kResponseKeyChargerGeoPoint];
             if (geoPoint) {
-                latitude = [self parseLatitudeWithDictionary:geoPoint];
-                longitude = [self parseLongitudeWithDictionary:geoPoint];
+                latitude = [self _parseLatitudeWithDictionary:geoPoint];
+                longitude = [self _parseLongitudeWithDictionary:geoPoint];
             }
             
-            int state = [self parseStateWithDictionary:chargerDict];
+            int state = [self _parseStateWithDictionary:chargerDict];
             
             NSString *phone_number = [chargerDict objectForKey:kResponseKeyPhoneNumber];
             NSString *homepage = [chargerDict objectForKey:kResponseKeyUrl];
@@ -250,7 +252,7 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
 }
 
 #pragma mark NSUserDefaults
-- (void)initUserDefaultsWithDefaultValuesMapType:(NSUInteger)type isShowDeprecatedStation:(BOOL)isShow updateInterval:(NSInteger)interval {
+- (void)createUserDefaultsWithMap:(NSUInteger)type showDeprecated:(BOOL)isShow interval:(NSInteger)interval {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
     // version 1.0
@@ -267,33 +269,21 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
     }
 }
 
-- (void)changeDefaultMapInUserDefaultsWithMapType:(NSUInteger)type {
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setInteger:type forKey:kDefaultMapApplication];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (NSUInteger)getCurrentDefaultMap {
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    return [userDefaults integerForKey:kDefaultMapApplication];
-}
-
-- (void)changeIsShowDeprecatedStationInUserDefault:(BOOL)isShow {
+- (void)setShowDeprecated:(BOOL)isShow {
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:isShow forKey:kIsShowDeprecatedStation];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (BOOL)getIsShowDeprecatedStation {
+- (void)setDefaultMap:(NSUInteger)type {
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    return [userDefaults boolForKey:kIsShowDeprecatedStation];
+    [userDefaults setInteger:type forKey:kDefaultMapApplication];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void)changeUpdateIntervalInUserDefault:(NSInteger)interval {
+- (void)setUpdateInterval:(NSInteger)interval {
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
@@ -304,6 +294,18 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
     }
 
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL)getShowDeprecated {
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [userDefaults boolForKey:kIsShowDeprecatedStation];
+}
+
+- (NSUInteger)getDefaultMap {
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [userDefaults integerForKey:kDefaultMapApplication];
 }
 
 - (NSInteger)getUpdateInterval {
@@ -320,7 +322,7 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
 }
 
 #pragma mark - Private Functions
-- (double)parseLatitudeWithDictionary:(NSDictionary *)dictionary {
+- (double)_parseLatitudeWithDictionary:(NSDictionary *)dictionary {
     double latitude = 0;
     id lat = [dictionary objectForKey:kResponseKeyLatitude];
     if ([lat isKindOfClass:[NSNumber class]]) {
@@ -329,7 +331,7 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
     return latitude;
 }
 
-- (double)parseLongitudeWithDictionary:(NSDictionary *)dictionary {
+- (double)_parseLongitudeWithDictionary:(NSDictionary *)dictionary {
     double longitude = 0;
     id lon = [dictionary objectForKey:kResponseKeyLongitude];
     if ([lon isKindOfClass:[NSNumber class]]) {
@@ -338,7 +340,7 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
     return longitude;
 }
 
-- (int)parseZipCodeWithDictionary:(NSDictionary *)dictionary {
+- (int)_parseZipCodeWithDictionary:(NSDictionary *)dictionary {
     int zip_code = 0;
     id zip = [dictionary objectForKey:kResponseKeyZip];
     if ([zip isKindOfClass:[NSNumber class]]) {
@@ -347,7 +349,7 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
     return zip_code;
 }
 
-- (int)parseStateWithDictionary:(NSDictionary *)dictionary {
+- (int)_parseStateWithDictionary:(NSDictionary *)dictionary {
     int state = 0;
     id sta = [dictionary objectForKey:kResponseKeyState];
     if ([sta isKindOfClass:[NSNumber class]]) {
@@ -356,37 +358,37 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
     return state;
 }
 
-- (nonnull NSDictionary *)parseLocNameWithDictionary:(NSDictionary *)dictionary {
+- (nonnull NSDictionary *)_parseLocNameWithDictionary:(NSDictionary *)dictionary {
     
     NSDictionary *nameDict = [NSJSONSerialization JSONObjectWithString:[dictionary objectForKey:kResponseKeyName]
                                                                options:kNilOptions error:nil];
     id nameArray = [nameDict objectForKey:kResponseKeyList];
-    return [self parseMultipleLanguageDataWithArray:nameArray];
+    return [self _parseMultipleLanguageDataWithArray:nameArray];
 }
 
-- (nonnull NSDictionary *)parseAddressWithDictionary:(NSDictionary *)dictionary {
+- (nonnull NSDictionary *)_parseAddressWithDictionary:(NSDictionary *)dictionary {
     NSDictionary *addressDict = [NSJSONSerialization JSONObjectWithString:[dictionary objectForKey:kResponseKeyAddress]
                                                                   options:kNilOptions error:nil];
     id addressArray = [addressDict objectForKey:kResponseKeyList];
-    return [self parseMultipleLanguageDataWithArray:addressArray];
+    return [self _parseMultipleLanguageDataWithArray:addressArray];
 }
 
-- (nonnull NSDictionary *)parseCityWithDictionary:(NSDictionary *)dictionary {
+- (nonnull NSDictionary *)_parseCityWithDictionary:(NSDictionary *)dictionary {
     NSDictionary *cityDict = [NSJSONSerialization JSONObjectWithString:[dictionary objectForKey:kResponseKeyCity]
                                                                options:kNilOptions error:nil];
     id cityArray = [cityDict objectForKey:kResponseKeyList];
-    return [self parseMultipleLanguageDataWithArray:cityArray];
+    return [self _parseMultipleLanguageDataWithArray:cityArray];
 }
 
-- (nonnull NSDictionary *)parseDistrictWithDictionary:(NSDictionary *)dictionary {
+- (nonnull NSDictionary *)_parseDistrictWithDictionary:(NSDictionary *)dictionary {
     NSDictionary *districtDict = [NSJSONSerialization JSONObjectWithString:[dictionary objectForKey:kResponseKeyDistrict]
                                                                    options:kNilOptions error:nil];
     
     id districtArray = [districtDict objectForKey:kResponseKeyList];
-    return [self parseMultipleLanguageDataWithArray:districtArray];
+    return [self _parseMultipleLanguageDataWithArray:districtArray];
 }
 
-- (nonnull NSDictionary *)parseMultipleLanguageDataWithArray:(NSArray *)array {
+- (nonnull NSDictionary *)_parseMultipleLanguageDataWithArray:(NSArray *)array {
     NSMutableDictionary *tempDict;
     if (array && [array isKindOfClass:[NSArray class]]) {
         tempDict = [NSMutableDictionary dictionaryWithCapacity:[array count]];
@@ -406,13 +408,13 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
     return [NSDictionary dictionaryWithDictionary:tempDict];
 }
 
-- (void)checkStationState {
-    [self updateWorkingStationState];
-    [self updateDeprecatedStationState];
-    [self removeDeprecatedConstructingStation];
+- (void)_checkStationState {
+    [self _updateWorkingStationState];
+    [self _updateDeprecatedStationState];
+    [self _removeDeprecatedConstructingStation];
 }
 
-- (void)updateWorkingStationState {
+- (void)_updateWorkingStationState {
     RLMResults<GoStation *> *stations = [GoStation objectsWhere:@"state == 1 && online_time == 0"];
     RLMRealm *realm = [RLMRealm defaultRealm];
     [realm transactionWithBlock:^{
@@ -433,7 +435,7 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
     }
 }
 
-- (void)updateDeprecatedStationState {
+- (void)_updateDeprecatedStationState {
     
     // Make depercated GoStation threshold to be 5 days.
     long long depercatedThreshold = [[NSDate date] timeIntervalSince1970];
@@ -451,7 +453,7 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
     }
 }
 
-- (void)removeDeprecatedConstructingStation {
+- (void)_removeDeprecatedConstructingStation {
     
     // Make depercated GoStation threshold to be 5 days.
     long long depercatedThreshold = [[NSDate date] timeIntervalSince1970];

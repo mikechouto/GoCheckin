@@ -17,15 +17,15 @@
     if (self) {
         _name = name;
         _type = type;
-        _isInstalled = [self isGoogleMapInstalled:type];
+        _isInstalled = [self _isGoogleMapInstalled:type];
     }
     
     return self;
 }
 
-- (BOOL)isGoogleMapInstalled:(MapType)type {
+- (BOOL)_isGoogleMapInstalled:(MapType)type {
     BOOL isInstalled = YES;
-    if (type == MapTypeGoogle) {
+    if (type == GoogleMap) {
          isInstalled = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]];
         
     }
@@ -46,10 +46,10 @@
     
     if (!self.isDefault) {
         switch (_type) {
-            case MapTypeApple:
+            case AppleMap:
                 [[APIManager sharedInstance] changeDefaultMapToApple];
                 break;
-            case MapTypeGoogle:
+            case GoogleMap:
                 [[APIManager sharedInstance] changeDefaultMapToGoogle];
             default:
                 break;

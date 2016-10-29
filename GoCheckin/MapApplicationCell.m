@@ -28,7 +28,7 @@
         [self.applicationStatusImageView setImage:[UIImage imageNamed:@"icon_checkbox_uncheck"]];
     }
     
-    if (option.type != MapTypeApple) {
+    if (option.type != AppleMap) {
         // TODO: Maybe check is the other map applications are installed or not for users.
     }
     

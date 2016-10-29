@@ -15,20 +15,18 @@
 
 @interface PersistencyManager : NSObject
 
-- (void)initUserDefaultsWithDefaultValuesMapType:(NSUInteger)type isShowDeprecatedStation:(BOOL)isShow updateInterval:(NSInteger)interval;
-- (void)changeIsShowDeprecatedStationInUserDefault:(BOOL)isShow;
-- (void)changeDefaultMapInUserDefaultsWithMapType:(NSUInteger)type;
-- (void)changeUpdateIntervalInUserDefault:(NSInteger)interval;
-- (BOOL)getIsShowDeprecatedStation;
-- (NSUInteger)getCurrentDefaultMap;
+- (void)createUserDefaultsWithMap:(NSUInteger)type showDeprecated:(BOOL)isShow interval:(NSInteger)interval;
+- (void)setShowDeprecated:(BOOL)isShow;
+- (void)setDefaultMap:(NSUInteger)type;
+- (void)setUpdateInterval:(NSInteger)interval;
+- (BOOL)getShowDeprecated;
+- (NSUInteger)getDefaultMap;
 - (NSInteger)getUpdateInterval;
 - (void)createOrUpdateGoStationWithData:(NSDictionary *)dictionary;
 - (void)createOrUpdateGoChargerWithData:(NSDictionary *)dictionary;
 - (RLMResults<GoStation *> *)queryGoStationWithWithPredicate:(NSPredicate *)predicate;
 - (RLMResults<GoCharger *> *)queryGoChargerWithWithPredicate:(NSPredicate *)predicate;
-- (void)updateCheckInDataWithUUID:(NSString *)uuid;
-- (void)removeCheckInDataWithUUID:(NSString *)uuid;
-
-
+- (GoStation *)updateCheckInDataWithUUID:(NSString *)uuid;
+- (GoStation *)removeCheckInDataWithUUID:(NSString *)uuid;
 
 @end

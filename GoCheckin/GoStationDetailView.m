@@ -57,13 +57,40 @@
     
     if (self.annotation) {
         if (userLocation) {
-            [self calculateETAWithAnnotation:annotation UserLocation:userLocation];
+            [self _calculateETAWithAnnotation:annotation UserLocation:userLocation];
         }
     }
-    [self loadViewWithAnnotation:annotation];
+    [self _loadViewWithAnnotation:annotation];
 }
 
-- (void)loadViewWithAnnotation:(GoStationAnnotation *)annotation {
+- (void)didMoveToSuperview {
+    
+    CGFloat width = [self _calculatePerferredWidth];
+    
+    CGFloat height = 220;
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:width]];
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:height]];
+    
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
+    [self setNeedsDisplay];
+}
+
+- (IBAction)_checkInBtnPressed:(id)sender {
+    [self.delegate didPressCheckInButttonWithAnnotation:self.annotation];
+}
+
+- (IBAction)_removeBtnPressed:(id)sender {
+    [self.delegate didPressRemoveButttonWithAnnotation:self.annotation];
+}
+
+- (IBAction)_navigateToGoStation:(id)sender {
+    [self.delegate didPressNavigateButtonWithAnnotation:self.annotation];
+}
+
+- (void)_loadViewWithAnnotation:(GoStationAnnotation *)annotation {
     
     if (annotation) {
         
@@ -104,12 +131,12 @@
         [self.lastCheckInDateLabel setText:checkInDate];
         [self.checkInTimesLabel setText:checkInTimes];
         
-        [self prepareCheckInButtonWithAnnotation:self.annotation];
+        [self _prepareCheckInButtonWithAnnotation:self.annotation];
     }
     
 }
 
-- (void)updateEtaLabelWithEta:(long long)eta {
+- (void)_updateEtaLabelWithEta:(long long)eta {
     if (eta != -1) {
         [self.etaLabel setText:[NSString stringWithFormat:NSLocalizedString(@"About: %lli min", nil), eta/60]];
     } else {
@@ -117,34 +144,7 @@
     }
 }
 
-- (IBAction)checkInBtnPressed:(id)sender {
-    [self.delegate didPressCheckInButttonWithAnnotation:self.annotation];
-}
-
-- (IBAction)removeBtnPressed:(id)sender {
-    [self.delegate didPressRemoveButttonWithAnnotation:self.annotation];
-}
-
-- (IBAction)navigateToGoStation:(id)sender {
-    [self.delegate didPressNavigateButtonWithAnnotation:self.annotation];
-}
-
-- (void)didMoveToSuperview {
-    
-    CGFloat width = [self calculatePerferredWidth];
-    
-    CGFloat height = 220;
-    
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:width]];
-    
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:height]];
-    
-    [self setNeedsLayout];
-    [self layoutIfNeeded];
-    [self setNeedsDisplay];
-}
-
-- (CGFloat)calculatePerferredWidth {
+- (CGFloat)_calculatePerferredWidth {
     
     float width = 210;
     
@@ -169,7 +169,7 @@
     return width;
 }
 
-- (void)calculateETAWithAnnotation:(GoStationAnnotation *)annotation UserLocation:(CLLocation *)location {
+- (void)_calculateETAWithAnnotation:(GoStationAnnotation *)annotation UserLocation:(CLLocation *)location {
     
     MKPlacemark *userPlacemark = [[MKPlacemark alloc] initWithCoordinate:location.coordinate addressDictionary:nil];
     MKPlacemark *destinationPlacemark = [[MKPlacemark alloc] initWithCoordinate:CLLocationCoordinate2DMake(annotation.latitude, annotation.longitude) addressDictionary:nil];;
@@ -189,12 +189,12 @@
     [directions calculateETAWithCompletionHandler:^(MKETAResponse * _Nullable response, NSError * _Nullable error) {
         if (!error) {
             self.eta = response.expectedTravelTime;
-            [self updateEtaLabelWithEta:self.eta];
+            [self _updateEtaLabelWithEta:self.eta];
         }
     }];
 }
 
-- (void)prepareCheckInButtonWithAnnotation:(GoStationAnnotation *)annotation {
+- (void)_prepareCheckInButtonWithAnnotation:(GoStationAnnotation *)annotation {
     
     [self.checkInBtn setBackgroundImage:[[UIImage imageNamed:@"icon_btn_unavailable"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 16, 0, 16)] forState:UIControlStateDisabled];
     [self.checkInBtn setBackgroundImage:[[UIImage imageNamed:@"icon_btn_checkin"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 16, 0, 16)] forState:UIControlStateNormal];

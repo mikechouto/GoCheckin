@@ -24,7 +24,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.updateIntervals = @[@(1), @(3), @(6)];
-    self.currentInterval = [[APIManager sharedInstance] currentUpdateInterval];
+    self.currentInterval = [[APIManager sharedInstance] updateInterval];
 }
 
 #pragma mark UITableViewDataSource

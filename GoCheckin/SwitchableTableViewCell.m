@@ -20,11 +20,11 @@
 
 - (void)setTitle:(NSString *)title {
     [self.optionTitle setText:title];
-    [self.optionSwitch setOn:[[APIManager sharedInstance] shouldShowDeprecatedStation]];
+    [self.optionSwitch setOn:[[APIManager sharedInstance] isShowDeprecatedStation]];
 }
 
-- (IBAction)onOptionSwitchChanged:(UISwitch *)sender {
-    [[APIManager sharedInstance] changeShowDeprecatedStation:sender.isOn];
+- (IBAction)_onOptionSwitchChanged:(UISwitch *)sender {
+    [[APIManager sharedInstance] showDeprecatedStation:sender.isOn];
 }
 
 @end
