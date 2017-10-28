@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <Realm/Realm.h>
 #import "GoStation.h"
-#import "GoCharger.h"
 
 @class GoStation;
 
@@ -23,9 +22,7 @@
 - (NSUInteger)getDefaultMap;
 - (NSInteger)getUpdateInterval;
 - (void)createOrUpdateGoStationWithData:(NSDictionary *)dictionary;
-- (void)createOrUpdateGoChargerWithData:(NSDictionary *)dictionary;
 - (RLMResults<GoStation *> *)queryGoStationWithWithPredicate:(NSPredicate *)predicate;
-- (RLMResults<GoCharger *> *)queryGoChargerWithWithPredicate:(NSPredicate *)predicate;
 - (GoStation *)updateCheckInDataWithUUID:(NSString *)uuid;
 - (GoStation *)removeCheckInDataWithUUID:(NSString *)uuid;
 

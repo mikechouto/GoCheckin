@@ -73,13 +73,4 @@
     return image;
 }
 
-+ (UIImage *)chargerImage {
-    static dispatch_once_t once;
-    static UIImage *image;
-    dispatch_once(&once, ^{
-        image = [UIImage imageNamed:@"pin_charger_normal"];
-    });
-    return image;
-}
-
 @end

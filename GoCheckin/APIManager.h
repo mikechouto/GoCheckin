@@ -21,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (GoStationAnnotation *)updateCheckInDataWithStationUUID:(NSString *)uuid;
 - (GoStationAnnotation *)removeCheckInDataWithStationUUID:(NSString *)uuid;
 - (NSArray *)getGoStations;
-- (NSArray *)getGoChargers;
 - (NSUInteger)totalCheckedInCount;
 - (NSUInteger)workingGoStationCount;
 - (NSUInteger)closedGoStationCount;

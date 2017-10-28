@@ -10,7 +10,6 @@
 #import "HTTPClient.h"
 #import "PersistencyManager.h"
 #import "GoStationAnnotation.h"
-#import "GoChargerAnnotation.h"
 #import "MapOption.h"
 
 @interface APIManager()
@@ -54,7 +53,6 @@
 
 - (void)updateEnergyNetwork {
     dispatch_group_t requestGroup = dispatch_group_create();
-    [self _updateGoChargerWithGroup:requestGroup];
     [self _updateGoStationWithGroup:requestGroup];
     dispatch_group_notify(requestGroup, dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:@"GoStationUpdateFinishNotification" object:nil];
@@ -106,31 +104,6 @@
     }
     
     return [NSArray arrayWithArray:annotations];
-}
-
-- (NSArray *)getGoChargers {
-    NSMutableArray *goChargers = [NSMutableArray array];
-    RLMResults<GoCharger *> *chargers;
-    chargers = [self.persistencyManager queryGoChargerWithWithPredicate:nil];
-    if (chargers.count > 0) {
-        for (GoCharger *c in chargers) {
-            GoChargerAnnotation *goCharger = [[GoChargerAnnotation alloc] initWithUUID:c.uuid
-                                                                                 Phone:c.phone_num
-                                                                              Homepage:c.homepage
-                                                                           ChargerName:@{@"en": c.name_eng,
-                                                                                         @"zh": c.name_cht}
-                                                                               Address:@{@"en": c.address_eng,
-                                                                                         @"zh": c.address_cht}
-                                                                                  City:@{@"en": c.city_eng,
-                                                                                         @"zh": c.city_cht}
-                                                                              District:@{@"en": c.district_eng,
-                                                                                         @"zh": c.district_cht}
-                                                                              Latitude:c.latitude
-                                                                             Longitude:c.longitude];
-            [goChargers addObject:goCharger];
-        }
-    }
-    return [NSArray arrayWithArray:goChargers];
 }
 
 - (NSUInteger)totalCheckedInCount {
@@ -225,21 +198,6 @@
             });
         }
         
-        if (requestGroup) {
-            dispatch_group_leave(requestGroup);
-        }
-    }];
-}
-
-- (void)_updateGoChargerWithGroup:(dispatch_group_t)requestGroup {
-    if (requestGroup) {
-        dispatch_group_enter(requestGroup);
-    }
-    [self.httpClient getRequestForChargerWithCompletion:^(NSDictionary *responseDict, NSError *error) {
-        if (!error) {
-            NSLog(@"%@", responseDict);
-            [self.persistencyManager createOrUpdateGoChargerWithData:responseDict];
-        }
         if (requestGroup) {
             dispatch_group_leave(requestGroup);
         }
