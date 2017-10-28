@@ -33,13 +33,6 @@ static NSString *const kResponseKeyResult = @"result";
 static NSString *const kResponseKeyStationContent = @"data";
 static NSString *const kResponseKeyAvailableTimeByte = @"AvailableTimeByte"; // Not used
 
-
-// Charger Specific Keys
-static NSString *const kResponseKeyUrl = @"Url";
-static NSString *const kResponseKeyPhoneNumber = @"Phone";
-static NSString *const kResponseKeyChargerGeoPoint = @"GeoPoint";
-static NSString *const kResponseKeyChargerContent = @"PublicHcDataList";
-
 // NSUserDefaults Keys
 static NSString *const kFirstRunDate = @"initTimestamp";
 static NSString *const kUpdateInterval = @"updateInterval";
@@ -173,82 +166,6 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
     }
     
     return stations;
-}
-
-#pragma mark GoCharger
-- (void)createOrUpdateGoChargerWithData:(NSDictionary *)dictionary {
-    NSArray *chargerDicts = [dictionary objectForKey:kResponseKeyChargerContent];
-    if (chargerDicts.count > 0) {
-        RLMRealm *realm = [RLMRealm defaultRealm];
-        long long update_time = [[NSDate date] timeIntervalSince1970];
-        
-        for (NSDictionary *chargerDict in chargerDicts) {
-            
-            NSString *uuid = [chargerDict objectForKey:kResponseKeyUUID];
-            NSString *available_time = [chargerDict objectForKey:kResponseKeyAvailableTime];
-            
-            NSDictionary *nameDict = [self _parseLocNameWithDictionary:chargerDict];
-            NSString *name_eng = [nameDict objectForKey:kResponseValueEnglish];
-            NSString *name_cht = [nameDict objectForKey:kResponseValueChinese];
-
-            NSDictionary *addressDict = [self _parseAddressWithDictionary:chargerDict];
-            NSString *address_eng = [addressDict objectForKey:kResponseValueEnglish];
-            NSString *address_cht = [addressDict objectForKey:kResponseValueChinese];
-            
-            NSDictionary *cityDict = [self _parseCityWithDictionary:chargerDict];
-            NSString *city_eng = [cityDict objectForKey:kResponseValueEnglish];
-            NSString *city_cht = [cityDict objectForKey:kResponseValueChinese];
-            
-            NSDictionary *districtDict = [self _parseDistrictWithDictionary:chargerDict];
-            NSString *district_eng = [districtDict objectForKey:kResponseValueEnglish];
-            NSString *district_cht = [districtDict objectForKey:kResponseValueChinese];
-            
-            double latitude = 0, longitude = 0;
-            
-            NSDictionary *geoPoint = [chargerDict objectForKey:kResponseKeyChargerGeoPoint];
-            if (geoPoint) {
-                latitude = [self _parseLatitudeWithDictionary:geoPoint];
-                longitude = [self _parseLongitudeWithDictionary:geoPoint];
-            }
-            
-            int state = [self _parseStateWithDictionary:chargerDict];
-            
-            NSString *phone_number = [chargerDict objectForKey:kResponseKeyPhoneNumber];
-            NSString *homepage = [chargerDict objectForKey:kResponseKeyUrl];
-            
-            // Create or update your object
-            [realm beginWriteTransaction];
-            [GoCharger createOrUpdateInDefaultRealmWithValue:@{@"uuid": uuid,
-                                                               @"update_time": @(update_time),
-                                                               @"name_eng": name_eng,
-                                                               @"name_cht": name_cht,
-                                                               @"latitude": @(latitude),
-                                                               @"longitude": @(longitude),
-                                                               @"state": @(state),
-                                                               @"address_eng": address_eng,
-                                                               @"address_cht": address_cht,
-                                                               @"city_eng": city_eng,
-                                                               @"city_cht": city_cht,
-                                                               @"district_eng": district_eng,
-                                                               @"district_cht": district_cht,
-                                                               @"available_time": available_time,
-                                                               @"phone_num": phone_number,
-                                                               @"homepage": homepage
-                                                               }];
-            [realm commitWriteTransaction];
-        }
-    }
-}
-
-- (RLMResults<GoCharger *> *)queryGoChargerWithWithPredicate:(NSPredicate *)predicate {
-    RLMResults<GoCharger *> *chargers;
-    if (predicate) {
-        chargers = [GoCharger objectsWithPredicate:predicate];
-    } else {
-        chargers = [GoCharger allObjects];
-    }
-    
-    return chargers;
 }
 
 #pragma mark NSUserDefaults

@@ -18,6 +18,5 @@
 + (UIImage *)constructingImage;
 + (UIImage *)deprecatedImage;
 + (UIImage *)deprecatedCheckinImage;
-+ (UIImage *)chargerImage;
 
 @end

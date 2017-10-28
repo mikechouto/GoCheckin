@@ -13,13 +13,12 @@
 
 #import "SVPulsingAnnotationView.h"
 #import "GoStationDetailView.h"
-#import "GoChargerDetailView.h"
 #import "UserInfoDetailView.h"
 #import "MapOption.h" // Uses MapType so must import
 
 #import "UIColor+GoCheckin.h"
 
-@interface ViewController () <MKMapViewDelegate, CLLocationManagerDelegate, GoStationDetailViewDelegate, GoChargerDetailViewDelegate>
+@interface ViewController () <MKMapViewDelegate, CLLocationManagerDelegate, GoStationDetailViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (weak, nonatomic) IBOutlet SGMapView *mapView;
@@ -29,7 +28,6 @@
 @property (strong, nonatomic) NSTimer *detailInfoTimer;
 @property (strong, nonatomic) UserInfoDetailView *detailInfoView;
 @property (strong, nonatomic) GoStationDetailView *stationAnnotationView;
-@property (strong, nonatomic) GoChargerDetailView *chargerAnnotationView;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLLocation *userLocation;
 
@@ -107,11 +105,6 @@
     if (self.stationAnnotationView) {
         [self.stationAnnotationView setDelegate:nil];
         self.stationAnnotationView = nil;
-    }
-    
-    if (self.chargerAnnotationView) {
-        [self.chargerAnnotationView setDelegate:nil];
-        self.chargerAnnotationView = nil;
     }
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -267,8 +260,6 @@
     
     // 2-1. Pin GoStations
     [self _pinStationsLocation:nil];
-    // 2-1. Pin GoChargers
-    [self _pinChargersLocation:nil];
     
     // 3. Begin to rotate detail
     [self _animateDetailInfoButton];
@@ -277,11 +268,6 @@
 - (void)_pinStationsLocation:(id)sender {
     NSArray *stations = [[APIManager sharedInstance] getGoStations];
     [self.mapView addAnnotations:stations];
-}
-
-- (void)_pinChargersLocation:(id)sender {
-    NSArray *chargers = [[APIManager sharedInstance] getGoChargers];
-    [self.mapView addAnnotations:chargers];
 }
 
 #pragma mark CLLocationManagerDelegate
@@ -319,7 +305,7 @@
     NSLog(@"Error finding location: %@", error.localizedDescription);
 }
 
-#pragma mark GoStationDetailViewDelegate & GoChargerDetailViewDelegate
+#pragma mark GoStationDetailViewDelegate
 - (void)didPressCheckInButttonWithAnnotation:(GoStationAnnotation *)annotation {
     
     GoStationAnnotation *updatedStation = [[APIManager sharedInstance] updateCheckInDataWithStationUUID:annotation.uuid];
@@ -338,10 +324,6 @@
         [self.mapView removeAnnotation:annotation];
         [self.mapView addAnnotation:updatedStation];
     }
-}
-
-- (void)didPressSupportButttonWithAnnotation:(GoChargerAnnotation *)annotation {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:annotation.homepage]];
 }
 
 - (void)didPressNavigateButtonWithAnnotation:(id<MKAnnotation>)annotation {
@@ -436,15 +418,6 @@
             
             [self.stationAnnotationView setAnnotation:view.annotation UserLocation:self.userLocation];
             view.detailCalloutAccessoryView = self.stationAnnotationView;
-            
-        } else if ([view.annotation isKindOfClass:[GoChargerAnnotation class]]) {
-            if (!self.chargerAnnotationView) {
-                self.chargerAnnotationView = [[GoChargerDetailView alloc] init];
-                self.chargerAnnotationView.delegate = self;
-            }
-            
-            [self.chargerAnnotationView setAnnotation:view.annotation UserLocation:self.userLocation];
-            view.detailCalloutAccessoryView = self.chargerAnnotationView;
         }
     }
 }
@@ -494,10 +467,7 @@
                 pinImage = [GoUtility constructingImage];
                 break;
         }
-    } else if ([annotation isKindOfClass:[GoChargerAnnotation class]]) {
-        pinImage = [GoUtility chargerImage];
     }
-    
     return pinImage;
 }
 
