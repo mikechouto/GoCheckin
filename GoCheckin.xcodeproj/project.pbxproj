@@ -34,8 +34,6 @@
 		2ABB72D61D5C7E2A001E0AE0 /* SwitchableTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB72D51D5C7E2A001E0AE0 /* SwitchableTableViewCell.m */; };
 		2ABB72DC1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB72DB1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m */; };
 		2ABB72DF1D5D5DC1001E0AE0 /* UpdateIntervalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB72DD1D5D5DC1001E0AE0 /* UpdateIntervalViewController.m */; };
-		2AFDA2171D02BE49007469D5 /* UserInfoDetailView_iOS8.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDA2151D02BE49007469D5 /* UserInfoDetailView_iOS8.xib */; };
-		2AFDA21F1D054EE4007469D5 /* GoStationDetailView_iOS8.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDA21D1D054EE4007469D5 /* GoStationDetailView_iOS8.xib */; };
 		2AFDA2221D055799007469D5 /* GoStationDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDA2201D055799007469D5 /* GoStationDetailView.xib */; };
 		2AFDA2251D0557A5007469D5 /* UserInfoDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDA2231D0557A5007469D5 /* UserInfoDetailView.xib */; };
 		4C8E6B908C5E0833842D7960 /* libPods-GoCheckin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF1C1C00F7C4A0550D9120D /* libPods-GoCheckin.a */; };
@@ -92,9 +90,6 @@
 		2ABB72DB1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateIntervalTableViewCell.m; sourceTree = "<group>"; };
 		2ABB72DD1D5D5DC1001E0AE0 /* UpdateIntervalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateIntervalViewController.m; sourceTree = "<group>"; };
 		2ABB72DE1D5D5DC1001E0AE0 /* UpdateIntervalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateIntervalViewController.h; sourceTree = "<group>"; };
-		2AFDA2161D02BE49007469D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/UserInfoDetailView_iOS8.xib; sourceTree = "<group>"; };
-		2AFDA21C1D02C34D007469D5 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hant"; path = "zh-Hant.lproj/UserInfoDetailView_iOS8.xib"; sourceTree = "<group>"; };
-		2AFDA21E1D054EE4007469D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/GoStationDetailView_iOS8.xib; sourceTree = "<group>"; };
 		2AFDA2211D055799007469D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/GoStationDetailView.xib; sourceTree = "<group>"; };
 		2AFDA2241D0557A5007469D5 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hant"; path = "zh-Hant.lproj/UserInfoDetailView.xib"; sourceTree = "<group>"; };
 		2AFDA2261D0557B1007469D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/UserInfoDetailView.xib; sourceTree = "<group>"; };
@@ -231,11 +226,9 @@
 			children = (
 				2A21D3141CCA18E800F569D5 /* GoStationDetailView.h */,
 				2A21D3151CCA18E800F569D5 /* GoStationDetailView.m */,
-				2AFDA21D1D054EE4007469D5 /* GoStationDetailView_iOS8.xib */,
 				2AFDA2201D055799007469D5 /* GoStationDetailView.xib */,
 				2AA3033F1CF833DB009B530D /* UserInfoDetailView.h */,
 				2AA303401CF833DB009B530D /* UserInfoDetailView.m */,
-				2AFDA2151D02BE49007469D5 /* UserInfoDetailView_iOS8.xib */,
 				2AFDA2231D0557A5007469D5 /* UserInfoDetailView.xib */,
 				2ABB72E01D5D7E79001E0AE0 /* CustomCell */,
 			);
@@ -338,11 +331,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AFDA2251D0557A5007469D5 /* UserInfoDetailView.xib in Resources */,
-				2AFDA2171D02BE49007469D5 /* UserInfoDetailView_iOS8.xib in Resources */,
 				2A0722C31CE42BF9001F0570 /* Localizable.strings in Resources */,
 				2A21D2AD1CB63BE000F569D5 /* LaunchScreen.storyboard in Resources */,
 				2A21D2AA1CB63BE000F569D5 /* Assets.xcassets in Resources */,
-				2AFDA21F1D054EE4007469D5 /* GoStationDetailView_iOS8.xib in Resources */,
 				2AFDA2221D055799007469D5 /* GoStationDetailView.xib in Resources */,
 				2A21D2A81CB63BE000F569D5 /* Main.storyboard in Resources */,
 			);
@@ -453,23 +444,6 @@
 				2A21D2AC1CB63BE000F569D5 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		2AFDA2151D02BE49007469D5 /* UserInfoDetailView_iOS8.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2AFDA2161D02BE49007469D5 /* en */,
-				2AFDA21C1D02C34D007469D5 /* zh-Hant */,
-			);
-			name = UserInfoDetailView_iOS8.xib;
-			sourceTree = "<group>";
-		};
-		2AFDA21D1D054EE4007469D5 /* GoStationDetailView_iOS8.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2AFDA21E1D054EE4007469D5 /* en */,
-			);
-			name = GoStationDetailView_iOS8.xib;
 			sourceTree = "<group>";
 		};
 		2AFDA2201D055799007469D5 /* GoStationDetailView.xib */ = {
@@ -589,7 +563,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = N47TZXJ6JN;
 				INFOPLIST_FILE = GoCheckin/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mikechou.gocheckin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -606,7 +580,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = N47TZXJ6JN;
 				INFOPLIST_FILE = GoCheckin/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mikechou.gocheckin;
 				PRODUCT_NAME = "$(TARGET_NAME)";

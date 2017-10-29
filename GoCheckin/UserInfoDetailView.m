@@ -21,18 +21,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *firstCheckinDateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *latestCheckinDateLabel;
 
-
 @end
 
 @implementation UserInfoDetailView
 
 - (instancetype)init {
-    
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 9.0) {
-        self = [[[NSBundle bundleForClass:[self class]] loadNibNamed:@"UserInfoDetailView_iOS8" owner:self options:nil] lastObject];
-    } else {
-        self = [[[NSBundle bundleForClass:[self class]] loadNibNamed:@"UserInfoDetailView" owner:self options:nil] lastObject];
-    }
+    self = [[[NSBundle bundleForClass:[self class]] loadNibNamed:@"UserInfoDetailView" owner:self options:nil] lastObject];
     
     if (self) {
         [_topBar setTintColor:[UIColor whiteColor]];
