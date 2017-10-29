@@ -134,7 +134,9 @@
 - (NSDate * _Nullable )firstCheckinDate {
     
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"is_checkin == true"];
-    RLMResults<GoStation *> *stations = [[self.persistencyManager queryGoStationWithWithPredicate:pred] sortedResultsUsingProperty:@"checkin_date" ascending:YES];
+//    RLMResults<GoStation *> *stations = [[self.persistencyManager queryGoStationWithWithPredicate:pred] sortedResultsUsingProperty:@"checkin_date" ascending:YES];
+    RLMResults<GoStation *> *stations = [[self.persistencyManager queryGoStationWithWithPredicate:pred] sortedResultsUsingKeyPath:@"checkin_date" ascending:YES];
+    
     
     return stations.count > 0 ? [stations firstObject].checkin_date : nil;
 }
@@ -142,7 +144,8 @@
 - (NSDate * _Nullable )latestCheckinDate {
     
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"is_checkin == true"];
-    RLMResults<GoStation *> *stations = [[self.persistencyManager queryGoStationWithWithPredicate:pred] sortedResultsUsingProperty:@"last_checkin_date" ascending:NO];
+//    RLMResults<GoStation *> *stations = [[self.persistencyManager queryGoStationWithWithPredicate:pred] sortedResultsUsingProperty:@"last_checkin_date" ascending:NO];
+    RLMResults<GoStation *> *stations = [[self.persistencyManager queryGoStationWithWithPredicate:pred] sortedResultsUsingKeyPath:@"last_checkin_date" ascending:NO];
     
     return stations.count > 0 ? [stations firstObject].last_checkin_date : nil;
 }
