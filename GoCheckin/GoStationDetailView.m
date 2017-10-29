@@ -26,20 +26,12 @@
 @property (weak, nonatomic) IBOutlet UIButton *checkInBtn;
 @property (weak, nonatomic) IBOutlet UIButton *removeBtn;
 
-// Only exists when ios8
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *checkinButtonSpace;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *checkinButtonLeftX;
-
 @end
 
 @implementation GoStationDetailView
 
 - (instancetype)init {
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 9.0) {
-        self = [[[NSBundle bundleForClass:[self class]] loadNibNamed:@"GoStationDetailView_iOS8" owner:self options:nil] lastObject];
-    } else {
-        self = [[[NSBundle bundleForClass:[self class]] loadNibNamed:@"GoStationDetailView" owner:self options:nil] lastObject];
-    }
+    self = [[[NSBundle bundleForClass:[self class]] loadNibNamed:@"GoStationDetailView" owner:self options:nil] lastObject];
     
     if (self) {
         self.eta = -1;
@@ -213,21 +205,12 @@
     if (annotation) {
         
         [self.removeBtn setHidden:YES];
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] < 9.0) {
-            self.checkinButtonSpace.priority = 500;
-            self.checkinButtonLeftX.priority = 999;
-        }
-        
         if (annotation.status == GoStationStatusNormal || annotation.status == GoStationStatusClosed) {
             [self.checkInBtn setEnabled:YES];
             
             if (annotation.isCheckIn && annotation.checkInTimes > 0) {
                 [self.removeBtn setHidden:NO];
                 [self.removeBtn setEnabled:YES];
-                if ([[[UIDevice currentDevice] systemVersion] floatValue] < 9.0) {
-                    self.checkinButtonSpace.priority = 999;
-                    self.checkinButtonLeftX.priority = 500;
-                }
             }
         }
     }
