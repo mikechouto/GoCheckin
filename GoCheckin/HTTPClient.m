@@ -10,7 +10,7 @@
 
 @implementation HTTPClient
 
-static NSString * const GoStationAPIServer = @"https://wapi.gogoro.com/tw/api";
+static NSString * const GoStationAPIServer = @"https://webapi.gogoro.com/api";
 
 //https://wapi.gogoro.com/tw/api/vm/list
 - (void)getRequestForStation:(NSString *)path completion:(void (^)(NSDictionary *responseDict, NSError *error))completion {
