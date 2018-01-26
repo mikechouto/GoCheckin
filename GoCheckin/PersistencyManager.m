@@ -53,7 +53,7 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
             for (NSDictionary *stationDict in stationDicts) {
                 
                 NSString *uuid = [stationDict objectForKey:kResponseKeyUUID];
-                NSString *available_time = [stationDict objectForKey:kResponseKeyAvailableTime];
+//                NSString *available_time = [stationDict objectForKey:kResponseKeyAvailableTime];
                 
                 NSDictionary *nameDict = [self _parseLocNameWithDictionary:stationDict];
                 NSString *name_eng = [nameDict objectForKey:kResponseValueEnglish];
@@ -93,7 +93,7 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
                                                                  @"city_cht": city_cht,
                                                                  @"district_eng": district_eng,
                                                                  @"district_cht": district_cht,
-                                                                 @"available_time": available_time
+//                                                                 @"available_time": available_time
                                                                  }];
                 
                 [realm commitWriteTransaction];
