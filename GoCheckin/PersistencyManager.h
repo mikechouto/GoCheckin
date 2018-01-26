@@ -21,7 +21,7 @@
 - (BOOL)getShowDeprecated;
 - (NSUInteger)getDefaultMap;
 - (NSInteger)getUpdateInterval;
-- (void)createOrUpdateGoStationWithData:(NSDictionary *)dictionary;
+- (void)createOrUpdateGoStationWithData:(id)stationData;
 - (RLMResults<GoStation *> *)queryGoStationWithWithPredicate:(NSPredicate *)predicate;
 - (GoStation *)updateCheckInDataWithUUID:(NSString *)uuid;
 - (GoStation *)removeCheckInDataWithUUID:(NSString *)uuid;

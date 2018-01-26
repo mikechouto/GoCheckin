@@ -29,8 +29,6 @@ static NSString *const kResponseKeyAvailableTime = @"AvailableTime";
 
 // Station Specific Keys
 static NSString *const kResponseKeyZip = @"ZipCode";
-static NSString *const kResponseKeyResult = @"result";
-static NSString *const kResponseKeyStationContent = @"data";
 static NSString *const kResponseKeyAvailableTimeByte = @"AvailableTimeByte"; // Not used
 
 // NSUserDefaults Keys
@@ -42,11 +40,11 @@ static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
 @implementation PersistencyManager
 
 #pragma mark GoStation
-- (void)createOrUpdateGoStationWithData:(NSDictionary *)dictionary {
+- (void)createOrUpdateGoStationWithData:(id)stationData {
     
-    if ([[dictionary objectForKey:kResponseKeyResult] boolValue]) {
+    if ([stationData isKindOfClass:[NSArray class]] && [stationData count] > 0) {
         
-        NSArray *stationDicts = [dictionary objectForKey:kResponseKeyStationContent];
+        NSArray *stationDicts = stationData;
         if (stationDicts.count > 0) {
             // Create realm pointing to default file which was set in AppDelegate.
             RLMRealm *realm = [RLMRealm defaultRealm];
