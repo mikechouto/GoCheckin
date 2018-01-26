@@ -40,103 +40,55 @@
     return self;
 }
 
-- (void)updateGoStationIfNeeded {
-    if ([self dataUpdateNeeded]) {
-        [self updateGoStation];
+- (void)updateEnergyNetworkIfNeeded {
+    // MARK: for developing porpurse will move in after finish
+    [self updateEnergyNetwork];
+    
+    if ([self _dataUpdateNeeded]) {
+
     } else {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"GoStationUpdateFinishNotification" object:nil];
     }
 }
 
-- (void)updateGoStation {
-    
-    // Request GoStation from GOGORO API server.
-    [self.httpClient getRequest:@"/vm/list" completion:^(NSDictionary *responseDict, NSError *error) {
-        if (!error) {
-//            NSLog(@"%@", responseDict);
-            [self.persistencyManager createOrUpdateGoStationWithData:responseDict];
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"GoStationUpdateFinishNotification" object:nil];
-            
-        } else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil];
-                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Connection Error" , nil) message:NSLocalizedString(@"Connection Error.", nil) preferredStyle:UIAlertControllerStyleAlert];
-                [alertController addAction:okAction];
-                [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alertController animated:NO completion:nil];
-            });
-        }
-    }];
+- (void)updateEnergyNetwork {
+    dispatch_group_t requestGroup = dispatch_group_create();
+    [self _updateGoStationWithGroup:requestGroup];
+    dispatch_group_notify(requestGroup, dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"GoStationUpdateFinishNotification" object:nil];
+    });
 }
 
 - (GoStationAnnotation *)updateCheckInDataWithStationUUID:(NSString *)uuid {
-    [self.persistencyManager updateCheckInDataWithUUID:uuid];
     
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"uuid == %@", uuid];
-    RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
+    GoStation *updatedStation = [self.persistencyManager updateCheckInDataWithUUID:uuid];
     
-    GoStation *s = [stations firstObject];
-    GoStationAnnotation *goStation;
-    if (s) {
-        goStation = [[GoStationAnnotation alloc] initWithUUID:s.uuid
-                                                   StationName:@{@"en": s.name_eng,
-                                                                 @"zh": s.name_cht}
-                                                       Address:@{@"en": s.address_eng,
-                                                                 @"zh": s.address_cht}
-                                                          City:@{@"en": s.city_eng,
-                                                                 @"zh": s.city_cht}
-                                                      District:@{@"en": s.district_eng,
-                                                                 @"zh": s.district_cht}
-                                                       ZipCode:s.zip_code
-                                                 AvailableTime:s.available_time
-                                                      Latitude:s.latitude
-                                                     Longitude:s.longitude
-                                                         Status:s.state
-                                                     isCheckIn:s.is_checkin
-                                                  checkInTimes:[s.checkin_times integerValue]
-                                               lastCheckInDate:s.last_checkin_date];
+    GoStationAnnotation *updatedAnnotation;
+    if (updatedStation) {
+        updatedAnnotation = [[GoStationAnnotation alloc] initWithGoStation:updatedStation];
     }
     
-    return goStation;
+    return updatedAnnotation;
 }
 
 - (GoStationAnnotation *)removeCheckInDataWithStationUUID:(NSString *)uuid {
-    [self.persistencyManager removeCheckInDataWithUUID:uuid];
     
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"uuid == %@", uuid];
-    RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
+    GoStation *updatedStation = [self.persistencyManager removeCheckInDataWithUUID:uuid];
     
-    GoStation *s = [stations firstObject];
-    GoStationAnnotation *goStation;
-    if (s) {
-        goStation = [[GoStationAnnotation alloc] initWithUUID:s.uuid
-                                                  StationName:@{@"en": s.name_eng,
-                                                                @"zh": s.name_cht}
-                                                      Address:@{@"en": s.address_eng,
-                                                                @"zh": s.address_cht}
-                                                         City:@{@"en": s.city_eng,
-                                                                @"zh": s.city_cht}
-                                                     District:@{@"en": s.district_eng,
-                                                                @"zh": s.district_cht}
-                                                      ZipCode:s.zip_code
-                                                AvailableTime:s.available_time
-                                                     Latitude:s.latitude
-                                                    Longitude:s.longitude
-                                                        Status:s.state
-                                                    isCheckIn:s.is_checkin
-                                                 checkInTimes:[s.checkin_times integerValue]
-                                              lastCheckInDate:s.last_checkin_date];
+    GoStationAnnotation *updatedAnnotation;
+    if (updatedStation) {
+        updatedAnnotation = [[GoStationAnnotation alloc] initWithGoStation:updatedStation];
     }
     
-    return goStation;
+    return updatedAnnotation;
 }
 
 - (NSArray *)getGoStations {
     
-    NSMutableArray *goStations = [NSMutableArray array];
+    NSMutableArray *annotations = [NSMutableArray array];
     
     RLMResults<GoStation *> *stations;
-    if ([self shouldShowDeprecatedStation]) {
+    if ([self isShowDeprecatedStation]) {
         stations = [self.persistencyManager queryGoStationWithWithPredicate:nil];
     } else {
         NSPredicate *pred = [NSPredicate predicateWithFormat:@"state != %d", GoStationStatusDeprecated];
@@ -146,112 +98,122 @@
     
     if (stations.count > 0) {
         for (GoStation *s in stations) {
-            GoStationAnnotation *goStation = [[GoStationAnnotation alloc] initWithUUID:s.uuid
-                                                       StationName:@{@"en": s.name_eng,
-                                                                     @"zh": s.name_cht}
-                                                           Address:@{@"en": s.address_eng,
-                                                                     @"zh": s.address_cht}
-                                                              City:@{@"en": s.city_eng,
-                                                                     @"zh": s.city_cht}
-                                                          District:@{@"en": s.district_eng,
-                                                                     @"zh": s.district_cht}
-                                                           ZipCode:s.zip_code
-                                                     AvailableTime:s.available_time
-                                                          Latitude:s.latitude
-                                                         Longitude:s.longitude
-                                                             Status:s.state
-                                                         isCheckIn:s.is_checkin
-                                                      checkInTimes:[s.checkin_times integerValue]
-                                                   lastCheckInDate:s.last_checkin_date];
-            [goStations addObject:goStation];
+            GoStationAnnotation *annotation = [[GoStationAnnotation alloc] initWithGoStation:s];
+            [annotations addObject:annotation];
         }
     }
     
-    return goStations;
+    return [NSArray arrayWithArray:annotations];
 }
 
-- (NSUInteger)getTotalCheckedInCount {
+- (NSUInteger)totalCheckedInCount {
     // Not counting the deprecated stations
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"is_checkin == true && state != %d", GoStationStatusDeprecated];
     RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
     return stations.count;
 }
 
-- (NSUInteger)getWorkingGoStationCount {
+- (NSUInteger)workingGoStationCount {
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"state == %d", GoStationStatusNormal];
     RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
     return stations.count;
 }
 
-- (NSUInteger)getClosedGoStationCount {
+- (NSUInteger)closedGoStationCount {
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"state == %d", GoStationStatusClosed];
     RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
     return stations.count;
 }
 
-- (NSUInteger)getConstructingGoStationCount {
+- (NSUInteger)constructingGoStationCount {
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"state == %d OR state == %d", GoStationStatusConstructing, GoStationStatusPreparing];
     RLMResults<GoStation *> *stations = [self.persistencyManager queryGoStationWithWithPredicate:pred];
     return stations.count;
 }
 
-- (NSDate * _Nullable ) getFirstCheckinDate {
+- (NSDate * _Nullable )firstCheckinDate {
     
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"is_checkin == true"];
-    RLMResults<GoStation *> *stations = [[self.persistencyManager queryGoStationWithWithPredicate:pred] sortedResultsUsingProperty:@"checkin_date" ascending:YES];
+//    RLMResults<GoStation *> *stations = [[self.persistencyManager queryGoStationWithWithPredicate:pred] sortedResultsUsingProperty:@"checkin_date" ascending:YES];
+    RLMResults<GoStation *> *stations = [[self.persistencyManager queryGoStationWithWithPredicate:pred] sortedResultsUsingKeyPath:@"checkin_date" ascending:YES];
+    
     
     return stations.count > 0 ? [stations firstObject].checkin_date : nil;
 }
 
-- (NSDate * _Nullable ) getLatestCheckinDate {
+- (NSDate * _Nullable )latestCheckinDate {
     
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"is_checkin == true"];
-    RLMResults<GoStation *> *stations = [[self.persistencyManager queryGoStationWithWithPredicate:pred] sortedResultsUsingProperty:@"last_checkin_date" ascending:NO];
+//    RLMResults<GoStation *> *stations = [[self.persistencyManager queryGoStationWithWithPredicate:pred] sortedResultsUsingProperty:@"last_checkin_date" ascending:NO];
+    RLMResults<GoStation *> *stations = [[self.persistencyManager queryGoStationWithWithPredicate:pred] sortedResultsUsingKeyPath:@"last_checkin_date" ascending:NO];
     
     return stations.count > 0 ? [stations firstObject].last_checkin_date : nil;
 }
 
 - (void)initUserDefaultsIfNeeded {
-    [self.persistencyManager initUserDefaultsWithDefaultValuesMapType:MapTypeApple isShowDeprecatedStation:NO updateInterval:3];
+    [self.persistencyManager createUserDefaultsWithMap:AppleMap showDeprecated:NO interval:3];
 }
 
 - (void)changeDefaultMapToApple {
-    [self.persistencyManager changeDefaultMapInUserDefaultsWithMapType:MapTypeApple];
+    [self.persistencyManager setDefaultMap:AppleMap];
 }
 
 - (void)changeDefaultMapToGoogle {
-    [self.persistencyManager changeDefaultMapInUserDefaultsWithMapType:MapTypeGoogle];
+    [self.persistencyManager setDefaultMap:GoogleMap];
 }
 
 - (NSUInteger)currentMapApplication {
-    return [self.persistencyManager getCurrentDefaultMap];
+    return [self.persistencyManager getDefaultMap];
 }
 
-- (void)changeShowDeprecatedStation:(BOOL)isShow {
-    [self.persistencyManager changeIsShowDeprecatedStationInUserDefault:isShow];
+- (void)showDeprecatedStation:(BOOL)isShow {
+    [self.persistencyManager setShowDeprecated:isShow];
 }
 
-- (BOOL)shouldShowDeprecatedStation {
-    return [self.persistencyManager getIsShowDeprecatedStation];
+- (BOOL)isShowDeprecatedStation {
+    return [self.persistencyManager getShowDeprecated];
 }
 
 - (void)changeUpdateInterval:(NSInteger)interval {
-    [self.persistencyManager changeUpdateIntervalInUserDefault:interval];
+    [self.persistencyManager setUpdateInterval:interval];
 }
 
-- (NSInteger)currentUpdateInterval {
+- (NSInteger)updateInterval {
     return [self.persistencyManager getUpdateInterval];
 }
 
-#pragma mark internal functions
+- (void)_updateGoStationWithGroup:(dispatch_group_t)requestGroup {
+    if (requestGroup) {
+        dispatch_group_enter(requestGroup);
+    }
+    
+    // Request GoStation from GOGORO API server.
+    [self.httpClient getRequestForStation:@"/vm/list" completion:^(id response, NSError *error) {
+        if (!error) {
+//            NSLog(@"%@", response);
+            [self.persistencyManager createOrUpdateGoStationWithData:response];
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil];
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Connection Error" , nil) message:NSLocalizedString(@"Connection Error.", nil) preferredStyle:UIAlertControllerStyleAlert];
+                [alertController addAction:okAction];
+                [[[[UIApplication sharedApplication] keyWindow] rootViewController] presentViewController:alertController animated:NO completion:nil];
+            });
+        }
+        
+        if (requestGroup) {
+            dispatch_group_leave(requestGroup);
+        }
+    }];
+}
 
-- (BOOL)dataUpdateNeeded {
+- (BOOL)_dataUpdateNeeded {
     
     BOOL flag = NO;
     
     // Calculate if data needs to be updated.
     long long lastThreshold = [[NSDate date] timeIntervalSince1970];
-    lastThreshold = lastThreshold - (60 * (60 * [self currentUpdateInterval]));
+    lastThreshold = lastThreshold - (60 * (60 * [self updateInterval]));
     
     // Retrive all Station, if theres no station data then it'll return 0.
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"state == %d", GoStationStatusNormal];

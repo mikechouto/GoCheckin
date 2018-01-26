@@ -9,13 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "GoStationAnnotation.h"
 
+@protocol GoCheckinDetailViewDelegate <NSObject>
+@required
+- (void)didPressNavigateButtonWithAnnotation:(id<MKAnnotation>)annotation;
+@end
+
 IB_DESIGNABLE
-@protocol GoStationDetailViewDelegate <NSObject>
+@protocol GoStationDetailViewDelegate <GoCheckinDetailViewDelegate>
 
 @required
 - (void)didPressCheckInButttonWithAnnotation:(GoStationAnnotation *)annotation;
 - (void)didPressRemoveButttonWithAnnotation:(GoStationAnnotation *)annotation;
-- (void)didPressNavigateButtonWithAnnotation:(GoStationAnnotation *)annotation;
 
 @end
 

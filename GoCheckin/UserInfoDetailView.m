@@ -21,18 +21,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *firstCheckinDateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *latestCheckinDateLabel;
 
-
 @end
 
 @implementation UserInfoDetailView
 
 - (instancetype)init {
-    
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 9.0) {
-        self = [[[NSBundle bundleForClass:[self class]] loadNibNamed:@"UserInfoDetailView_iOS8" owner:self options:nil] lastObject];
-    } else {
-        self = [[[NSBundle bundleForClass:[self class]] loadNibNamed:@"UserInfoDetailView" owner:self options:nil] lastObject];
-    }
+    self = [[[NSBundle bundleForClass:[self class]] loadNibNamed:@"UserInfoDetailView" owner:self options:nil] lastObject];
     
     if (self) {
         [_topBar setTintColor:[UIColor whiteColor]];
@@ -51,15 +45,15 @@
 }
 
 - (void)didMoveToSuperview {
-    [self updateUserInfo];
+    [self _updateUserInfo];
 }
 
-- (void)updateUserInfo {
+- (void)_updateUserInfo {
     
-    NSUInteger workingCount = [[APIManager sharedInstance] getWorkingGoStationCount];
-    NSUInteger closedCount = [[APIManager sharedInstance] getClosedGoStationCount];
-    NSUInteger constructingCount = [[APIManager sharedInstance] getConstructingGoStationCount];
-    NSUInteger checkedinCount = [[APIManager sharedInstance] getTotalCheckedInCount];
+    NSUInteger workingCount = [[APIManager sharedInstance] workingGoStationCount];
+    NSUInteger closedCount = [[APIManager sharedInstance] closedGoStationCount];
+    NSUInteger constructingCount = [[APIManager sharedInstance] constructingGoStationCount];
+    NSUInteger checkedinCount = [[APIManager sharedInstance] totalCheckedInCount];
     
     self.workingNumberLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)workingCount + closedCount];
     self.constructingNumberLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)constructingCount];
@@ -67,8 +61,8 @@
     double accomplishPercentage = 100.0f * checkedinCount / (workingCount + closedCount);
     self.accomplishPercentageLabel.text = [NSString stringWithFormat:@"%02.1f%%", accomplishPercentage < 100.0 ? accomplishPercentage : 100.0];
     
-    NSDate *firstCheckinDate = [[APIManager sharedInstance] getFirstCheckinDate];
-    NSDate *latestCheckinDate = [[APIManager sharedInstance] getLatestCheckinDate];
+    NSDate *firstCheckinDate = [[APIManager sharedInstance] firstCheckinDate];
+    NSDate *latestCheckinDate = [[APIManager sharedInstance] latestCheckinDate];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy/MM/dd"];
     if (firstCheckinDate) {

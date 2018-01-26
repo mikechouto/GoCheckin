@@ -30,15 +30,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self prepareNavigationBar];
+    [self _prepareNavigationBar];
     [self.versionLabel setText:[NSString stringWithFormat:NSLocalizedString(@"Version: %@", nil), [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]];
     
     self.sectionTitles = @[NSLocalizedString(@"General", nil),
                            NSLocalizedString(@"Map Selection", nil),
                            NSLocalizedString(@"Get Help", nil)];
     
-    self.supportedMaps = @[[[MapOption alloc] initWithName:@"Apple Map" MapType:MapTypeApple],
-                           [[MapOption alloc] initWithName:@"Google Map" MapType:MapTypeGoogle]];
+    self.supportedMaps = @[[[MapOption alloc] initWithName:@"Apple Map" MapType:AppleMap],
+                           [[MapOption alloc] initWithName:@"Google Map" MapType:GoogleMap]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -52,7 +52,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)prepareNavigationBar {
+- (void)_prepareNavigationBar {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
@@ -68,12 +68,12 @@
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Arial-BoldMT" size:20], NSForegroundColorAttributeName:[UIColor whiteColor]}];
 }
 
-- (void)sendFeedbackMail {
+- (void)_sendFeedbackMail {
     // Email Subject
     NSString *emailTitle = @"GoCheckin Feedback";
     // Email Body
     NSString *iOSVersion = [[UIDevice currentDevice] systemVersion];
-    NSString *messageBody = [NSString stringWithFormat:@"GoCheckin %@\n%@-%@:\n%@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [self deviceModel], iOSVersion, [self deviceUniqueIdentifier]];
+    NSString *messageBody = [NSString stringWithFormat:@"GoCheckin %@\n%@-%@:\n%@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"], [self _deviceModel], iOSVersion, [self _deviceUniqueIdentifier]];
     // To address
     NSArray *toRecipents = [NSArray arrayWithObject:@"mikechouto@gmail.com"];
     
@@ -87,18 +87,18 @@
     [self presentViewController:mailComposeViewController animated:YES completion:NULL];
 }
 
-- (void)deselectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)_deselectRowAtIndexPath:(NSIndexPath *)indexPath {
     [_tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (NSString *)deviceModel {
+- (NSString *)_deviceModel {
     struct utsname systemInfo;
     uname(&systemInfo);
     return [NSString stringWithCString:systemInfo.machine
                               encoding:NSUTF8StringEncoding];
 }
 
-- (NSString *)deviceUniqueIdentifier {
+- (NSString *)_deviceUniqueIdentifier {
     NSString *uniqueIdentifier = [[[[UIDevice currentDevice] identifierForVendor] UUIDString] lowercaseString];
     return [uniqueIdentifier stringByReplacingOccurrencesOfString:@"-" withString:@""];
 }
@@ -142,7 +142,7 @@
                     cell = [[UpdateIntervalTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:intervalPageIdentifier];
                 }
                 [[(UpdateIntervalTableViewCell *)cell titleLabel] setText:NSLocalizedString(@"Update Stations", nil)];
-                NSString *detailString = [NSString stringWithFormat:NSLocalizedString(@"Every %@ hour", nil), @([[APIManager sharedInstance] currentUpdateInterval])];
+                NSString *detailString = [NSString stringWithFormat:NSLocalizedString(@"Every %@ hour", nil), @([[APIManager sharedInstance] updateInterval])];
                 [[(UpdateIntervalTableViewCell *)cell detailLabel] setText:detailString];
             }
             
@@ -200,13 +200,13 @@
             [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
             break;
         case 2:
-            [self sendFeedbackMail];
+            [self _sendFeedbackMail];
             break;
         default:
             break;
     }
 
-    [self performSelector:@selector(deselectRowAtIndexPath:) withObject:indexPath afterDelay:0.05];
+    [self performSelector:@selector(_deselectRowAtIndexPath:) withObject:indexPath afterDelay:0.05];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {

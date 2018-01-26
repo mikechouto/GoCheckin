@@ -16,26 +16,26 @@ NS_ASSUME_NONNULL_BEGIN
 @interface APIManager : NSObject
 
 + (APIManager *)sharedInstance;
-- (void)updateGoStationIfNeeded;
-- (void)updateGoStation;
+- (void)updateEnergyNetworkIfNeeded;
+- (void)updateEnergyNetwork;
 - (GoStationAnnotation *)updateCheckInDataWithStationUUID:(NSString *)uuid;
 - (GoStationAnnotation *)removeCheckInDataWithStationUUID:(NSString *)uuid;
 - (NSArray *)getGoStations;
-- (NSUInteger)getTotalCheckedInCount;
-- (NSUInteger)getWorkingGoStationCount;
-- (NSUInteger)getClosedGoStationCount;
-- (NSUInteger)getConstructingGoStationCount;
-- (NSDate * _Nullable)getFirstCheckinDate;
-- (NSDate * _Nullable)getLatestCheckinDate;
+- (NSUInteger)totalCheckedInCount;
+- (NSUInteger)workingGoStationCount;
+- (NSUInteger)closedGoStationCount;
+- (NSUInteger)constructingGoStationCount;
+- (NSDate * _Nullable)firstCheckinDate;
+- (NSDate * _Nullable)latestCheckinDate;
 
 - (void)initUserDefaultsIfNeeded;
 - (void)changeDefaultMapToGoogle;
 - (void)changeDefaultMapToApple;
 - (NSUInteger)currentMapApplication;
-- (void)changeShowDeprecatedStation:(BOOL)isShow;
-- (BOOL)shouldShowDeprecatedStation;
+- (void)showDeprecatedStation:(BOOL)isShow;
+- (BOOL)isShowDeprecatedStation;
 - (void)changeUpdateInterval:(NSInteger)interval;
-- (NSInteger)currentUpdateInterval;
+- (NSInteger)updateInterval;
 
 NS_ASSUME_NONNULL_END
 

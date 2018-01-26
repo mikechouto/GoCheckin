@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
+@class GoStation;
+
 typedef NS_ENUM(NSUInteger, GoStationStatus) {
     GoStationStatusNormal = 1,
     GoStationStatusConstructing = 99,
@@ -39,6 +41,7 @@ typedef NS_ENUM(NSUInteger, GoStationStatus) {
 @property (copy, nonatomic, readonly) NSString *subtitle;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 
+- (instancetype)initWithGoStation:(GoStation *)station;
 - (instancetype)initWithUUID:(NSString *)uuid
                  StationName:(NSDictionary *)stationName
                      Address:(NSDictionary *)address

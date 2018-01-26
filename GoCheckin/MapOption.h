@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, MapType) {
-    MapTypeApple = 0,
-    MapTypeGoogle,
+    AppleMap = 0,
+    GoogleMap,
 };
 
 @interface MapOption : NSObject

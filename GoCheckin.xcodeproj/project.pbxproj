@@ -13,7 +13,7 @@
 		2A0722C31CE42BF9001F0570 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A0722C51CE42BF9001F0570 /* Localizable.strings */; };
 		2A0F6FB11CD124810095D171 /* UIColor+GoCheckin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0F6FB01CD124810095D171 /* UIColor+GoCheckin.m */; };
 		2A0F6FB41CD1A4570095D171 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0F6FB31CD1A4570095D171 /* SettingsViewController.m */; };
-		2A10CBFB1D1CDDB500FB84F3 /* MKMapView+GoCheckin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A10CBFA1D1CDDB500FB84F3 /* MKMapView+GoCheckin.m */; };
+		2A100B961D656A6700B36AED /* GoUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A100B951D656A6700B36AED /* GoUtility.m */; };
 		2A21D29F1CB63BE000F569D5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D29E1CB63BE000F569D5 /* main.m */; };
 		2A21D2A21CB63BE000F569D5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D2A11CB63BE000F569D5 /* AppDelegate.m */; };
 		2A21D2A51CB63BE000F569D5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D2A41CB63BE000F569D5 /* ViewController.m */; };
@@ -34,11 +34,9 @@
 		2ABB72D61D5C7E2A001E0AE0 /* SwitchableTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB72D51D5C7E2A001E0AE0 /* SwitchableTableViewCell.m */; };
 		2ABB72DC1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB72DB1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m */; };
 		2ABB72DF1D5D5DC1001E0AE0 /* UpdateIntervalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB72DD1D5D5DC1001E0AE0 /* UpdateIntervalViewController.m */; };
-		2AFDA2171D02BE49007469D5 /* UserInfoDetailView_iOS8.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDA2151D02BE49007469D5 /* UserInfoDetailView_iOS8.xib */; };
-		2AFDA21F1D054EE4007469D5 /* GoStationDetailView_iOS8.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDA21D1D054EE4007469D5 /* GoStationDetailView_iOS8.xib */; };
 		2AFDA2221D055799007469D5 /* GoStationDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDA2201D055799007469D5 /* GoStationDetailView.xib */; };
 		2AFDA2251D0557A5007469D5 /* UserInfoDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDA2231D0557A5007469D5 /* UserInfoDetailView.xib */; };
-		DC10D95B9494066D1607BB3A /* libPods-GoCheckin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BDD437BBB8FF11F48238722 /* libPods-GoCheckin.a */; };
+		4C8E6B908C5E0833842D7960 /* libPods-GoCheckin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF1C1C00F7C4A0550D9120D /* libPods-GoCheckin.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,8 +51,8 @@
 		2A0F6FB01CD124810095D171 /* UIColor+GoCheckin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+GoCheckin.m"; sourceTree = "<group>"; };
 		2A0F6FB21CD1A4570095D171 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		2A0F6FB31CD1A4570095D171 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
-		2A10CBF91D1CDDB500FB84F3 /* MKMapView+GoCheckin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+GoCheckin.h"; sourceTree = "<group>"; };
-		2A10CBFA1D1CDDB500FB84F3 /* MKMapView+GoCheckin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+GoCheckin.m"; sourceTree = "<group>"; };
+		2A100B941D656A6700B36AED /* GoUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoUtility.h; sourceTree = "<group>"; };
+		2A100B951D656A6700B36AED /* GoUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoUtility.m; sourceTree = "<group>"; };
 		2A1CB5BD1D619DC3003A1BD9 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
 		2A21D29A1CB63BE000F569D5 /* GoCheckin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoCheckin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A21D29E1CB63BE000F569D5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -92,15 +90,12 @@
 		2ABB72DB1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateIntervalTableViewCell.m; sourceTree = "<group>"; };
 		2ABB72DD1D5D5DC1001E0AE0 /* UpdateIntervalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateIntervalViewController.m; sourceTree = "<group>"; };
 		2ABB72DE1D5D5DC1001E0AE0 /* UpdateIntervalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateIntervalViewController.h; sourceTree = "<group>"; };
-		2AFDA2161D02BE49007469D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/UserInfoDetailView_iOS8.xib; sourceTree = "<group>"; };
-		2AFDA21C1D02C34D007469D5 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hant"; path = "zh-Hant.lproj/UserInfoDetailView_iOS8.xib"; sourceTree = "<group>"; };
-		2AFDA21E1D054EE4007469D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/GoStationDetailView_iOS8.xib; sourceTree = "<group>"; };
 		2AFDA2211D055799007469D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/GoStationDetailView.xib; sourceTree = "<group>"; };
 		2AFDA2241D0557A5007469D5 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hant"; path = "zh-Hant.lproj/UserInfoDetailView.xib"; sourceTree = "<group>"; };
 		2AFDA2261D0557B1007469D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/UserInfoDetailView.xib; sourceTree = "<group>"; };
-		4E087006A0931C4A1B04D3E7 /* Pods-GoCheckin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoCheckin.release.xcconfig"; path = "Pods/Target Support Files/Pods-GoCheckin/Pods-GoCheckin.release.xcconfig"; sourceTree = "<group>"; };
-		9BDD437BBB8FF11F48238722 /* libPods-GoCheckin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GoCheckin.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BA31575ED7762E61134EB07F /* Pods-GoCheckin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoCheckin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GoCheckin/Pods-GoCheckin.debug.xcconfig"; sourceTree = "<group>"; };
+		6AF1C1C00F7C4A0550D9120D /* libPods-GoCheckin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GoCheckin.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6FFB360D9BEAF26B8DBF4FDD /* Pods-GoCheckin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoCheckin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GoCheckin/Pods-GoCheckin.debug.xcconfig"; sourceTree = "<group>"; };
+		C4B031C1E673C68ADF42E9A2 /* Pods-GoCheckin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoCheckin.release.xcconfig"; path = "Pods/Target Support Files/Pods-GoCheckin/Pods-GoCheckin.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,7 +106,7 @@
 				2A0722BE1CE30DCD001F0570 /* MessageUI.framework in Frameworks */,
 				2A21D3121CCA05F900F569D5 /* QuartzCore.framework in Frameworks */,
 				2A21D3081CC75B5E00F569D5 /* MapKit.framework in Frameworks */,
-				DC10D95B9494066D1607BB3A /* libPods-GoCheckin.a in Frameworks */,
+				4C8E6B908C5E0833842D7960 /* libPods-GoCheckin.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,8 +118,8 @@
 			children = (
 				2A21D29C1CB63BE000F569D5 /* GoCheckin */,
 				2A21D29B1CB63BE000F569D5 /* Products */,
-				6B537520921EE79EB87FDBF6 /* Pods */,
 				AF124DABF15F05C6278ECA60 /* Frameworks */,
+				E49B2BFE714C9DE46FAD3136 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -180,6 +175,8 @@
 				2A21D2BF1CBB59AF00F569D5 /* APIManager.m */,
 				2A21D2C11CBB5D8A00F569D5 /* PersistencyManager.h */,
 				2A21D2C21CBB5D8A00F569D5 /* PersistencyManager.m */,
+				2A100B941D656A6700B36AED /* GoUtility.h */,
+				2A100B951D656A6700B36AED /* GoUtility.m */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -218,8 +215,6 @@
 		2A21D30D1CCA05E300F569D5 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				2A10CBF91D1CDDB500FB84F3 /* MKMapView+GoCheckin.h */,
-				2A10CBFA1D1CDDB500FB84F3 /* MKMapView+GoCheckin.m */,
 				2A21D30E1CCA05EB00F569D5 /* SVPulsingAnnotationView.h */,
 				2A21D30F1CCA05EB00F569D5 /* SVPulsingAnnotationView.m */,
 			);
@@ -231,11 +226,9 @@
 			children = (
 				2A21D3141CCA18E800F569D5 /* GoStationDetailView.h */,
 				2A21D3151CCA18E800F569D5 /* GoStationDetailView.m */,
-				2AFDA21D1D054EE4007469D5 /* GoStationDetailView_iOS8.xib */,
 				2AFDA2201D055799007469D5 /* GoStationDetailView.xib */,
 				2AA3033F1CF833DB009B530D /* UserInfoDetailView.h */,
 				2AA303401CF833DB009B530D /* UserInfoDetailView.m */,
-				2AFDA2151D02BE49007469D5 /* UserInfoDetailView_iOS8.xib */,
 				2AFDA2231D0557A5007469D5 /* UserInfoDetailView.xib */,
 				2ABB72E01D5D7E79001E0AE0 /* CustomCell */,
 			);
@@ -255,24 +248,24 @@
 			name = CustomCell;
 			sourceTree = "<group>";
 		};
-		6B537520921EE79EB87FDBF6 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				BA31575ED7762E61134EB07F /* Pods-GoCheckin.debug.xcconfig */,
-				4E087006A0931C4A1B04D3E7 /* Pods-GoCheckin.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		AF124DABF15F05C6278ECA60 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				2A0722BD1CE30DCD001F0570 /* MessageUI.framework */,
 				2A21D3111CCA05F900F569D5 /* QuartzCore.framework */,
 				2A21D3071CC75B5E00F569D5 /* MapKit.framework */,
-				9BDD437BBB8FF11F48238722 /* libPods-GoCheckin.a */,
+				6AF1C1C00F7C4A0550D9120D /* libPods-GoCheckin.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E49B2BFE714C9DE46FAD3136 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6FFB360D9BEAF26B8DBF4FDD /* Pods-GoCheckin.debug.xcconfig */,
+				C4B031C1E673C68ADF42E9A2 /* Pods-GoCheckin.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -282,12 +275,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2A21D2B11CB63BE000F569D5 /* Build configuration list for PBXNativeTarget "GoCheckin" */;
 			buildPhases = (
-				B893027D4F1E4F8610F0FE3D /* Check Pods Manifest.lock */,
+				2687A0C2E99ABBF63AF802A1 /* [CP] Check Pods Manifest.lock */,
 				2A21D2961CB63BE000F569D5 /* Sources */,
 				2A21D2971CB63BE000F569D5 /* Frameworks */,
 				2A21D2981CB63BE000F569D5 /* Resources */,
-				A545DC18EBA42DE6C1090751 /* Embed Pods Frameworks */,
-				2182EE694B7A16BDEE8E91E0 /* Copy Pods Resources */,
+				FA52D714A442C8014E7E2942 /* [CP] Embed Pods Frameworks */,
+				D3ABBB65E1DB7FCAB4DF3876 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -304,11 +297,12 @@
 		2A21D2921CB63BE000F569D5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0900;
 				TargetAttributes = {
 					2A21D2991CB63BE000F569D5 = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = N47TZXJ6JN;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -337,11 +331,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AFDA2251D0557A5007469D5 /* UserInfoDetailView.xib in Resources */,
-				2AFDA2171D02BE49007469D5 /* UserInfoDetailView_iOS8.xib in Resources */,
 				2A0722C31CE42BF9001F0570 /* Localizable.strings in Resources */,
 				2A21D2AD1CB63BE000F569D5 /* LaunchScreen.storyboard in Resources */,
 				2A21D2AA1CB63BE000F569D5 /* Assets.xcassets in Resources */,
-				2AFDA21F1D054EE4007469D5 /* GoStationDetailView_iOS8.xib in Resources */,
 				2AFDA2221D055799007469D5 /* GoStationDetailView.xib in Resources */,
 				2A21D2A81CB63BE000F569D5 /* Main.storyboard in Resources */,
 			);
@@ -350,14 +342,32 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2182EE694B7A16BDEE8E91E0 /* Copy Pods Resources */ = {
+		2687A0C2E99ABBF63AF802A1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GoCheckin-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D3ABBB65E1DB7FCAB4DF3876 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -365,34 +375,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GoCheckin/Pods-GoCheckin-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A545DC18EBA42DE6C1090751 /* Embed Pods Frameworks */ = {
+		FA52D714A442C8014E7E2942 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GoCheckin/Pods-GoCheckin-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B893027D4F1E4F8610F0FE3D /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -405,7 +400,6 @@
 				2A21D2A51CB63BE000F569D5 /* ViewController.m in Sources */,
 				2ABB72D61D5C7E2A001E0AE0 /* SwitchableTableViewCell.m in Sources */,
 				2A21D2A21CB63BE000F569D5 /* AppDelegate.m in Sources */,
-				2A10CBFB1D1CDDB500FB84F3 /* MKMapView+GoCheckin.m in Sources */,
 				2A21D3061CC6380400F569D5 /* NSJSONSerialization+ParseString.m in Sources */,
 				2A21D2C01CBB59AF00F569D5 /* APIManager.m in Sources */,
 				2A21D2B61CB63BF700F569D5 /* GoStationAnnotation.m in Sources */,
@@ -414,6 +408,7 @@
 				2A21D3101CCA05EB00F569D5 /* SVPulsingAnnotationView.m in Sources */,
 				2ABB72DC1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m in Sources */,
 				2AA303411CF833DB009B530D /* UserInfoDetailView.m in Sources */,
+				2A100B961D656A6700B36AED /* GoUtility.m in Sources */,
 				2A21D2BD1CBB4B0300F569D5 /* HTTPClient.m in Sources */,
 				2A21D29F1CB63BE000F569D5 /* main.m in Sources */,
 				2A21D2EE1CBF891900F569D5 /* GoStation.m in Sources */,
@@ -454,23 +449,6 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
-		2AFDA2151D02BE49007469D5 /* UserInfoDetailView_iOS8.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2AFDA2161D02BE49007469D5 /* en */,
-				2AFDA21C1D02C34D007469D5 /* zh-Hant */,
-			);
-			name = UserInfoDetailView_iOS8.xib;
-			sourceTree = "<group>";
-		};
-		2AFDA21D1D054EE4007469D5 /* GoStationDetailView_iOS8.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2AFDA21E1D054EE4007469D5 /* en */,
-			);
-			name = GoStationDetailView_iOS8.xib;
-			sourceTree = "<group>";
-		};
 		2AFDA2201D055799007469D5 /* GoStationDetailView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -495,18 +473,27 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -539,18 +526,27 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -575,13 +571,14 @@
 		};
 		2A21D2B21CB63BE000F569D5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BA31575ED7762E61134EB07F /* Pods-GoCheckin.debug.xcconfig */;
+			baseConfigurationReference = 6FFB360D9BEAF26B8DBF4FDD /* Pods-GoCheckin.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = N47TZXJ6JN;
 				INFOPLIST_FILE = GoCheckin/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mikechou.gocheckin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -591,13 +588,14 @@
 		};
 		2A21D2B31CB63BE000F569D5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4E087006A0931C4A1B04D3E7 /* Pods-GoCheckin.release.xcconfig */;
+			baseConfigurationReference = C4B031C1E673C68ADF42E9A2 /* Pods-GoCheckin.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = N47TZXJ6JN;
 				INFOPLIST_FILE = GoCheckin/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mikechou.gocheckin;
 				PRODUCT_NAME = "$(TARGET_NAME)";

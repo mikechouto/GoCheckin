@@ -7,6 +7,7 @@
 //
 
 #import "GoStationAnnotation.h"
+#import "GoStation.h"
 
 @interface GoStationAnnotation()
 
@@ -15,6 +16,31 @@
 @end
 
 @implementation GoStationAnnotation
+
+- (instancetype)initWithGoStation:(GoStation *)station {
+    
+    self = [super init];
+    if (self) {
+        _uuid = [station.uuid copy];
+        _name = @{@"en": [station.name_eng copy],
+                  @"zh": [station.name_cht copy]};
+        _address = @{@"en": [station.address_eng copy],
+                     @"zh": [station.address_cht copy]};
+        _city = @{@"en": [station.city_eng copy],
+                  @"zh": [station.city_cht copy]};
+        _district = @{@"en": [station.district_eng copy],
+                      @"zh": [station.district_cht copy]};
+        _zipCode = station.zip_code;
+        _availableTime = @"24HR";//[station.available_time copy];
+        _latitude = station.latitude;
+        _longitude = station.longitude;
+        _status = station.state;
+        _isCheckIn = station.is_checkin;
+        _checkInTimes = [station.checkin_times integerValue];
+        _lastCheckInDate = [station.last_checkin_date copy];
+    }
+    return self;
+}
 
 - (instancetype)initWithUUID:(NSString *)uuid StationName:(NSDictionary *)stationName Address:(NSDictionary *)address City:(NSDictionary *)city District:(NSDictionary *)district ZipCode:(NSUInteger)zipCode AvailableTime:(NSString *)availableTime Latitude:(double)latitude Longitude:(double)longitude Status:(GoStationStatus)status isCheckIn:(BOOL)isCheckIn checkInTimes:(NSUInteger)checkInTimes lastCheckInDate:(NSDate *)lastCheckInDate {
     
@@ -32,7 +58,7 @@
         _longitude = longitude;
         _isCheckIn = isCheckIn;
         _checkInTimes = checkInTimes;
-        _lastCheckInDate = [self formateDateToString:lastCheckInDate];
+        _lastCheckInDate = [self _formateDateToString:lastCheckInDate];
         
         switch (status) {
             case 1:
@@ -116,7 +142,7 @@
     return isOpen;
 }
 
-- (NSString *)formateDateToString:(NSDate *)date {
+- (NSString *)_formateDateToString:(NSDate *)date {
     NSString *dateString = @"";
     if (date) {
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];

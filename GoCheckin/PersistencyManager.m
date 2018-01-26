@@ -10,10 +10,7 @@
 #import "NSJSONSerialization+ParseString.h"
 
 
-// Gogoro API Keys
-static NSString *const kResponseKeyStatus = @"result";
-static NSString *const kResponseKeyContent = @"data";
-
+// Gogoro API General Keys
 static NSString *const kResponseKeyList = @"List";
 static NSString *const kResponseKeyValue = @"Value";
 static NSString *const kResponseKeyLanguage = @"Lang";
@@ -21,30 +18,33 @@ static NSString *const kResponseValueEnglish = @"en-US";
 static NSString *const kResponseValueChinese = @"zh-TW";
 
 static NSString *const kResponseKeyUUID = @"Id";
-static NSString *const kResponseKeyAvailableTime = @"AvailableTime";
-static NSString *const kResponseKeyAvailableTimeByte = @"AvailableTimeByte"; // Not used
+static NSString *const kResponseKeyCity = @"City";
+static NSString *const kResponseKeyState = @"State";
 static NSString *const kResponseKeyName = @"LocName";
 static NSString *const kResponseKeyAddress = @"Address";
-static NSString *const kResponseKeyCity = @"City";
 static NSString *const kResponseKeyDistrict = @"District";
 static NSString *const kResponseKeyLatitude = @"Latitude";
 static NSString *const kResponseKeyLongitude = @"Longitude";
+static NSString *const kResponseKeyAvailableTime = @"AvailableTime";
+
+// Station Specific Keys
 static NSString *const kResponseKeyZip = @"ZipCode";
-static NSString *const kResponseKeyState = @"State";
+static NSString *const kResponseKeyAvailableTimeByte = @"AvailableTimeByte"; // Not used
 
 // NSUserDefaults Keys
 static NSString *const kFirstRunDate = @"initTimestamp";
+static NSString *const kUpdateInterval = @"updateInterval";
 static NSString *const kDefaultMapApplication = @"defaultMap";
 static NSString *const kIsShowDeprecatedStation = @"isShowDeprecated";
-static NSString *const kUpdateInterval = @"updateInterval";
 
 @implementation PersistencyManager
 
-- (void)createOrUpdateGoStationWithData:(NSDictionary *)stationDict {
+#pragma mark GoStation
+- (void)createOrUpdateGoStationWithData:(id)stationData {
     
-    if ([[stationDict objectForKey:kResponseKeyStatus] boolValue]) {
+    if ([stationData isKindOfClass:[NSArray class]] && [stationData count] > 0) {
         
-        NSArray *stationDicts = [stationDict objectForKey:kResponseKeyContent];
+        NSArray *stationDicts = stationData;
         if (stationDicts.count > 0) {
             // Create realm pointing to default file which was set in AppDelegate.
             RLMRealm *realm = [RLMRealm defaultRealm];
@@ -53,106 +53,29 @@ static NSString *const kUpdateInterval = @"updateInterval";
             for (NSDictionary *stationDict in stationDicts) {
                 
                 NSString *uuid = [stationDict objectForKey:kResponseKeyUUID];
-                NSString *available_time = [stationDict objectForKey:kResponseKeyAvailableTime];
+//                NSString *available_time = [stationDict objectForKey:kResponseKeyAvailableTime];
                 
-                // Name
-                NSString *name_eng, *name_cht;
-                NSDictionary *nameDict = [NSJSONSerialization JSONObjectWithString:[stationDict objectForKey:kResponseKeyName]
-                                                                         options:kNilOptions error:nil];
-                if ([[nameDict objectForKey:kResponseKeyList] isKindOfClass:[NSArray class]]) {
-                    NSArray *nameArray = [nameDict objectForKey:kResponseKeyList];
-                    for (id name in nameArray) {
-                        if ([name isKindOfClass:[NSDictionary class]]) {
-                            
-                            if ([[name objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueEnglish]) {
-                                name_eng = [name objectForKey:kResponseKeyValue];
-                            }
-                            
-                            if ([[name objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueChinese]) {
-                                name_cht = [name objectForKey:kResponseKeyValue];
-                            }
-                        }
-                    }
-                }
+                NSDictionary *nameDict = [self _parseLocNameWithDictionary:stationDict];
+                NSString *name_eng = [nameDict objectForKey:kResponseValueEnglish];
+                NSString *name_cht = [nameDict objectForKey:kResponseValueChinese];
                 
-                // Address
-                NSString *address_eng, *address_cht;
-                NSDictionary *addressDict = [NSJSONSerialization JSONObjectWithString:[stationDict objectForKey:kResponseKeyAddress]
-                                                                            options:kNilOptions error:nil];
-                if ([[addressDict objectForKey:kResponseKeyList] isKindOfClass:[NSArray class]]) {
-                    NSArray *addressArray = [addressDict objectForKey:kResponseKeyList];
-                    for (id address in addressArray) {
-                        if ([address isKindOfClass:[NSDictionary class]]) {
-                            
-                            if ([[address objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueEnglish]) {
-                                address_eng = [address objectForKey:kResponseKeyValue];
-                            }
-                            
-                            if ([[address objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueChinese]) {
-                                address_cht = [address objectForKey:kResponseKeyValue];
-                            }
-                        }
-                    }
-                }
+                NSDictionary *addressDict = [self _parseAddressWithDictionary:stationDict];
+                NSString *address_eng = [addressDict objectForKey:kResponseValueEnglish];
+                NSString *address_cht = [addressDict objectForKey:kResponseValueChinese];
                 
-                // City
-                NSString *city_eng, *city_cht;
-                NSDictionary *cityDict = [NSJSONSerialization JSONObjectWithString:[stationDict objectForKey:kResponseKeyCity]
-                                                                         options:kNilOptions error:nil];
-                if ([[cityDict objectForKey:kResponseKeyList] isKindOfClass:[NSArray class]]) {
-                    NSArray *cityArray = [cityDict objectForKey:kResponseKeyList];
-                    for (id city in cityArray) {
-                        if ([city isKindOfClass:[NSDictionary class]]) {
-                            
-                            if ([[city objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueEnglish]) {
-                                city_eng = [city objectForKey:kResponseKeyValue];
-                            }
-                            
-                            if ([[city objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueChinese]) {
-                                city_cht = [city objectForKey:kResponseKeyValue];
-                            }
-                        }
-                    }
-                }
+                NSDictionary *cityDict = [self _parseCityWithDictionary:stationDict];
+                NSString *city_eng = [cityDict objectForKey:kResponseValueEnglish];
+                NSString *city_cht = [cityDict objectForKey:kResponseValueChinese];
                 
-                // District
-                NSString *district_eng, *district_cht;
-                NSDictionary *districtDict = [NSJSONSerialization JSONObjectWithString:[stationDict objectForKey:kResponseKeyDistrict]
-                                                                             options:kNilOptions error:nil];
-                if ([[districtDict objectForKey:kResponseKeyList] isKindOfClass:[NSArray class]]) {
-                    NSArray *districtArray = [districtDict objectForKey:kResponseKeyList];
-                    for (id district in districtArray) {
-                        if ([district isKindOfClass:[NSDictionary class]]) {
-                            
-                            if ([[district objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueEnglish]) {
-                                district_eng = [district objectForKey:kResponseKeyValue];
-                            }
-                            
-                            if ([[district objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueChinese]) {
-                                district_cht = [district objectForKey:kResponseKeyValue];
-                            }
-                        }
-                    }
-                }
+                NSDictionary *districtDict = [self _parseDistrictWithDictionary:stationDict];
+                NSString *district_eng = [districtDict objectForKey:kResponseValueEnglish];
+                NSString *district_cht = [districtDict objectForKey:kResponseValueChinese];
                 
-                double latitude = 0, longitude = 0;
-                int zip_code, state;
+                double latitude = [self _parseLatitudeWithDictionary:stationDict];
+                double longitude = [self _parseLongitudeWithDictionary:stationDict];
                 
-                if ([[stationDict objectForKey:kResponseKeyLatitude] isKindOfClass:[NSNumber class]]) {
-                    latitude = [[stationDict objectForKey:kResponseKeyLatitude] doubleValue];
-                }
-                
-                if ([[stationDict objectForKey:kResponseKeyLongitude] isKindOfClass:[NSNumber class]]) {
-                    longitude = [[stationDict objectForKey:kResponseKeyLongitude] doubleValue];
-                }
-                
-                if ([[stationDict objectForKey:kResponseKeyZip] isKindOfClass:[NSString class]]) {
-                    zip_code = [[stationDict objectForKey:kResponseKeyZip] intValue];
-                }
-                
-                if ([[stationDict objectForKey:kResponseKeyState] isKindOfClass:[NSNumber class]]) {
-                    state = [[stationDict objectForKey:kResponseKeyState] intValue];
-                }
+                int zip_code = [self _parseZipCodeWithDictionary:stationDict];
+                int state = [self _parseStateWithDictionary:stationDict];
                 
                 // Create or update your object
                 [realm beginWriteTransaction];
@@ -170,12 +93,13 @@ static NSString *const kUpdateInterval = @"updateInterval";
                                                                  @"city_cht": city_cht,
                                                                  @"district_eng": district_eng,
                                                                  @"district_cht": district_cht,
-                                                                 @"available_time": available_time
+//                                                                 @"available_time": available_time
                                                                  }];
+                
                 [realm commitWriteTransaction];
             }
             
-            [self checkStationState];
+            [self _checkStationState];
         }
         
     } else {
@@ -183,7 +107,7 @@ static NSString *const kUpdateInterval = @"updateInterval";
     }
 }
 
-- (void)updateCheckInDataWithUUID:(NSString *)uuid {
+- (GoStation *)updateCheckInDataWithUUID:(NSString *)uuid {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
     GoStation *station = [[GoStation objectsWhere:@"uuid==%@",uuid] firstObject];
@@ -195,11 +119,12 @@ static NSString *const kUpdateInterval = @"updateInterval";
     }
     station.last_checkin_date = [NSDate date];
     station.checkin_times = @([station.checkin_times integerValue] + 1);
-    
     [realm commitWriteTransaction];
+    
+    return station;
 }
 
-- (void)removeCheckInDataWithUUID:(NSString *)uuid {
+- (GoStation *)removeCheckInDataWithUUID:(NSString *)uuid {
     
     RLMRealm *realm = [RLMRealm defaultRealm];
     GoStation *station = [[GoStation objectsWhere:@"uuid==%@",uuid] firstObject];
@@ -224,6 +149,7 @@ static NSString *const kUpdateInterval = @"updateInterval";
         [realm commitWriteTransaction];
     }
     
+    return station;
 }
 
 - (RLMResults<GoStation *> *)queryGoStationWithWithPredicate:(NSPredicate *)predicate {
@@ -240,7 +166,8 @@ static NSString *const kUpdateInterval = @"updateInterval";
     return stations;
 }
 
-- (void)initUserDefaultsWithDefaultValuesMapType:(NSUInteger)type isShowDeprecatedStation:(BOOL)isShow updateInterval:(NSInteger)interval {
+#pragma mark NSUserDefaults
+- (void)createUserDefaultsWithMap:(NSUInteger)type showDeprecated:(BOOL)isShow interval:(NSInteger)interval {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
     // version 1.0
@@ -257,33 +184,21 @@ static NSString *const kUpdateInterval = @"updateInterval";
     }
 }
 
-- (void)changeDefaultMapInUserDefaultsWithMapType:(NSUInteger)type {
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setInteger:type forKey:kDefaultMapApplication];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (NSUInteger)getCurrentDefaultMap {
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    return [userDefaults integerForKey:kDefaultMapApplication];
-}
-
-- (void)changeIsShowDeprecatedStationInUserDefault:(BOOL)isShow {
+- (void)setShowDeprecated:(BOOL)isShow {
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:isShow forKey:kIsShowDeprecatedStation];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (BOOL)getIsShowDeprecatedStation {
+- (void)setDefaultMap:(NSUInteger)type {
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    return [userDefaults boolForKey:kIsShowDeprecatedStation];
+    [userDefaults setInteger:type forKey:kDefaultMapApplication];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void)changeUpdateIntervalInUserDefault:(NSInteger)interval {
+- (void)setUpdateInterval:(NSInteger)interval {
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
@@ -294,6 +209,18 @@ static NSString *const kUpdateInterval = @"updateInterval";
     }
 
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL)getShowDeprecated {
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [userDefaults boolForKey:kIsShowDeprecatedStation];
+}
+
+- (NSUInteger)getDefaultMap {
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [userDefaults integerForKey:kDefaultMapApplication];
 }
 
 - (NSInteger)getUpdateInterval {
@@ -310,22 +237,106 @@ static NSString *const kUpdateInterval = @"updateInterval";
 }
 
 #pragma mark - Private Functions
-- (void)checkStationState {
-    [self updateWorkingStationState];
-    [self updateDeprecatedStationState];
-    [self removeDeprecatedConstructingStation];
+- (double)_parseLatitudeWithDictionary:(NSDictionary *)dictionary {
+    double latitude = 0;
+    id lat = [dictionary objectForKey:kResponseKeyLatitude];
+    if ([lat isKindOfClass:[NSNumber class]]) {
+        latitude = [lat doubleValue];
+    }
+    return latitude;
 }
 
-- (void)updateWorkingStationState {
-    RLMResults<GoStation *> *stations = [GoStation objectsWhere:@"state == 1 && online_time == 0"];
-//    if (stations.count > 0) {
-        RLMRealm *realm = [RLMRealm defaultRealm];
-        [realm transactionWithBlock:^{
-            for (GoStation *station in stations) {
-                station.online_time = @(round([[NSDate date] timeIntervalSince1970]));
+- (double)_parseLongitudeWithDictionary:(NSDictionary *)dictionary {
+    double longitude = 0;
+    id lon = [dictionary objectForKey:kResponseKeyLongitude];
+    if ([lon isKindOfClass:[NSNumber class]]) {
+        longitude = [lon doubleValue];
+    }
+    return longitude;
+}
+
+- (int)_parseZipCodeWithDictionary:(NSDictionary *)dictionary {
+    int zip_code = 0;
+    id zip = [dictionary objectForKey:kResponseKeyZip];
+    if ([zip isKindOfClass:[NSNumber class]]) {
+        zip_code = [zip intValue];
+    }
+    return zip_code;
+}
+
+- (int)_parseStateWithDictionary:(NSDictionary *)dictionary {
+    int state = 0;
+    id sta = [dictionary objectForKey:kResponseKeyState];
+    if ([sta isKindOfClass:[NSNumber class]]) {
+        state = [sta intValue];
+    }
+    return state;
+}
+
+- (nonnull NSDictionary *)_parseLocNameWithDictionary:(NSDictionary *)dictionary {
+    
+    NSDictionary *nameDict = [NSJSONSerialization JSONObjectWithString:[dictionary objectForKey:kResponseKeyName]
+                                                               options:kNilOptions error:nil];
+    id nameArray = [nameDict objectForKey:kResponseKeyList];
+    return [self _parseMultipleLanguageDataWithArray:nameArray];
+}
+
+- (nonnull NSDictionary *)_parseAddressWithDictionary:(NSDictionary *)dictionary {
+    NSDictionary *addressDict = [NSJSONSerialization JSONObjectWithString:[dictionary objectForKey:kResponseKeyAddress]
+                                                                  options:kNilOptions error:nil];
+    id addressArray = [addressDict objectForKey:kResponseKeyList];
+    return [self _parseMultipleLanguageDataWithArray:addressArray];
+}
+
+- (nonnull NSDictionary *)_parseCityWithDictionary:(NSDictionary *)dictionary {
+    NSDictionary *cityDict = [NSJSONSerialization JSONObjectWithString:[dictionary objectForKey:kResponseKeyCity]
+                                                               options:kNilOptions error:nil];
+    id cityArray = [cityDict objectForKey:kResponseKeyList];
+    return [self _parseMultipleLanguageDataWithArray:cityArray];
+}
+
+- (nonnull NSDictionary *)_parseDistrictWithDictionary:(NSDictionary *)dictionary {
+    NSDictionary *districtDict = [NSJSONSerialization JSONObjectWithString:[dictionary objectForKey:kResponseKeyDistrict]
+                                                                   options:kNilOptions error:nil];
+    
+    id districtArray = [districtDict objectForKey:kResponseKeyList];
+    return [self _parseMultipleLanguageDataWithArray:districtArray];
+}
+
+- (nonnull NSDictionary *)_parseMultipleLanguageDataWithArray:(NSArray *)array {
+    NSMutableDictionary *tempDict;
+    if (array && [array isKindOfClass:[NSArray class]]) {
+        tempDict = [NSMutableDictionary dictionaryWithCapacity:[array count]];
+        for (id data in array) {
+            
+            if ([data isKindOfClass:[NSDictionary class]]) {
+                if ([[data objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueEnglish]) {
+                    [tempDict setObject:[data objectForKey:kResponseKeyValue] forKey:kResponseValueEnglish];
+                }
+                
+                if ([[data objectForKey:kResponseKeyLanguage] isEqualToString:kResponseValueChinese]) {
+                    [tempDict setObject:[data objectForKey:kResponseKeyValue] forKey:kResponseValueChinese];
+                }
             }
-        }];
-//    }
+        }
+    }
+    return [NSDictionary dictionaryWithDictionary:tempDict];
+}
+
+- (void)_checkStationState {
+    [self _updateWorkingStationState];
+    [self _updateDeprecatedStationState];
+    [self _removeDeprecatedConstructingStation];
+}
+
+- (void)_updateWorkingStationState {
+    RLMResults<GoStation *> *stations = [GoStation objectsWhere:@"state == 1 && online_time == 0"];
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    [realm transactionWithBlock:^{
+        for (GoStation *station in stations) {
+            station.online_time = @(round([[NSDate date] timeIntervalSince1970]));
+        }
+    }];
     
     // Check if deprecated stations comes alive again
     stations = [GoStation objectsWhere:@"state == 1 && offline_time > 0"];
@@ -339,7 +350,7 @@ static NSString *const kUpdateInterval = @"updateInterval";
     }
 }
 
-- (void)updateDeprecatedStationState {
+- (void)_updateDeprecatedStationState {
     
     // Make depercated GoStation threshold to be 5 days.
     long long depercatedThreshold = [[NSDate date] timeIntervalSince1970];
@@ -357,7 +368,7 @@ static NSString *const kUpdateInterval = @"updateInterval";
     }
 }
 
-- (void)removeDeprecatedConstructingStation {
+- (void)_removeDeprecatedConstructingStation {
     
     // Make depercated GoStation threshold to be 5 days.
     long long depercatedThreshold = [[NSDate date] timeIntervalSince1970];
