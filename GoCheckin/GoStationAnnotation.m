@@ -31,7 +31,7 @@
         _district = @{@"en": [station.district_eng copy],
                       @"zh": [station.district_cht copy]};
         _zipCode = station.zip_code;
-        _availableTime = [station.available_time copy];
+        _availableTime = @"24HR";//[station.available_time copy];
         _latitude = station.latitude;
         _longitude = station.longitude;
         _status = station.state;
