@@ -188,10 +188,10 @@
     }
     
     // Request GoStation from GOGORO API server.
-    [self.httpClient getRequestForStation:@"/vm/list" completion:^(NSDictionary *responseDict, NSError *error) {
+    [self.httpClient getRequestForStation:@"/vm/list" completion:^(id response, NSError *error) {
         if (!error) {
-            //            NSLog(@"%@", responseDict);
-            [self.persistencyManager createOrUpdateGoStationWithData:responseDict];
+//            NSLog(@"%@", response);
+            [self.persistencyManager createOrUpdateGoStationWithData:response];
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil];
