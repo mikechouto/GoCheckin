@@ -32,7 +32,7 @@
 		<false/>
 	</dict>
 	<key>NSLocationUsageDescription</key>
-	<string>允許 GoCheckin 使用定位服務</string>
+	<string>允許 GoCheckin 使用定位服務來查找附近的換電站</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>允許 GoCheckin 使用定位服務</string>
 	<key>UILaunchStoryboardName</key>
