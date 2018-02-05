@@ -19,7 +19,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>14</string>
+	<string>15</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>comgooglemaps</string>
@@ -32,9 +32,9 @@
 		<false/>
 	</dict>
 	<key>NSLocationUsageDescription</key>
-	<string>允許 GoCheckin 使用定位服務</string>
+	<string>允許 GoCheckin 使用定位服務來查找附近的換電站</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>允許 GoCheckin 使用定位服務</string>
+	<string>允許 GoCheckin 使用定位服務來查找附近的換電站</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
