@@ -42,18 +42,5 @@ typedef NS_ENUM(NSUInteger, GoStationStatus) {
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 
 - (instancetype)initWithGoStation:(GoStation *)station;
-- (instancetype)initWithUUID:(NSString *)uuid
-                 StationName:(NSDictionary *)stationName
-                     Address:(NSDictionary *)address
-                        City:(NSDictionary *)city
-                    District:(NSDictionary *)district
-                     ZipCode:(NSUInteger)zipCode
-               AvailableTime:(NSString *)availbaleTime
-                    Latitude:(double)latitude
-                   Longitude:(double)longitude
-                       Status:(GoStationStatus) status
-                   isCheckIn:(BOOL)isCheckIn
-                checkInTimes:(NSUInteger)checkInTimes
-             lastCheckInDate:(NSDate *)lastCheckInDate;
 
 @end

@@ -12,6 +12,7 @@
 @interface GoStationAnnotation()
 
 @property (strong, nonatomic) NSString *locale;
+@property (assign, nonatomic) GoStationStatus status;
 
 @end
 
@@ -38,52 +39,31 @@
         _isCheckIn = station.is_checkin;
         _checkInTimes = [station.checkin_times integerValue];
         _lastCheckInDate = [station.last_checkin_date copy];
+        _status = station.state;
     }
+    _locale = [[NSLocale preferredLanguages] objectAtIndex:0];
     return self;
 }
 
-- (instancetype)initWithUUID:(NSString *)uuid StationName:(NSDictionary *)stationName Address:(NSDictionary *)address City:(NSDictionary *)city District:(NSDictionary *)district ZipCode:(NSUInteger)zipCode AvailableTime:(NSString *)availableTime Latitude:(double)latitude Longitude:(double)longitude Status:(GoStationStatus)status isCheckIn:(BOOL)isCheckIn checkInTimes:(NSUInteger)checkInTimes lastCheckInDate:(NSDate *)lastCheckInDate {
-    
-    self = [super init];
-    
-    if (self) {
-        _uuid = uuid;
-        _name = [stationName copy];
-        _address = [address copy];
-        _city = [city copy];
-        _district = [district copy];
-        _zipCode = zipCode;
-        _availableTime = availableTime;
-        _latitude = latitude;
-        _longitude = longitude;
-        _isCheckIn = isCheckIn;
-        _checkInTimes = checkInTimes;
-        _lastCheckInDate = [self _formateDateToString:lastCheckInDate];
-        
-        switch (status) {
-            case 1:
-                _status = GoStationStatusNormal;
-                if (![self isBusinessHour:availableTime]) {
-                    _status = GoStationStatusClosed;
-                }
-                break;
-            case 99:
-                _status = GoStationStatusConstructing;
-                break;
-            case 100:
-                _status = GoStationStatusPreparing;
-                break;
-            case 997:
-                _status = GoStationStatusDeprecated;
-                break;
-            default:
-                _status = GoStationStatusUnknown;
-                break;
-        }
-        
-        _locale = [[NSLocale preferredLanguages] objectAtIndex:0];
+- (GoStationStatus)status
+{
+    switch (_status) {
+        case 1:
+            if (![self isBusinessHour:self.availableTime]) {
+                return GoStationStatusClosed;
+            } else {
+                return GoStationStatusNormal;
+            }
+        case 99:
+            return GoStationStatusConstructing;
+        case 100:
+            return GoStationStatusPreparing;
+        case 997:
+            return GoStationStatusDeprecated;
+        default:
+            return GoStationStatusUnknown;
     }
-    return self;
+    return GoStationStatusUnknown;
 }
 
 - (NSString *)title {
