@@ -32,7 +32,8 @@
      * Update realm database schemaVersion and perform migration
      * Add new column online_date, offline_date
      */
-    config.schemaVersion = 1;
+    config.schemaVersion = 2;
+    
     config.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
         
         if (oldSchemaVersion < 1) {
@@ -48,6 +49,19 @@
                     newObject[@"offline_time"] = oldObject[@"update_time"];
                     newObject[@"state"] = @(997);
                 }
+            }];
+        }
+        
+        if (oldSchemaVersion < 2) {
+            [migration enumerateObjects:GoStation.className block:^(RLMObject * _Nullable oldObject, RLMObject * _Nullable newObject) {
+                //1517702400 = 02/04/2018 12:00 utc
+                if ([oldObject[@"update_time"] longLongValue] >= 1517702400) {
+                    [migration deleteObject:oldObject];
+                }
+            }];
+            
+            [migration enumerateObjects:GoStation.className block:^(RLMObject * _Nullable oldObject, RLMObject * _Nullable newObject) {
+                newObject[@"uuid"] = [oldObject[@"uuid"] uppercaseString];
             }];
         }
     };
