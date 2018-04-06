@@ -7,94 +7,94 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2A07226B1CDB4BFE001F0570 /* MapOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A07226A1CDB4BFE001F0570 /* MapOption.m */; };
-		2A0722BC1CE2D54D001F0570 /* MapApplicationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0722BB1CE2D54D001F0570 /* MapApplicationCell.m */; };
 		2A0722BE1CE30DCD001F0570 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A0722BD1CE30DCD001F0570 /* MessageUI.framework */; };
 		2A0722C31CE42BF9001F0570 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2A0722C51CE42BF9001F0570 /* Localizable.strings */; };
-		2A0F6FB11CD124810095D171 /* UIColor+GoCheckin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0F6FB01CD124810095D171 /* UIColor+GoCheckin.m */; };
-		2A0F6FB41CD1A4570095D171 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A0F6FB31CD1A4570095D171 /* SettingsViewController.m */; };
-		2A100B961D656A6700B36AED /* GoUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A100B951D656A6700B36AED /* GoUtility.m */; };
 		2A21D29F1CB63BE000F569D5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D29E1CB63BE000F569D5 /* main.m */; };
 		2A21D2A21CB63BE000F569D5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D2A11CB63BE000F569D5 /* AppDelegate.m */; };
-		2A21D2A51CB63BE000F569D5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D2A41CB63BE000F569D5 /* ViewController.m */; };
 		2A21D2A81CB63BE000F569D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A21D2A61CB63BE000F569D5 /* Main.storyboard */; };
 		2A21D2AA1CB63BE000F569D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A21D2A91CB63BE000F569D5 /* Assets.xcassets */; };
 		2A21D2AD1CB63BE000F569D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A21D2AB1CB63BE000F569D5 /* LaunchScreen.storyboard */; };
-		2A21D2B61CB63BF700F569D5 /* GoStationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D2B51CB63BF700F569D5 /* GoStationAnnotation.m */; };
-		2A21D2BD1CBB4B0300F569D5 /* HTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D2BC1CBB4B0300F569D5 /* HTTPClient.m */; };
-		2A21D2C01CBB59AF00F569D5 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D2BF1CBB59AF00F569D5 /* APIManager.m */; };
-		2A21D2C31CBB5D8A00F569D5 /* PersistencyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D2C21CBB5D8A00F569D5 /* PersistencyManager.m */; };
-		2A21D2EE1CBF891900F569D5 /* GoStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D2ED1CBF891900F569D5 /* GoStation.m */; };
-		2A21D3061CC6380400F569D5 /* NSJSONSerialization+ParseString.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D3051CC6380400F569D5 /* NSJSONSerialization+ParseString.m */; };
 		2A21D3081CC75B5E00F569D5 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A21D3071CC75B5E00F569D5 /* MapKit.framework */; };
-		2A21D3101CCA05EB00F569D5 /* SVPulsingAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D30F1CCA05EB00F569D5 /* SVPulsingAnnotationView.m */; };
 		2A21D3121CCA05F900F569D5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A21D3111CCA05F900F569D5 /* QuartzCore.framework */; };
-		2A21D3161CCA18E800F569D5 /* GoStationDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A21D3151CCA18E800F569D5 /* GoStationDetailView.m */; };
-		2AA303411CF833DB009B530D /* UserInfoDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AA303401CF833DB009B530D /* UserInfoDetailView.m */; };
-		2ABB72D61D5C7E2A001E0AE0 /* SwitchableTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB72D51D5C7E2A001E0AE0 /* SwitchableTableViewCell.m */; };
-		2ABB72DC1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB72DB1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m */; };
-		2ABB72DF1D5D5DC1001E0AE0 /* UpdateIntervalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB72DD1D5D5DC1001E0AE0 /* UpdateIntervalViewController.m */; };
-		2AFDA2221D055799007469D5 /* GoStationDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDA2201D055799007469D5 /* GoStationDetailView.xib */; };
-		2AFDA2251D0557A5007469D5 /* UserInfoDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AFDA2231D0557A5007469D5 /* UserInfoDetailView.xib */; };
 		4C8E6B908C5E0833842D7960 /* libPods-GoCheckin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF1C1C00F7C4A0550D9120D /* libPods-GoCheckin.a */; };
+		A619F7EA207723D200DC27E5 /* SVPulsingAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = A619F7E9207723D100DC27E5 /* SVPulsingAnnotationView.m */; };
+		A619F825207727B300DC27E5 /* GoStationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = A619F81E207727B300DC27E5 /* GoStationAnnotation.m */; };
+		A619F826207727B300DC27E5 /* MapOption.m in Sources */ = {isa = PBXBuildFile; fileRef = A619F81F207727B300DC27E5 /* MapOption.m */; };
+		A619F827207727B300DC27E5 /* GoStation.m in Sources */ = {isa = PBXBuildFile; fileRef = A619F822207727B300DC27E5 /* GoStation.m */; };
+		A619F82F2077288300DC27E5 /* HTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = A619F82A2077288300DC27E5 /* HTTPClient.m */; };
+		A619F8302077288300DC27E5 /* PersistencyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A619F82D2077288300DC27E5 /* PersistencyManager.m */; };
+		A619F8312077288300DC27E5 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A619F82E2077288300DC27E5 /* APIManager.m */; };
+		A619F8482077295E00DC27E5 /* GoUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = A619F8422077295E00DC27E5 /* GoUtility.m */; };
+		A619F8492077295E00DC27E5 /* UIColor+GoCheckin.m in Sources */ = {isa = PBXBuildFile; fileRef = A619F8462077295E00DC27E5 /* UIColor+GoCheckin.m */; };
+		A619F84A2077295E00DC27E5 /* NSJSONSerialization+ParseString.m in Sources */ = {isa = PBXBuildFile; fileRef = A619F8472077295E00DC27E5 /* NSJSONSerialization+ParseString.m */; };
+		A619F8632077296500DC27E5 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A619F84C2077296500DC27E5 /* SettingsViewController.m */; };
+		A619F8642077296500DC27E5 /* UpdateIntervalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A619F84D2077296500DC27E5 /* UpdateIntervalViewController.m */; };
+		A619F8652077296500DC27E5 /* UpdateIntervalTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A619F84F2077296500DC27E5 /* UpdateIntervalTableViewCell.m */; };
+		A619F8662077296500DC27E5 /* MapApplicationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A619F8532077296500DC27E5 /* MapApplicationCell.m */; };
+		A619F8672077296500DC27E5 /* SwitchableTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A619F8542077296500DC27E5 /* SwitchableTableViewCell.m */; };
+		A619F8682077296500DC27E5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A619F8552077296500DC27E5 /* ViewController.m */; };
+		A619F8692077296500DC27E5 /* GoStationDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A619F8572077296500DC27E5 /* GoStationDetailView.xib */; };
+		A619F86A2077296500DC27E5 /* UserInfoDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A619F8592077296500DC27E5 /* UserInfoDetailView.xib */; };
+		A619F86B2077296500DC27E5 /* UserInfoDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = A619F85B2077296500DC27E5 /* UserInfoDetailView.m */; };
+		A619F86C2077296500DC27E5 /* GoStationDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = A619F85C2077296500DC27E5 /* GoStationDetailView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2A0722691CDB4BFE001F0570 /* MapOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapOption.h; sourceTree = "<group>"; };
-		2A07226A1CDB4BFE001F0570 /* MapOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapOption.m; sourceTree = "<group>"; };
-		2A0722BA1CE2D54D001F0570 /* MapApplicationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapApplicationCell.h; sourceTree = "<group>"; };
-		2A0722BB1CE2D54D001F0570 /* MapApplicationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapApplicationCell.m; sourceTree = "<group>"; };
 		2A0722BD1CE30DCD001F0570 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		2A0722C41CE42BF9001F0570 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2A0722D01CE463B1001F0570 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		2A0F6FAF1CD124810095D171 /* UIColor+GoCheckin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+GoCheckin.h"; sourceTree = "<group>"; };
-		2A0F6FB01CD124810095D171 /* UIColor+GoCheckin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+GoCheckin.m"; sourceTree = "<group>"; };
-		2A0F6FB21CD1A4570095D171 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
-		2A0F6FB31CD1A4570095D171 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
-		2A100B941D656A6700B36AED /* GoUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoUtility.h; sourceTree = "<group>"; };
-		2A100B951D656A6700B36AED /* GoUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoUtility.m; sourceTree = "<group>"; };
 		2A1CB5BD1D619DC3003A1BD9 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
 		2A21D29A1CB63BE000F569D5 /* GoCheckin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoCheckin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A21D29E1CB63BE000F569D5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2A21D2A01CB63BE000F569D5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2A21D2A11CB63BE000F569D5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		2A21D2A31CB63BE000F569D5 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		2A21D2A41CB63BE000F569D5 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		2A21D2A71CB63BE000F569D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2A21D2A91CB63BE000F569D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2A21D2AC1CB63BE000F569D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2A21D2AE1CB63BE000F569D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2A21D2B41CB63BF700F569D5 /* GoStationAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoStationAnnotation.h; sourceTree = "<group>"; };
-		2A21D2B51CB63BF700F569D5 /* GoStationAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoStationAnnotation.m; sourceTree = "<group>"; };
-		2A21D2BB1CBB4B0300F569D5 /* HTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPClient.h; sourceTree = "<group>"; };
-		2A21D2BC1CBB4B0300F569D5 /* HTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPClient.m; sourceTree = "<group>"; };
-		2A21D2BE1CBB59AF00F569D5 /* APIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
-		2A21D2BF1CBB59AF00F569D5 /* APIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
-		2A21D2C11CBB5D8A00F569D5 /* PersistencyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersistencyManager.h; sourceTree = "<group>"; };
-		2A21D2C21CBB5D8A00F569D5 /* PersistencyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersistencyManager.m; sourceTree = "<group>"; };
-		2A21D2EC1CBF891900F569D5 /* GoStation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoStation.h; sourceTree = "<group>"; };
-		2A21D2ED1CBF891900F569D5 /* GoStation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoStation.m; sourceTree = "<group>"; };
-		2A21D3041CC6380400F569D5 /* NSJSONSerialization+ParseString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSJSONSerialization+ParseString.h"; sourceTree = "<group>"; };
-		2A21D3051CC6380400F569D5 /* NSJSONSerialization+ParseString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSJSONSerialization+ParseString.m"; sourceTree = "<group>"; };
 		2A21D3071CC75B5E00F569D5 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		2A21D30E1CCA05EB00F569D5 /* SVPulsingAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPulsingAnnotationView.h; sourceTree = "<group>"; };
-		2A21D30F1CCA05EB00F569D5 /* SVPulsingAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVPulsingAnnotationView.m; sourceTree = "<group>"; };
 		2A21D3111CCA05F900F569D5 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		2A21D3141CCA18E800F569D5 /* GoStationDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoStationDetailView.h; sourceTree = "<group>"; };
-		2A21D3151CCA18E800F569D5 /* GoStationDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoStationDetailView.m; sourceTree = "<group>"; };
-		2AA3033F1CF833DB009B530D /* UserInfoDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoDetailView.h; sourceTree = "<group>"; };
-		2AA303401CF833DB009B530D /* UserInfoDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoDetailView.m; sourceTree = "<group>"; };
-		2ABB72D41D5C7E2A001E0AE0 /* SwitchableTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchableTableViewCell.h; sourceTree = "<group>"; };
-		2ABB72D51D5C7E2A001E0AE0 /* SwitchableTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchableTableViewCell.m; sourceTree = "<group>"; };
-		2ABB72DA1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateIntervalTableViewCell.h; sourceTree = "<group>"; };
-		2ABB72DB1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateIntervalTableViewCell.m; sourceTree = "<group>"; };
-		2ABB72DD1D5D5DC1001E0AE0 /* UpdateIntervalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateIntervalViewController.m; sourceTree = "<group>"; };
-		2ABB72DE1D5D5DC1001E0AE0 /* UpdateIntervalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateIntervalViewController.h; sourceTree = "<group>"; };
-		2AFDA2211D055799007469D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/GoStationDetailView.xib; sourceTree = "<group>"; };
-		2AFDA2241D0557A5007469D5 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hant"; path = "zh-Hant.lproj/UserInfoDetailView.xib"; sourceTree = "<group>"; };
-		2AFDA2261D0557B1007469D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/UserInfoDetailView.xib; sourceTree = "<group>"; };
 		6AF1C1C00F7C4A0550D9120D /* libPods-GoCheckin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GoCheckin.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FFB360D9BEAF26B8DBF4FDD /* Pods-GoCheckin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoCheckin.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GoCheckin/Pods-GoCheckin.debug.xcconfig"; sourceTree = "<group>"; };
+		A619F7E8207723D100DC27E5 /* SVPulsingAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPulsingAnnotationView.h; sourceTree = "<group>"; };
+		A619F7E9207723D100DC27E5 /* SVPulsingAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVPulsingAnnotationView.m; sourceTree = "<group>"; };
+		A619F81E207727B300DC27E5 /* GoStationAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoStationAnnotation.m; sourceTree = "<group>"; };
+		A619F81F207727B300DC27E5 /* MapOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapOption.m; sourceTree = "<group>"; };
+		A619F821207727B300DC27E5 /* GoStation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoStation.h; sourceTree = "<group>"; };
+		A619F822207727B300DC27E5 /* GoStation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoStation.m; sourceTree = "<group>"; };
+		A619F823207727B300DC27E5 /* MapOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapOption.h; sourceTree = "<group>"; };
+		A619F824207727B300DC27E5 /* GoStationAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoStationAnnotation.h; sourceTree = "<group>"; };
+		A619F8292077288300DC27E5 /* PersistencyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersistencyManager.h; sourceTree = "<group>"; };
+		A619F82A2077288300DC27E5 /* HTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPClient.m; sourceTree = "<group>"; };
+		A619F82B2077288300DC27E5 /* APIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
+		A619F82C2077288300DC27E5 /* HTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPClient.h; sourceTree = "<group>"; };
+		A619F82D2077288300DC27E5 /* PersistencyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersistencyManager.m; sourceTree = "<group>"; };
+		A619F82E2077288300DC27E5 /* APIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
+		A619F8412077295E00DC27E5 /* GoUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoUtility.h; sourceTree = "<group>"; };
+		A619F8422077295E00DC27E5 /* GoUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoUtility.m; sourceTree = "<group>"; };
+		A619F8442077295E00DC27E5 /* UIColor+GoCheckin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+GoCheckin.h"; sourceTree = "<group>"; };
+		A619F8452077295E00DC27E5 /* NSJSONSerialization+ParseString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSJSONSerialization+ParseString.h"; sourceTree = "<group>"; };
+		A619F8462077295E00DC27E5 /* UIColor+GoCheckin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+GoCheckin.m"; sourceTree = "<group>"; };
+		A619F8472077295E00DC27E5 /* NSJSONSerialization+ParseString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSJSONSerialization+ParseString.m"; sourceTree = "<group>"; };
+		A619F84C2077296500DC27E5 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		A619F84D2077296500DC27E5 /* UpdateIntervalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateIntervalViewController.m; sourceTree = "<group>"; };
+		A619F84F2077296500DC27E5 /* UpdateIntervalTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateIntervalTableViewCell.m; sourceTree = "<group>"; };
+		A619F8502077296500DC27E5 /* MapApplicationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapApplicationCell.h; sourceTree = "<group>"; };
+		A619F8512077296500DC27E5 /* SwitchableTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchableTableViewCell.h; sourceTree = "<group>"; };
+		A619F8522077296500DC27E5 /* UpdateIntervalTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateIntervalTableViewCell.h; sourceTree = "<group>"; };
+		A619F8532077296500DC27E5 /* MapApplicationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapApplicationCell.m; sourceTree = "<group>"; };
+		A619F8542077296500DC27E5 /* SwitchableTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchableTableViewCell.m; sourceTree = "<group>"; };
+		A619F8552077296500DC27E5 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		A619F8582077296500DC27E5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/GoStationDetailView.xib; sourceTree = "<group>"; };
+		A619F85A2077296500DC27E5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/UserInfoDetailView.xib; sourceTree = "<group>"; };
+		A619F85B2077296500DC27E5 /* UserInfoDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoDetailView.m; sourceTree = "<group>"; };
+		A619F85C2077296500DC27E5 /* GoStationDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoStationDetailView.m; sourceTree = "<group>"; };
+		A619F85D2077296500DC27E5 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hant"; path = "zh-Hant.lproj/UserInfoDetailView.xib"; sourceTree = "<group>"; };
+		A619F85E2077296500DC27E5 /* GoStationDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoStationDetailView.h; sourceTree = "<group>"; };
+		A619F85F2077296500DC27E5 /* UserInfoDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoDetailView.h; sourceTree = "<group>"; };
+		A619F8602077296500DC27E5 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		A619F8612077296500DC27E5 /* UpdateIntervalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateIntervalViewController.h; sourceTree = "<group>"; };
+		A619F8622077296500DC27E5 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		C4B031C1E673C68ADF42E9A2 /* Pods-GoCheckin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoCheckin.release.xcconfig"; path = "Pods/Target Support Files/Pods-GoCheckin/Pods-GoCheckin.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,20 +134,13 @@
 		2A21D29C1CB63BE000F569D5 /* GoCheckin */ = {
 			isa = PBXGroup;
 			children = (
-				2A21D30D1CCA05E300F569D5 /* Library */,
-				2A21D3031CC637C300F569D5 /* Categories */,
-				2A21D3131CCA180100F569D5 /* CustomView */,
-				2A21D2EB1CBF890200F569D5 /* RealmModel */,
-				2A21D2BA1CBB4AE900F569D5 /* Model */,
-				2A21D2B91CBB4AE200F569D5 /* API */,
+				A619F7E7207723D100DC27E5 /* Library */,
+				A619F81D207727B300DC27E5 /* Model */,
+				A619F8282077288300DC27E5 /* Service */,
+				A619F8402077295E00DC27E5 /* Utilities */,
+				A619F84B2077296500DC27E5 /* UI */,
 				2A21D2A01CB63BE000F569D5 /* AppDelegate.h */,
 				2A21D2A11CB63BE000F569D5 /* AppDelegate.m */,
-				2A21D2A31CB63BE000F569D5 /* ViewController.h */,
-				2A21D2A41CB63BE000F569D5 /* ViewController.m */,
-				2A0F6FB21CD1A4570095D171 /* SettingsViewController.h */,
-				2A0F6FB31CD1A4570095D171 /* SettingsViewController.m */,
-				2ABB72DE1D5D5DC1001E0AE0 /* UpdateIntervalViewController.h */,
-				2ABB72DD1D5D5DC1001E0AE0 /* UpdateIntervalViewController.m */,
 				2A21D2A61CB63BE000F569D5 /* Main.storyboard */,
 				2A21D2A91CB63BE000F569D5 /* Assets.xcassets */,
 				2A21D2AB1CB63BE000F569D5 /* LaunchScreen.storyboard */,
@@ -166,86 +159,109 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		2A21D2B91CBB4AE200F569D5 /* API */ = {
+		A619F7E7207723D100DC27E5 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				2A21D2BB1CBB4B0300F569D5 /* HTTPClient.h */,
-				2A21D2BC1CBB4B0300F569D5 /* HTTPClient.m */,
-				2A21D2BE1CBB59AF00F569D5 /* APIManager.h */,
-				2A21D2BF1CBB59AF00F569D5 /* APIManager.m */,
-				2A21D2C11CBB5D8A00F569D5 /* PersistencyManager.h */,
-				2A21D2C21CBB5D8A00F569D5 /* PersistencyManager.m */,
-				2A100B941D656A6700B36AED /* GoUtility.h */,
-				2A100B951D656A6700B36AED /* GoUtility.m */,
+				A619F7E8207723D100DC27E5 /* SVPulsingAnnotationView.h */,
+				A619F7E9207723D100DC27E5 /* SVPulsingAnnotationView.m */,
 			);
-			name = API;
+			path = Library;
 			sourceTree = "<group>";
 		};
-		2A21D2BA1CBB4AE900F569D5 /* Model */ = {
+		A619F81D207727B300DC27E5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2A21D2B41CB63BF700F569D5 /* GoStationAnnotation.h */,
-				2A21D2B51CB63BF700F569D5 /* GoStationAnnotation.m */,
-				2A0722691CDB4BFE001F0570 /* MapOption.h */,
-				2A07226A1CDB4BFE001F0570 /* MapOption.m */,
+				A619F823207727B300DC27E5 /* MapOption.h */,
+				A619F81F207727B300DC27E5 /* MapOption.m */,
+				A619F824207727B300DC27E5 /* GoStationAnnotation.h */,
+				A619F81E207727B300DC27E5 /* GoStationAnnotation.m */,
+				A619F820207727B300DC27E5 /* RealmModel */,
 			);
-			name = Model;
+			path = Model;
 			sourceTree = "<group>";
 		};
-		2A21D2EB1CBF890200F569D5 /* RealmModel */ = {
+		A619F820207727B300DC27E5 /* RealmModel */ = {
 			isa = PBXGroup;
 			children = (
-				2A21D2EC1CBF891900F569D5 /* GoStation.h */,
-				2A21D2ED1CBF891900F569D5 /* GoStation.m */,
+				A619F821207727B300DC27E5 /* GoStation.h */,
+				A619F822207727B300DC27E5 /* GoStation.m */,
 			);
-			name = RealmModel;
+			path = RealmModel;
 			sourceTree = "<group>";
 		};
-		2A21D3031CC637C300F569D5 /* Categories */ = {
+		A619F8282077288300DC27E5 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				2A21D3041CC6380400F569D5 /* NSJSONSerialization+ParseString.h */,
-				2A21D3051CC6380400F569D5 /* NSJSONSerialization+ParseString.m */,
-				2A0F6FAF1CD124810095D171 /* UIColor+GoCheckin.h */,
-				2A0F6FB01CD124810095D171 /* UIColor+GoCheckin.m */,
+				A619F82B2077288300DC27E5 /* APIManager.h */,
+				A619F82E2077288300DC27E5 /* APIManager.m */,
+				A619F82C2077288300DC27E5 /* HTTPClient.h */,
+				A619F82A2077288300DC27E5 /* HTTPClient.m */,
+				A619F8292077288300DC27E5 /* PersistencyManager.h */,
+				A619F82D2077288300DC27E5 /* PersistencyManager.m */,
 			);
-			name = Categories;
+			path = Service;
 			sourceTree = "<group>";
 		};
-		2A21D30D1CCA05E300F569D5 /* Library */ = {
+		A619F8402077295E00DC27E5 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				2A21D30E1CCA05EB00F569D5 /* SVPulsingAnnotationView.h */,
-				2A21D30F1CCA05EB00F569D5 /* SVPulsingAnnotationView.m */,
+				A619F8412077295E00DC27E5 /* GoUtility.h */,
+				A619F8422077295E00DC27E5 /* GoUtility.m */,
+				A619F8432077295E00DC27E5 /* Categories */,
 			);
-			name = Library;
+			path = Utilities;
 			sourceTree = "<group>";
 		};
-		2A21D3131CCA180100F569D5 /* CustomView */ = {
+		A619F8432077295E00DC27E5 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				2A21D3141CCA18E800F569D5 /* GoStationDetailView.h */,
-				2A21D3151CCA18E800F569D5 /* GoStationDetailView.m */,
-				2AFDA2201D055799007469D5 /* GoStationDetailView.xib */,
-				2AA3033F1CF833DB009B530D /* UserInfoDetailView.h */,
-				2AA303401CF833DB009B530D /* UserInfoDetailView.m */,
-				2AFDA2231D0557A5007469D5 /* UserInfoDetailView.xib */,
-				2ABB72E01D5D7E79001E0AE0 /* CustomCell */,
+				A619F8452077295E00DC27E5 /* NSJSONSerialization+ParseString.h */,
+				A619F8472077295E00DC27E5 /* NSJSONSerialization+ParseString.m */,
+				A619F8442077295E00DC27E5 /* UIColor+GoCheckin.h */,
+				A619F8462077295E00DC27E5 /* UIColor+GoCheckin.m */,
 			);
-			name = CustomView;
+			path = Categories;
 			sourceTree = "<group>";
 		};
-		2ABB72E01D5D7E79001E0AE0 /* CustomCell */ = {
+		A619F84B2077296500DC27E5 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				2A0722BA1CE2D54D001F0570 /* MapApplicationCell.h */,
-				2A0722BB1CE2D54D001F0570 /* MapApplicationCell.m */,
-				2ABB72D41D5C7E2A001E0AE0 /* SwitchableTableViewCell.h */,
-				2ABB72D51D5C7E2A001E0AE0 /* SwitchableTableViewCell.m */,
-				2ABB72DA1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.h */,
-				2ABB72DB1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m */,
+				A619F8602077296500DC27E5 /* SettingsViewController.h */,
+				A619F84C2077296500DC27E5 /* SettingsViewController.m */,
+				A619F8612077296500DC27E5 /* UpdateIntervalViewController.h */,
+				A619F84D2077296500DC27E5 /* UpdateIntervalViewController.m */,
+				A619F8622077296500DC27E5 /* ViewController.h */,
+				A619F8552077296500DC27E5 /* ViewController.m */,
+				A619F8562077296500DC27E5 /* CustomViews */,
+				A619F84E2077296500DC27E5 /* CustomCells */,
 			);
-			name = CustomCell;
+			path = UI;
+			sourceTree = "<group>";
+		};
+		A619F84E2077296500DC27E5 /* CustomCells */ = {
+			isa = PBXGroup;
+			children = (
+				A619F8502077296500DC27E5 /* MapApplicationCell.h */,
+				A619F8532077296500DC27E5 /* MapApplicationCell.m */,
+				A619F8512077296500DC27E5 /* SwitchableTableViewCell.h */,
+				A619F8542077296500DC27E5 /* SwitchableTableViewCell.m */,
+				A619F8522077296500DC27E5 /* UpdateIntervalTableViewCell.h */,
+				A619F84F2077296500DC27E5 /* UpdateIntervalTableViewCell.m */,
+			);
+			path = CustomCells;
+			sourceTree = "<group>";
+		};
+		A619F8562077296500DC27E5 /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				A619F85E2077296500DC27E5 /* GoStationDetailView.h */,
+				A619F85C2077296500DC27E5 /* GoStationDetailView.m */,
+				A619F8572077296500DC27E5 /* GoStationDetailView.xib */,
+				A619F85F2077296500DC27E5 /* UserInfoDetailView.h */,
+				A619F85B2077296500DC27E5 /* UserInfoDetailView.m */,
+				A619F8592077296500DC27E5 /* UserInfoDetailView.xib */,
+			);
+			path = CustomViews;
 			sourceTree = "<group>";
 		};
 		AF124DABF15F05C6278ECA60 /* Frameworks */ = {
@@ -330,11 +346,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2AFDA2251D0557A5007469D5 /* UserInfoDetailView.xib in Resources */,
+				A619F86A2077296500DC27E5 /* UserInfoDetailView.xib in Resources */,
 				2A0722C31CE42BF9001F0570 /* Localizable.strings in Resources */,
+				A619F8692077296500DC27E5 /* GoStationDetailView.xib in Resources */,
 				2A21D2AD1CB63BE000F569D5 /* LaunchScreen.storyboard in Resources */,
 				2A21D2AA1CB63BE000F569D5 /* Assets.xcassets in Resources */,
-				2AFDA2221D055799007469D5 /* GoStationDetailView.xib in Resources */,
 				2A21D2A81CB63BE000F569D5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -397,26 +413,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A21D2A51CB63BE000F569D5 /* ViewController.m in Sources */,
-				2ABB72D61D5C7E2A001E0AE0 /* SwitchableTableViewCell.m in Sources */,
+				A619F8682077296500DC27E5 /* ViewController.m in Sources */,
+				A619F8312077288300DC27E5 /* APIManager.m in Sources */,
+				A619F8662077296500DC27E5 /* MapApplicationCell.m in Sources */,
+				A619F8652077296500DC27E5 /* UpdateIntervalTableViewCell.m in Sources */,
+				A619F827207727B300DC27E5 /* GoStation.m in Sources */,
+				A619F84A2077295E00DC27E5 /* NSJSONSerialization+ParseString.m in Sources */,
 				2A21D2A21CB63BE000F569D5 /* AppDelegate.m in Sources */,
-				2A21D3061CC6380400F569D5 /* NSJSONSerialization+ParseString.m in Sources */,
-				2A21D2C01CBB59AF00F569D5 /* APIManager.m in Sources */,
-				2A21D2B61CB63BF700F569D5 /* GoStationAnnotation.m in Sources */,
-				2A0F6FB11CD124810095D171 /* UIColor+GoCheckin.m in Sources */,
-				2A0722BC1CE2D54D001F0570 /* MapApplicationCell.m in Sources */,
-				2A21D3101CCA05EB00F569D5 /* SVPulsingAnnotationView.m in Sources */,
-				2ABB72DC1D5C887E001E0AE0 /* UpdateIntervalTableViewCell.m in Sources */,
-				2AA303411CF833DB009B530D /* UserInfoDetailView.m in Sources */,
-				2A100B961D656A6700B36AED /* GoUtility.m in Sources */,
-				2A21D2BD1CBB4B0300F569D5 /* HTTPClient.m in Sources */,
+				A619F8492077295E00DC27E5 /* UIColor+GoCheckin.m in Sources */,
+				A619F86B2077296500DC27E5 /* UserInfoDetailView.m in Sources */,
+				A619F7EA207723D200DC27E5 /* SVPulsingAnnotationView.m in Sources */,
+				A619F86C2077296500DC27E5 /* GoStationDetailView.m in Sources */,
+				A619F8672077296500DC27E5 /* SwitchableTableViewCell.m in Sources */,
+				A619F825207727B300DC27E5 /* GoStationAnnotation.m in Sources */,
+				A619F826207727B300DC27E5 /* MapOption.m in Sources */,
+				A619F8642077296500DC27E5 /* UpdateIntervalViewController.m in Sources */,
+				A619F8482077295E00DC27E5 /* GoUtility.m in Sources */,
 				2A21D29F1CB63BE000F569D5 /* main.m in Sources */,
-				2A21D2EE1CBF891900F569D5 /* GoStation.m in Sources */,
-				2A21D3161CCA18E800F569D5 /* GoStationDetailView.m in Sources */,
-				2ABB72DF1D5D5DC1001E0AE0 /* UpdateIntervalViewController.m in Sources */,
-				2A21D2C31CBB5D8A00F569D5 /* PersistencyManager.m in Sources */,
-				2A0F6FB41CD1A4570095D171 /* SettingsViewController.m in Sources */,
-				2A07226B1CDB4BFE001F0570 /* MapOption.m in Sources */,
+				A619F8302077288300DC27E5 /* PersistencyManager.m in Sources */,
+				A619F82F2077288300DC27E5 /* HTTPClient.m in Sources */,
+				A619F8632077296500DC27E5 /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,19 +465,19 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
-		2AFDA2201D055799007469D5 /* GoStationDetailView.xib */ = {
+		A619F8572077296500DC27E5 /* GoStationDetailView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				2AFDA2211D055799007469D5 /* en */,
+				A619F8582077296500DC27E5 /* en */,
 			);
 			name = GoStationDetailView.xib;
 			sourceTree = "<group>";
 		};
-		2AFDA2231D0557A5007469D5 /* UserInfoDetailView.xib */ = {
+		A619F8592077296500DC27E5 /* UserInfoDetailView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				2AFDA2241D0557A5007469D5 /* zh-Hant */,
-				2AFDA2261D0557B1007469D5 /* en */,
+				A619F85A2077296500DC27E5 /* en */,
+				A619F85D2077296500DC27E5 /* zh-Hant */,
 			);
 			name = UserInfoDetailView.xib;
 			sourceTree = "<group>";
